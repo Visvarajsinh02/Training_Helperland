@@ -1,6 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
-body{
-	font-family: "Roboto",sans-serif;
+*{
+	font-family: "Roboto",sans-serif!important;
+}
+h2{
+	font-size: 36px;
+	font-weight: 500;
+	color: #4F4F4F;
 }
 /*-------------------------------------------------------------------home-page-------------------------------------------------*/
 .banner-image{
@@ -48,6 +53,14 @@ body{
 	transition: 0.3s ease;
 }
 
+.none_active{
+	border: none;
+}
+
+.none_active:hover{
+	border: 1px solid white;
+	border-radius: 23px;
+}
 .nav-item .no_active:hover:after{
 	width: 100%;
 }
@@ -391,7 +404,8 @@ body{
 /*get our news letter*/
 .news_letter { 
 	padding-bottom: 55px; 
-	background: #F4F5F8; 
+	background: #F4F5F8;
+	margin-top: 48px; 
 }
 .news_letter .container { 
 	position: relative; 
@@ -884,7 +898,22 @@ h4:after{
 	position: sticky;
 }
 
-
+/*-----------------------------------------------------about page--------------------------------------*/
+.about_img{
+	background-image: url('../images/hero-banner-img.png');
+	background-repeat: no-repeat;
+	background-size: cover;
+	min-height: 370px; 
+	height: 100%;
+	margin-top: 70px;
+}
+.about_us{
+	margin-top: 32px;
+}
+.about_us_few_desc{
+	max-width: 992px;
+	width: 100%;
+}
 
 /*--------------------------------------media queries--------------------------------------------------*/
 

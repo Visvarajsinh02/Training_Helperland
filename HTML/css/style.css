@@ -1055,6 +1055,8 @@ h4:after{
 	height: 48px;
 	width: 1px;
 	background-color: #E1E1E1;
+	margin-left: 10px;
+	margin-right: 10px;
 }
 #notification{
 	padding: 10px 7px 5px 7px;
@@ -1063,6 +1065,7 @@ h4:after{
 	padding-top: 72px;
 	background-color: #F9F9F9;
 	border: 1px solid #E1E1E1;
+	height: 184px;
 }
 .welcome_text{
 	font-size: 30px;
@@ -1076,12 +1079,13 @@ h4:after{
 	font-weight: 700;
 	color: #4F4F4F;
 	padding-bottom: 5px;
+	margin-left: 1px;
+
 }
 .sp_menu{
 	background-color: #1D7A8C;
 	width: 262px;
 	height: auto;
-	margin-right: 15px;
 }
 .sp_menu_details{
 	padding-top: 31px;
@@ -1110,9 +1114,9 @@ h4:after{
 }
 .sp_detail{
 	width: 845px;
-	/* width: 100%; */
 	height: auto;
 	margin-left: 32px;
+	margin-right: 25px;
 }
 .sp_detail p{
 	font-size: 16px;
@@ -1139,12 +1143,164 @@ h4:after{
 	height: 34px;
 	width: 80px;
 	border: none;
+	margin-bottom: 15px;
 }
 .sp_main{
 	display: flex;
 	justify-content: center;
 }
+.arow{
+	margin-right: 7px;
+}
+
+/* --------------------------------------Service History---------------------------------------*/
+
+.sh_export_btn{
+	height: 34px;
+	width: 70px;
+	background-color: #146371;
+	color: white;
+	font-size: 14px;
+	font-weight: 400;
+	border: none;
+	border-radius: 17px;
+	margin-left: 50px;
+}
+.sh_title{
+	font-size: 22px;
+	font-weight: 700;
+	color: #646464;
+	line-height: 27px;
+}
+.sh_ratesp{
+	width: 70px;
+	height: 34px;
+	background-color: #6DA9B5;
+	color: white;
+	font-size: 14px;
+	font-weight: 400;
+	border: none;
+	border-radius: 17px;
+}
+.sh_payment{
+	color: #1D7A8C;
+	font-size: 24px;
+	font-weight: 700;
+}
+.sh_status_completed{
+	background-color: #67B644;
+	font-size: 14px;
+	font-weight: 400;
+	color: white;
+	border: none;
+	height: 24px;
+	width: 80px;
+	justify-content: center;
+	padding: 2px 5px;
+}
+.sh_status_cancelled{
+	background-color: #FF6B6B;
+	font-size: 14px;
+	font-weight: 400;
+	color: white;
+	border: none;
+	height: 24px;
+	width: 80px;
+	justify-content: center;
+	padding: 2px 7px;
+}
+.sh_cap_border{
+	width: 40px!important;
+	height: 40px!important;
+	border: 1px solid #b0c9ce;
+	opacity: 1;
+	border-radius: 50%;
+	padding-left: 5px!important;
+	padding-top: 5px!important;
+}
+.sh_last_row{
+	font-size: 14px;
+	font-weight: 400;
+	color: #646464;
+}
+.sh_last_row_btn_border{
+	height: 38px;
+	width: 38px;
+	border: 1px solid #E1E1E1;
+	border-radius: 50%;
+}
+.sh_last_row ul{
+	list-style-type: none;
+}
+.sh_last_row ul li{
+	display: inline-block;
+	text-align: center;
+	align-items: center;
+	justify-content: center;
+	padding-top: 6px;
+}
+.sh_last_row ul li:hover{
+	background-color: #1D7A8C;
+	color: white!important;
+}
+.sh_last_row_active_btn{
+	background-color: #1D7A8C;
+	color: white;
+}
+.rotate{
+	transform: rotate(180deg);
+}
+
+
+/* --------------------------------------User MAnagement---------------------------------------*/
+
+.user_nm{
+	margin-right: 7px;
+}
+.lgout{
+	margin-left: 13px;
+}
+.hp{
+	margin-left: 5px;
+}
+.space .container-fluid{
+	justify-content: flex-start;
+}
+
+.user_mng{
+	background-color: #FFFFFF;
+	/* width: 262px;
+	height: auto; */
+	height: 1012px;
+	width: 273px;
+}
+
+.user_mng ul{
+	list-style-type: none;
+	margin-left: -33px;
+}
+.user_mng ul li{
+	border-bottom: 0.5px solid #E5E5E5E5;
+	line-height: 55px;
+}
+.user_mng ul li a{
+	
+	padding-left: 15px;
+	color: #111111;
+	text-decoration: none;
+}
+.user_mng_active:hover{
+	color: #1FB6FF;
+}
+
+
+
+
+
+
+
 /*--------------------------------------media queries--------------------------------------------------*/
+
 
 @media (max-width: 768px) {
 	div.arrow {
@@ -1158,6 +1314,28 @@ h4:after{
 	.sp_detail .col-md-2{
 		width: auto;
 		text-align: center;
+	}
+	.sp_detail .col-md-3{
+		width: auto;
+		padding-right: 10px;
+	}
+	.sp_detail .col-md-3 #cap{
+		display: none;
+	}
+	.sp_detail .col-md-7{
+		width: auto;
+	}
+	.sp_detail #export_end{
+		margin-left: auto;
+	}
+	.sp_detail .sh_title{
+		margin-left: 30px;
+	}
+	.sh_cap_border{
+		display: none;
+	}
+	.sp_detail .sp_details .col-sm-9{
+		width: auto;
 	}
 	.sp_detail .col-md-4{
 		width: auto;
@@ -1173,6 +1351,7 @@ h4:after{
 		font-size: 12px!important;
 	}
 }
+
 @media screen and (max-width: 991px) {
 	.about-nav li {
 		margin: 15px;
@@ -1260,10 +1439,6 @@ h4:after{
 		font-size: 22px;
 		font-weight: 500;
 	}
-	.sp_user{
-		margin: 10px auto;
-		background-color: transparent;
-	}
 }
 @media (max-width: 1112px){
 	.sp_main{
@@ -1333,6 +1508,9 @@ h4:after{
 		width: 60px;
 		border: none;
 		font-size: 12px;
+	}
+	.sh_payment{
+		font-size: 18px;
 	}
 }
 @media screen and (max-width:1440px) {

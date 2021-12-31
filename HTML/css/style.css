@@ -7,22 +7,12 @@ h2{
 	font-weight: 500;
 	color: #4F4F4F;
 }
-::-webkit-input-placeholder { /* Edge */
-  color: #A0A0A0 !important;
-  font-size: 16px!important;
-  font-weight: 400!important;
-}
-
-:-ms-input-placeholder { /* Internet Explorer */
-  color: #A0A0A0 !important;
-  font-size: 16px!important;
-  font-weight: 400!important;
-}
 ::placeholder {
 	color: #A0A0A0 !important;
   font-size: 16px!important;
   font-weight: 400!important;
 }
+
 /*-------------------------------------------------------------------home-page-------------------------------------------------*/
 .banner-image{
 	background-image: url('../images/Landing-Page-background-image.png');
@@ -205,10 +195,10 @@ h2{
 }
 
 
-/*End of Homepage Section */
+/*-----End of Homepage Section----- */
 
 
-/*Why Helperhand Section */
+/*-----Why Helperhand Section------*/
 #Helperhand  h2{
   font-weight: 700;
   color: #4F4F4F;
@@ -246,9 +236,9 @@ h2{
   color: #565656;
   opacity: 1;
 }
-/*End of Why Helperhand Section */
+/*-------End of Why Helperhand Section------- */
 
-/*our blog section starts*/
+/*-------our blog section starts-------*/
 
 .blog_section { padding: 135px 0 50px; position: relative; }
 .f_color{
@@ -344,9 +334,9 @@ h2{
 	right: 0; 
 	transition: all 0.5s; 
 }
-/*our blog section ends*/
+/*-------our blog section ends-------*/
 
-/*customer section*/
+/*-------customer section-------*/
 
 .customer_section { 
 	padding: 58px 0; 
@@ -415,9 +405,9 @@ h2{
 	margin-bottom: 22px; 
 }
 
-/*customer section end*/
+/*-------customer section end-------*/
 
-/*get our news letter*/
+/*-------get our news letter-------*/
 .news_letter { 
 	padding-bottom: 55px; 
 	background: #F4F5F8; 
@@ -476,9 +466,9 @@ h2{
 	width: 88px; 
 	transition: 0.3s all; 
 }
-/*get our news letter end*/
+/*-------get our news letter end-------*/
 
-/*footer*/
+/*--------footer-------*/
 .site-footer .container { 
 	max-width: 1420px; 
 	font-family: "Roboto",sans-serif;
@@ -523,7 +513,8 @@ h2{
 .site-footer ul.social-media-list li:last-child { 
 	margin-left: 20px; 
 }
-/*footer end*/
+/*-------footer end-------*/
+
 
 /*--------------------------------------------------------------------faq page-----------------------------------------------------------*/
 
@@ -709,7 +700,9 @@ h4:after{
 	opacity: 1;
 }
 
+
 /*------------------------------------------------------Prices page---------------------------------------------*/
+
 .prices_img{
 	background-image: url('../images/group-18.png');
 	background-repeat: no-repeat;
@@ -758,9 +751,9 @@ h4:after{
 	font-size: 16px;
 	color: #646464;
 }
-/* Prices section end */
+/*------- Prices section end -------*/
 
-/* Extra services start */
+/*------- Extra services start -------*/
 .extra-service {
 	margin-top: 40px;
 }
@@ -788,7 +781,7 @@ h4:after{
 	font-size: 18px;
 	font-weight: bold;
 }
-/* Extra services end */
+/*------- Extra services end -------*/
 
 
 .cleaning {
@@ -826,10 +819,6 @@ h4:after{
 	margin-bottom: 14px;
 }
 
-
-
-
-
 .pro-title {
 	font-size: 20px;
 	color: #646464;
@@ -851,6 +840,7 @@ h4:after{
 	width: 100%;
 }
 
+
 /*--------------------------------------contact page-------------------------------------------*/
 .contact_img{
 	background-image: url('../images/group-16_2.png');
@@ -861,26 +851,26 @@ h4:after{
 	margin-top: 70px;
 }
 .Contact_form{
-			max-width: 615px;
-			width: 100%;
-			margin-top: 23px!important;
-		}
+	max-width: 615px;
+	width: 100%;
+	margin-top: 23px!important;
+}
 .c_sub_btn{
-			max-width: 163px;
-			width: 100%;
-			max-height: 46px;
-			height: 100%;
-			background-color: #1D7A8C;
-			border: 1px solid #1D7A8C;
-			border-radius: 23px;
-			padding-top: 5px;
+	max-width: 163px;
+	width: 100%;
+	max-height: 46px;
+	height: 100%;
+	background-color: #1D7A8C;
+	border: 1px solid #1D7A8C;
+	border-radius: 23px;
+	padding-top: 5px;
 }
 .Contact_form h3{
-			color: white;
-			font-size: 20px;
-			font-weight: 700;
-			text-align: center;
-			align-items: center;
+	color: white;
+	font-size: 20px;
+	font-weight: 700;
+	text-align: center;
+	align-items: center;
 }
 .c_code{
 	background-color: #E6E8E5;
@@ -893,7 +883,6 @@ h4:after{
 	font-weight: 400;
 	color: #4F4F4F;
 	height: 46px;
-
 }
 .contact h2{
 	font-size: 28px;
@@ -917,7 +906,9 @@ h4:after{
 	position: sticky;
 }
 
+
 /*-----------------------------------------------------about page--------------------------------------*/
+
 .about_img{
 	background-image: url('../images/hero-banner-img.png');
 	background-repeat: no-repeat;
@@ -935,6 +926,7 @@ h4:after{
 }
 
 /*--------------------------------------------------Become a pro----------------------------------------*/
+
 .pro-banner-image{
 	background-image: url('../images/become-a-pro-banner.png')!important;
 	background-repeat: no-repeat;
@@ -1048,6 +1040,7 @@ h4:after{
 
 
 /*------------------------------------Upcoming Service section-----------------------------------*/
+
 .up_s_bg{
 	background-color: #525252;
 }
@@ -1152,6 +1145,7 @@ h4:after{
 .arow{
 	margin-right: 7px;
 }
+
 
 /* --------------------------------------Service History---------------------------------------*/
 
@@ -1431,7 +1425,9 @@ h4:after{
 	color: white;
 }
 
+
 /*--------------------------------------service request------------------------------------------------*/
+
 .service_request_main{
 	background-color: #F4F4F4;
 }
@@ -1515,12 +1511,12 @@ h4:after{
 	color: #646464;
 }
 .service_req_detail .user_mng_search_form {
-		width: auto;
-		margin:0px 2px;
-	}
+	width: auto;
+	margin:0px 2px;
+}
 .last_row_select{
-		height: 40px;width: 58px;border: 1px solid #D6D6D6;border-radius: 4px;
-	}
+	height: 40px;width: 58px;border: 1px solid #D6D6D6;border-radius: 4px;
+}
 
 
 
@@ -1655,28 +1651,6 @@ h4:after{
 	}
 }
 
-@media screen and (max-width: 970px){
-	.accordion-faq .accordion {
-		margin-top: 48px;
-		margin-left: 40px;
-	}
-
-	.accordion-faq .accordion .accordion_item {
-		margin-bottom: 44px;
-		margin-left: 40px;
-	}
-	.sr_last_row .col-md-4{
-		white-space: nowrap;
-		padding-left: 0px!important;
-	}
-	.sr_last_row .col-md-4 ul{
-
-		padding-left: 0px!important;
-	}
-	.sr_last_row .col-md-8{
-		padding-left: 30px!important;
-	}
-}
 @media (max-width: 816px){
 	.sp_detail p{
 		font-size: 12px;
@@ -1730,6 +1704,29 @@ h4:after{
 	}
 
 	
+}
+
+@media screen and (max-width: 970px){
+	.accordion-faq .accordion {
+		margin-top: 48px;
+		margin-left: 40px;
+	}
+
+	.accordion-faq .accordion .accordion_item {
+		margin-bottom: 44px;
+		margin-left: 40px;
+	}
+	.sr_last_row .col-md-4{
+		white-space: nowrap;
+		padding-left: 0px!important;
+	}
+	.sr_last_row .col-md-4 ul{
+
+		padding-left: 0px!important;
+	}
+	.sr_last_row .col-md-8{
+		padding-left: 30px!important;
+	}
 }
 
 @media (max-width: 991px) {
@@ -1836,6 +1833,7 @@ h4:after{
 	}
 
 }
+
 @media screen and (min-width: 992px) {
 	.pro-pane-left {
 		text-align: end;
@@ -1844,9 +1842,6 @@ h4:after{
 		text-align: start;
 	}
 }
-
-
-
 
 @media (max-width: 1112px){
 	.sp_main{
@@ -1916,7 +1911,6 @@ h4:after{
 	
 }
 
-
 @media(max-width: 1300px){
 	
 	.s_req_cal,.s_req_home,.s_req_time{
@@ -1983,6 +1977,7 @@ h4:after{
     }
 	
 }
+
 @media(max-width: 1548px){
 	.user_mng_detail .sp_detail_head_bg .col-md-2{
 		width: 12%!important;
@@ -2004,6 +1999,7 @@ h4:after{
 	}
 
 }
+
 @media (max-width: 1839px){
 	
 	.user_mng_detail .sp_detail_head_bg .col-md-2{

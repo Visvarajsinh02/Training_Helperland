@@ -1,9 +1,14 @@
 window.addEventListener("scroll", () => {
 	let nav = document.querySelector("nav");
 	let winPos = window.scrollY > 0;
-
+	var logo_img = document.getElementById("logo-img");
 	nav.classList.toggle("scroll-active", winPos);
-	btnHome.classList.toggle("b2h-btn", winPos);
+	if (window.scrollY > 0) {
+		logo_img.src = "/images/logo-small.png";
+	}
+	else {
+		logo_img.src = "/images/logo-large.png";
+	}
 });
 
 jQuery('.ok-btn').click(function(e){
@@ -16,3 +21,31 @@ jQuery('.ok-btn').click(function(e){
 $(document).on('click','ul .nav-item',function(){
 	$(this).addClass('active').siblings().removeClass('active')
 })
+
+$('#password, #confirm_password').on('keyup', function () {
+	if ($('#password').val() == $('#confirm_password').val()) {
+		$('#message').html('Matching').css('color', 'green');
+		$('#but').prop('disabled', false);
+	} else {
+		$('#message').html('Not Matching').css('color', 'red');
+		$('#but').prop('disabled', true);
+	}
+});
+$(document).ready(function () {
+	$("#isCheck").change(function () {
+		if (this.checked) {
+			$('#message2').css('display', 'none');
+		} else {
+			$('#message2').css('display', 'block');
+		}
+	});
+});
+$('#but').click(function () {
+
+	if ($("#isCheck").checked) {
+		$('#message2').css('display', 'none');
+	} else {
+		$('#message2').css('display', 'block');
+	}
+
+});

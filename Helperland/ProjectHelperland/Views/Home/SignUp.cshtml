@@ -1,0 +1,53 @@
+﻿@model ProjectHelperland.ViewModel.SignUpViewModel
+@{
+    ViewData["Title"] = "SignUp";
+    Layout = "~/Views/Shared/PublicPageLayout.cshtml";
+}
+
+<section class="signup">
+    <h2 class="text-center">Create an account</h2>
+    <h4><img src="/images/forma-1-copy-5.png" class="text-center"></h4>
+    <div class="Contact_form mx-auto">
+        <form class="row  g-3" asp-action="SignUp" asp-controller="Home">
+            <div class="col-md-6">
+                <input asp-for="FirstName" type="text" class="form-control" id="Firstname" placeholder="First Name" required>
+            </div>
+            <div class="col-md-6">
+                <input asp-for="LastName" type="text" class="form-control" id="Lastname" placeholder="Last Name" required>
+            </div>
+            <div class="col-md-6">
+                <input asp-for="Email" type="email" class="form-control" id="Email" placeholder="Email address" required>
+            </div>
+            <div class="col-md-6">
+                <div class="row g-0">
+                    <div class="col-sm-12 input-group">
+                        <span class="c_code align-items-center justify-content-center">+49</span>
+                        <input asp-for="PhoneNumber" type="tel" class="form-control" id="Phone number" placeholder="Mobile Number" pattern="[0-9]{10}" onkeypress="return (event.charCode !=8 && event.charCode ==0 || ( event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)))" required>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <input asp-for="Password" type="password" class="form-control" id="password" placeholder="Password" required>
+            </div>
+            <div class="col-md-6">
+                <input asp-for="ConfirmPassword" type="password" class="form-control" id="confirm_password" placeholder="Confirm Password" required>
+                <span id='message'></span>
+            </div>
+            <div class="text-danger" asp-validation-summary="All"></div>
+            <div>
+                <input type="checkbox" required>
+                <label>I have read the <a href="#" class="pv_link">privacy policy</a>.</label>
+                <div id='message2' style="color: red; display: none;">Please accept Privacy Policy</div>
+            </div>
+            <div class="col-md-12 text-center">
+                <button class="c_sub_btn" id="but" type="submit" name="Register"><h3>Register</h3></button>
+            </div>
+            <div class="text-center">
+                Already registered? <a asp-action="Index_Login" asp-controller="Home" class="pv_link">Login now</a>
+            </div>
+
+        </form>
+    </div>
+
+</section>
+

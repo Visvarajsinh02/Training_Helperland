@@ -2,20 +2,21 @@
 
 <html>
 <head>
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="~/images/favicon_img.png" type="image/x-icon">
     <link href="~/css/style.css" rel="stylesheet" />
     <link href="~/lib/twitter-bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <script src="~/lib/twitter-bootstrap/js/bootstrap.js"></script>
+    <script src="~/lib/jquery/jquery.js"></script>
 </head>
 <body>
     <header>
         <nav class="navbar fixed-top navbar-expand-lg align-items-center navbar-dark faq_nav_bg">
             <div class="container-fluid">
-                <img src="/images/logo-small.png">
+                <a asp-action="Index" asp-controller="Home"><img src="/images/logo-small.png"></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -38,94 +39,18 @@
                             <a asp-action="Contact" asp-controller="Home" class="nav-item text-white head_item none_active">Contact</a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-item text-white head_item faq_active" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            <a asp-action="Index_Login" asp-controller="Home" class="nav-item text-white head_item faq_active">
                                 Login
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-item text-white head_item faq_active">Become a Helper</a>
+                            <a asp-action="SpSignUp" asp-controller="Home" class="nav-item text-white head_item faq_active">Become a Helper</a>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
 
-        <!-- Login Modal Start -->
-        <div class="modal fade" id="exampleModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Login to your account</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form class="row g-3">
-                            <div class="col-12 emailModal">
-                                <input type="email" class="form-control" id="" placeholder="Email">
-                                <i class="far fa-user"></i>
-                            </div>
-                            <div class="col-12 pswModal">
-                                <input type="password" class="form-control" id="" placeholder="Password">
-                                <i class="fas fa-lock"></i>
-                            </div>
-                            <div class="col-12">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="gridCheck">
-                                    <label class="form-check-label" for="gridCheck">
-                                        Remember me
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-12 login-btn">
-                                <button type="button">Login</button>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer justify-content-center">
-                        <div class="forgotpsw">
-                            <a id="frgLink" href="#" data-bs-toggle="modal" data-bs-target="#frgPsw">
-                                Forgot
-                                Password?
-                            </a>
-                        </div>
-                        <div class="accoutReg text-center">
-                            <p>Don't have an account? <a href="#">Create an account</a></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Login Modal End -->
-        <!-- Forgot Password Modal Start -->
-        <div class="modal fade" id="frgPsw" aria-labelledby="frgPswLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="frgPswLabel">Forgot Password</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form class="row g-3">
-                            <div class="col-12">
-                                <input type="email" class="form-control" id="" placeholder="Email Address">
-                            </div>
-                            <div class="col-12 send-btn">
-                                <button type="button">Send</button>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer justify-content-center">
-                        <div>
-                            <a href="#" class="loginlink" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                Login
-                                Now
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Forgot Password Modal End -->
 
     </header>
     <div>
@@ -136,7 +61,7 @@
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-lg-2 footer-widget">
-                        <a href="#" title="Helper Hand">
+                        <a asp-action="Index" asp-controller="Home" title="Helper Hand">
                             <img src="/images/footer-logo.png" alt="Helper Hand">
                         </a>
                     </div>
@@ -190,7 +115,8 @@
     </footer>
 
     <script src="~/js/general.js"></script>
-    <script src="~/lib/twitter-bootstrap/js/bootstrap.js"></script>
-    <script src="~/lib/jquery/jquery.js"></script>
+    
+    
+
 </body>
 </html>

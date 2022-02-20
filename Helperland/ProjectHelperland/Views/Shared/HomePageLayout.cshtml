@@ -1,4 +1,8 @@
-﻿@model ProjectHelperland.Models.User
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@*@model ProjectHelperland.Models.User*@
+@model ProjectHelperland.ViewModel.LoginViewModel
 <!DOCTYPE html>
 
 <html>
@@ -25,52 +29,68 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <div class="mx-auto"></div>
                 <ul class="navbar-nav ">
-                    <li class="nav-item">
-                        <a href="#" class="nav-item text-white head_item home_active">Book a Cleaner</a>
-                    </li>
-                    <li class="nav-item no_active">
-                        <a asp-action="Price" asp-controller="Home" class="nav-item text-white head_item none_active">Prices</a>
-                    </li>
-                    <li class="nav-item no_active">
-                        <a href="#" class="nav-item text-white head_item none_active">Our Guarantee</a>
-                    </li>
-                    <li class="nav-item no_active">
-                        <a href="#" class="nav-item text-white head_item none_active">Blog</a>
-                    </li>
-                    <li class="nav-item no_active">
-                        <a asp-action="Contact" asp-controller="Home" class="nav-item text-white head_item none_active">Contact Us</a>
+                    @if (HttpContextAccessor.HttpContext.Session.GetString("UserTypeId") == "1" || HttpContextAccessor.HttpContext.Session.GetString("UserTypeId") == null)
+                    {
+                        <li class="nav-item">
+                            <a asp-action="BookService" asp-controller="Home" class="nav-item text-white head_item home_active">Book a Cleaner</a>
+                        </li>
+                    }
+                
 
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-item text-white head_item home_active" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                            Login
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a asp-action="SpSignUp" asp-controller="Home" class="nav-item text-white head_item home_active">Become a Helper</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" @*id="drpdwn"*@ href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="https://media.geeksforgeeks.org/wp-content/uploads/20200630132503/iflag.jpg"
-                                 width="20" height="15">
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li>
-                                <a class="dropdown-item" href="#">
-                                    <img src="https://media.geeksforgeeks.org/wp-content/uploads/20200630132504/uflag.jpg"
-                                         width="20" height="15">
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="#">
-                                    <img src="https://media.geeksforgeeks.org/wp-content/uploads/20200630132502/eflag.jpg"
-                                         width="20" height="15">
-                                </a>
-                            </li>
+                                <li class="nav-item no_active">
+                                    <a asp-action="Price" asp-controller="Home" class="nav-item text-white head_item none_active">Prices</a>
+                                </li>
+                                                <li class="nav-item no_active">
+                                                    <a href="#" class="nav-item text-white head_item none_active">Our Guarantee</a>
+                                                </li>
+                                                                <li class="nav-item no_active">
+                                                                    <a href="#" class="nav-item text-white head_item none_active">Blog</a>
+                                                                </li>
+                                                                                <li class="nav-item no_active">
+                                                                                    <a asp-action="Contact" asp-controller="Home" class="nav-item text-white head_item none_active">Contact Us</a>
 
-                        </ul>
-                    </li>
-                </ul>
+                                                                                </li>
+                                                                                                <li class="nav-item">
+                                                                                                    <a asp-action="SpSignUp" asp-controller="Home" class="nav-item text-white head_item home_active">Become a Helper</a>
+                                                                                                </li>
+                                                                                                                @if (HttpContextAccessor.HttpContext.Session.GetString("FirstName") == null)
+                                                                                                                {
+                                                                                                <li class="nav-item">
+                                                                                                    <a href="#" class="nav-item text-white head_item home_active" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                                                                                        Login
+                                                                                                    </a>
+                                                                                                </li> }
+                                                                                                                else
+                                                                                                                {
+                                                                                                <li>
+                                                                                                    <div class="vertical_line">
+                                                                                                    </div>
+                                                                                                </li>
+                                                                                                                    <li class="notification">
+                                                                                                                        <div class="align-items-center justify-content-center" id="notification">
+                                                                                                                            <a href="#"><img src="/images/icon-notification.png"></a>
+                                                                                                                        </div>
+                                                                                                                    </li>
+                                                                                                                                        <li>
+                                                                                                                                            <div class="vertical_line">
+                                                                                                                                            </div>
+                                                                                                                                        </li>
+                                                                                                                                                            <li class="dropdown">
+                                                                                                                                                                <a class="nav-link" id="drpdwn" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                                                                                                                    <img src="/images/user.png" class="arow">
+                                                                                                                                                                    <img src="/images/sp-arrow-down.png">
+                                                                                                                                                                </a>
+                                                                                                                                                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                                                                                                                                                    <li>
+                                                                                                                                                                        <a class="dropdown-item" href="#">Setting</a>
+                                                                                                                                                                    </li>
+                                                                                                                                                                    <li>
+                                                                                                                                                                        <a class="dropdown-item" asp-action="Logout" asp-controller="Home">Logout</a>
+                                                                                                                                                                    </li>
+                                                                                                                                                                </ul>
+                                                                                                                                                            </li>}
+
+                                                                                                                            </ul>
             </div>
         </div>
     </nav>
@@ -288,14 +308,13 @@
 
     @if (ViewBag.successModal != null)
     {
-        <script>
-            console.log("IT IZ WORKING!!!>>>");
-            var sucModal = new bootstrap.Modal(document.getElementById("successModal"), {});
-            document.onreadystatechange = function () {
-                sucModal.show();
-            };
-        </script>
-    }
+<script>
+    console.log("IT IZ WORKING!!!>>>");
+    var sucModal = new bootstrap.Modal(document.getElementById("successModal"), {});
+    document.onreadystatechange = function () {
+        sucModal.show();
+    };
+</script>}
 
 
 </body>

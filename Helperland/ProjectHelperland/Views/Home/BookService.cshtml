@@ -1,0 +1,587 @@
+﻿@model ProjectHelperland.ViewModel.BookServiceViewModel
+@{
+    ViewData["Title"] = "BookService";
+    Layout = "~/Views/Shared/PublicPageLayout.cshtml";
+}
+
+<main>
+    <div class="bookservice_img">
+    </div>
+
+    <section class="faq-details new-container">
+        <div class="container">
+            <div class="mg-bottom">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class=" text-center ">
+                            <h2 class="content-title">Set up your cleaning service</h2>
+                        </div>
+                    </div>
+                </div>
+                <h4><img src="/images/forma-1-copy-5.png" class="text-center"></h4>
+            </div>
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="accordion-book">
+                        <ul class="nav nav-tabs nav-justified">
+                            <li class="nav-item col-lg-3 col-md-3 col-sm-6">
+                                <button class="nav-link active active_tab col-step-1" type="button"
+                                        aria-selected="true">
+                                    <img id="step_1_img" src="/images/setup-service.png"><div class="btn_text">Setup Service</div>
+                                </button>
+                            </li>
+                            <li class="nav-item col-lg-3 col-md-3 col-sm-6">
+                                <button class="nav-link  col-step-2" type="button"
+                                        aria-selected="false">
+                                    <img id="step_2_img" src="/images/schedule-plan 2.png"><div class="btn_text"> Schedule Plan</div>
+                                </button>
+                            </li>
+                            <li class="nav-item col-lg-3 col-md-3 col-sm-6">
+                                <button class="nav-link col-step-3" type="button"
+                                        aria-selected="false">
+                                    <img id="step_3_img" src="/images/user-details 2.png"><div class="btn_text"> Your Details</div>
+                                </button>
+                            </li>
+                            <li class="nav-item col-lg-3 col-md-3 col-sm-6">
+                                <button class="nav-link col-step-4" type="button"
+                                        aria-selected="false">
+                                    <img id="step_4_img" src="/images/payment 2.png"><div class="btn_text">Make Payment</div>
+                                </button>
+                            </li>
+                        </ul>
+
+                        <form id="postcode_form"  class="bathsec" asp-action="CheckPostalCode" asp-controller="UserBookService">
+                            <div class="ss_step_1">
+                                <p class="fw-bold">Enter Your Postal Code: </p>
+                                <div class="bed-row">
+                                    <div class="postcode">
+                                        <input asp-for="zipCodeViewModel.zipcode" type="tel" class="form-control" placeholder="Postal code" required>
+                                    </div>
+                                    <div class="bt book">
+                                        <button type="submit" class="c_sub_btn postal_check_btn"><h3>Check Availability</h3></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                        <form asp-action="addServiceInfo" asp-controller="UserBookService">
+                            <div class="fade ss_step_2">
+                                <div class="bed-row1 bathsec">
+                                    <div class="left-part">
+                                        <p class="fw-bold">When do you need the cleaner?</p>
+                                        <div class="bed-row">
+                                            <div class="col-sm-7 cal-dt">
+                                                <input asp-for="ServiceRequestViewModel.servicestartdate" type="text" id="service_date" class="form-control date_field"  onfocus="(this.type='date')" onblur="(this.type='text')" placeholder="01/01/1111" />
+                                                <span class="date-button">
+                                                    <img src="/images/admin-calendar-blue.png">
+                                                </span>
+                                            </div>
+                                            <div class="col-sm-5 clock-container">
+                                                <input asp-for="ServiceRequestViewModel.servicestrarttime" id="service_time" type="time" placeholder="00:00" class="form-control">
+                                                <span class="clock-button">
+                                                    <img src="/images/clock-blue.png">
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="right-part">
+                                        <p class="fw-bold">How long do you need your cleaner to stay?</p>
+                                        <div class="mg-right">
+                                            <select asp-for="ServiceRequestViewModel.servicehours" id="basic_time" class="form-select bed-option">
+                                                <option selected value="3">3.0 Hrs</option>
+                                                
+                                                <option value="4">4.0 Hrs</option>
+                                                
+                                                <option value="5">5.0 Hrs</option>
+                                                
+                                                <option value="6">6.0 Hrs</option>
+                                                
+                                                
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr>
+
+                                <p class="mt-5 fw-bold">Extra services</p>
+                                <div class="extra-service-book d-flex flex-wrap">
+                                    <div class="extra-items-book text-center">
+                                        <div id="extra-ser-1" class="extra-img d-flex justify-content-center align-items-center mx-auto">
+                                            <img id="sr-1" src="/images/3.png" alt="">
+                                        </div>
+                                        <div class="extra-details mt-3">
+                                            <p class="extra-title mb-0">
+                                                Inside cabinets
+                                            </p>
+                                        </div>
+                                        <div class="fade">
+                                            <input asp-for="ServiceRequestViewModel.extraSer1" type="checkbox" id="extra_s_check_1" />
+                                        </div>
+                                    </div>
+                                    <div class="extra-items-book text-center">
+                                        <div id="extra-ser-2" class="extra-img d-flex justify-content-center align-items-center mx-auto">
+                                            <img id="sr-2" src="/images/5.png" alt="">
+                                        </div>
+                                        <div class="extra-details mt-3">
+                                            <p class="extra-title mb-0">
+                                                Inside fridge
+                                            </p>
+                                        </div>
+                                        <div class="fade">
+                                            <input asp-for="ServiceRequestViewModel.extraSer2" type="checkbox" id="extra_s_check_2" />
+                                        </div>
+                                    </div>
+                                    <div class="extra-items-book text-center">
+                                        <div id="extra-ser-3" class="extra-img d-flex justify-content-center align-items-center mx-auto">
+                                            <img id="sr-3" src="/images/oven.png" alt="">
+                                        </div>
+                                        <div class="extra-details mt-3">
+                                            <p class="extra-title mb-0">
+                                                Inside oven
+                                            </p>
+                                        </div>
+                                        <div class="fade">
+                                            <input asp-for="ServiceRequestViewModel.extraSer3" type="checkbox" id="extra_s_check_3" />
+                                        </div>
+                                    </div>
+                                    <div class="extra-items-book text-center">
+                                        <div id="extra-ser-4" class="extra-img d-flex justify-content-center align-items-center mx-auto">
+                                            <img id="sr-4" src="/images/2.png" alt="">
+                                        </div>
+                                        <div class="extra-details mt-3">
+                                            <p class="extra-title mb-0">
+                                                Laundry wash & dry
+                                            </p>
+                                        </div>
+                                        <div class="fade">
+                                            <input asp-for="ServiceRequestViewModel.extraSer4" type="checkbox" id="extra_s_check_4" />
+                                        </div>
+                                    </div>
+                                    <div class="extra-items-book text-center">
+                                        <div id="extra-ser-5" class="extra-img d-flex justify-content-center align-items-center mx-auto">
+                                            <img id="sr-5" src="/images/1.png" alt="">
+                                        </div>
+                                        <div class="extra-details mt-3">
+                                            <p class="extra-title mb-0">
+                                                Interior windows
+                                            </p>
+                                        </div>
+                                        <div class="fade">
+                                            <input asp-for="ServiceRequestViewModel.extraSer5" type="checkbox" id="extra_s_check_5" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                <p class="mt-5 fw-bold">Comments</p>
+                                <div>
+                                    <textarea asp-for="ServiceRequestViewModel.comments" class="form-control" id="comments" rows="4"></textarea>
+                                </div>
+                                <div class="mt-3 input-group">
+                                    <input type="checkbox" asp-for="ServiceRequestViewModel.haspets" id="pets" class="check_box">
+                                    <label class="check_label">I have pets at Home</label>
+                                </div>
+
+                                <hr>
+                                <div class="bt book1">
+                                    <button class="c_sub_btn continue-1" type="button" name="continue"><h3>Continue</h3></button>
+                                </div>
+                            </div>
+                            <div class="fade ss_step_3">
+                                <div class="bathsec">
+                                    <p class="fw-bold">Please enter your address so that your helper can find you.</p>
+                                    <div class="pt-2 cust_addresses">
+                                        @{ 
+                                            if(Model!= null)
+                                            {
+                                                foreach(var data in Model.address) 
+                                                {
+                                                    <div class="row ss_address_radio" id="add1">
+                                                        <div class="col-md-1 text-center">
+                                                            <input class="radio_address form-check-input" id="@data.id" name="ss_address"  type="radio" />
+                                                        </div>
+                                                        <div class="col-md-7 align-items-center">
+                                                            <div class="row pt-2">
+                                                                <div class="col-sm-12 d-flex">
+                                                                    <label>Address : </label>
+                                                                    <pre class="ss_aaddress_street"> @data.addressline1 </pre> 
+                                                                    <pre>,</pre>
+                                                                    <pre class="ss_address_city">@data.city</pre>
+                                                                    <pre class="ss_address_pin">@data.postalcode</pre>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-sm-12 d-flex">
+                                                                    <label>Phonenumber : </label>
+                                                                    <p class="ss_address_phone">@data.phonenumber</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            }
+                                        }
+
+                                        <div>
+                                            <input asp-for="addressId" id="hidden_field" type="hidden"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-1">
+                                        <button class="newadd_btn mb-3 mt-2" type="button" name="newadd">+ Add New Address</button>
+                                    </div>
+                                    <div class="new_add fade">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <p class="mb-1">Street</p>
+                                                <input id="add_street" type="text" name="Street" class="form-control" placeholder="Street">
+                                                <div id="add_street_err" class="text-danger fade">
+                                                    streetname required
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p class="mb-1">House Number</p>
+                                                <input id="add_house" type="text" placeholder="House number" class="form-control" name="houseno" onkeypress="return (event.charCode !=8 && event.charCode ==0 || ( event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)))" />
+                                                <div id="add_house_err" class="text-danger fade">
+                                                    House number required
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p class="mt-3 mb-1">Postcode</p>
+                                                <input id="add_postal" type="text" placeholder="Postalcode" class="form-control" name="postal" onkeypress="return (event.charCode !=8 && event.charCode ==0 || ( event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)))" />
+
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p class="mt-3 mb-1">City</p>
+                                                <input id="add_city" type="text" placeholder="City" class="form-control" name="cityname" />
+                                                <div id="add_city_err" class="text-danger fade">
+                                                    city name required
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p class="mt-3 mb-1">Phone Number</p>
+                                                <div class="row g-0">
+                                                    <div class="col-sm-12 input-group">
+                                                        <span class="c_code align-items-center justify-content-center">+49</span>
+                                                        <input id="add_mobile" type="tel" name="Phonenumber" class="form-control" placeholder="Mobile Number" pattern="[0-9]{10}" onkeypress="return (event.charCode !=8 && event.charCode ==0 || ( event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)))">
+                                                    </div>
+                                                    <div id="add_mobile_err" class="text-danger fade">
+                                                        phonenumber required
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="mt-3 col-lg-12 col-md-12 col-sm-12">
+                                                    <button class="b_save_btn" type="submit" name="Save">Save</button>
+                                                    <button class="b_discard_btn" type="submit" name="Discard">Discard</button>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <hr>
+
+                                    <div class="row pt-2">
+                                        <label>Your Favourite Service Providers</label>
+                                    </div>
+
+                                    <hr>
+
+                                    <div class="row pt-1">
+                                        <label>You can choose your favourite service provider from below list</label>
+                                    </div>
+                                    <div class="row pt-2">
+                                        <div class="col-md-3 justify-content-center">
+                                            <div class=" justify-content-center text-center">
+                                                <div class="extra-img-sp-avatar d-flex justify-content-center align-items-center mx-auto">
+                                                    <img src="/images/avatar-hat.png" alt="">
+                                                </div>
+                                                <div class="extra-details text-center mt-3">
+                                                    <p class="extra-sp-name mb-0">
+                                                        Visvaraj Rathod
+                                                    </p>
+                                                    <button class="sp_select_btn">select</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <hr>
+                                    <div class="bt book1">
+                                        <button class="c_sub_btn continue-2" type="button" name="continue"><h3>Continue</h3></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="fade ss_step_4">
+                                <div class="bathsec">
+                                    <p class="fw-bold">Pay securely with Helperland payment gateway.</p>
+                                    <hr>
+                                    <div class="row pt-2">
+                                        <div class="col-lg-12">
+                                            <iframe name="__privateStripeFrame52510" frameborder="0" allowtransparency="true"
+                                                    scrolling="no" allow="payment *"
+                                                    src="https://js.stripe.com/v3/elements-inner-card-6f95dd34a5c89aae610bcf619d0b2112.html#locale=en&amp;wait=false&amp;mids[guid]=26be9e97-86fa-42b9-a15e-5580bc4b93c6697bcd&amp;mids[muid]=b9c63c2a-e1e3-4391-af0e-035491e42cff6f2065&amp;mids[sid]=50a9fbe1-5a7d-44fa-bb11-fabf27d5d426d48d0d&amp;hidePostalCode=true&amp;style[base][iconColor]=%23666EE8&amp;style[base][color]=%2331325F&amp;style[base][lineHeight]=36px&amp;style[base][fontSize]=16px&amp;style[base][::placeholder][color]=%23c5c5c5&amp;rtl=false&amp;componentName=card&amp;keyMode=test&amp;apiKey=pk_test_CbN2mTsadzVC1WpDPDgcDWbG&amp;referrer=https%3A%2F%2Fweb1.anasource.com%2Ftrainee2021%2Fbook-service&amp;controllerId=__privateStripeController5256"
+                                                    title="Secure card payment input frame"
+                                                    style=" margin: 0px !important; padding: 0px !important; width: 1px !important; min-width: 100% !important; overflow: hidden !important; display: block !important; user-select: none !important; transform: translate(0px) !important; height: 36px;">
+                                            </iframe>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row pt-2">
+                                        <div class="col-md-9">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="row">
+                                                <label class="accepted_card_lbl">Accepted cards</label>
+                                            </div>
+                                            <div class="row d-flex">
+
+                                                <img class="card_img" src="/images/visa-1.png">
+                                                <img class="card_img" src="/images/master-2.png">
+                                                <img class="card_img" src="/images/ax-1.png">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+
+                                    <div class="row pt-2 accept_3_policy">
+                                        <div class="col-md-1 pt-1">
+                                            <input type="checkbox" asp-for="checkPolicy" id="terms-book" class="check_box">
+                                        </div>
+                                        <div class="col-md-11">
+                                            <label class="check_label_book">I accept <a href="#">terms and conditions </a>, the <a href="#">Cancellation Policy </a> and the <a href="#"> privacy policy</a>. I confirm that Helperland starts to execute the contract before the expiry of the withdrawal period and I loose my right of withdrawal as a consumer with full performance of the contract. </label>
+                                        </div>
+                                    </div>
+
+                                    <hr>
+
+                                    <div class="bt book1">
+                                        <button class="pay_btn" type="submit" name="BookWC"><h3>Complete Booking</h3></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="row ss_pay_summary">
+                        <label>Payment Summary</label>
+                    </div>
+                    <div class="row ps_container justify-content-center">
+                        <div class="row pt-4 ps_p_tag">
+                            <div class="d-flex">
+                                <p class="ps_date">01/01/1111</p>
+                                <pre>  ''  </pre>
+                                <p class="ps_time">00:00</p>
+                                <p class="ps_time_meredian">PM</p>
+                            </div>
+                        </div>
+                        <div class="row pt-3">
+                            <label>Duration</label>
+                        </div>
+
+                        <div class="row pt-1 ps_p_tag">
+                            <div class="col-sm-3">
+                                <p>Basic</p>
+                            </div>
+                            <div class="col-sm-6">
+                            </div>
+                            <div class="col-sm-3 d-flex">
+                                <p class="ps_basic_hr ms-auto">3</p>
+                                <pre> hrs</pre>
+                            </div>
+                        </div>
+                        <div class="row pt-1 ps_p_tag ps_ser_1 fade">
+                            <div class="col-sm-7">
+                                <p>Inside Cabinets (extra)</p>
+                            </div>
+                            <div class="col-sm-2">
+
+                            </div>
+                            <div class="col-sm-3 pr-0 d-flex ">
+                                <p class="ps_extra_min ms-auto">30</p>
+                                <pre> min</pre>
+                            </div>
+                        </div>
+                        <div class="row pt-1 ps_p_tag ps_ser_2 fade">
+                            <div class="col-sm-7">
+                                <p>Inside Fridge (extra)</p>
+                            </div>
+                            <div class="col-sm-2">
+
+                            </div>
+                            <div class="col-sm-3 pr-0 d-flex ">
+                                <p class="ps_extra_min ms-auto">30</p>
+                                <pre> min</pre>
+                            </div>
+                        </div>
+                        <div class="row pt-1 ps_p_tag ps_ser_3 fade">
+                            <div class="col-sm-7">
+                                <p>Inside Oven (extra)</p>
+                            </div>
+                            <div class="col-sm-2">
+
+                            </div>
+                            <div class="col-sm-3 pr-0 d-flex ">
+                                <p class="ps_extra_min ms-auto">30</p>
+                                <pre> min</pre>
+                            </div>
+                        </div>
+                        <div class="row pt-1 ps_p_tag ps_ser_4 fade">
+                            <div class="col-sm-8">
+                                <p>Laundry Wash & dry (extra)</p>
+                            </div>
+                            <div class="col-sm-1">
+
+                            </div>
+                            <div class="col-sm-3 pr-0 d-flex ">
+                                <p class="ps_extra_min ms-auto">30</p>
+                                <pre> min</pre>
+                            </div>
+                        </div>
+                        <div class="row pt-1 ps_p_tag ps_ser_5 fade">
+                            <div class="col-sm-7">
+                                <p>Interior Windows (extra)</p>
+                            </div>
+                            <div class="col-sm-2">
+
+                            </div>
+                            <div class="col-sm-3 pr-0 d-flex ">
+                                <p class="ps_extra_min ms-auto">30</p>
+                                <pre> min</pre>
+                            </div>
+                        </div>
+                        <div class="row pt-1">
+                            <hr class="seperator">
+                        </div>
+                        <div class="row pt-1">
+                            <div class="col-sm-6">
+                                <label>Total Service Time</label>
+                            </div>
+                            <div class="col-sm-3">
+
+                            </div>
+                            <div class="col-sm-3 d-flex">
+                                <label class="ps_total_time ms-auto">3</label>
+                                <pre><label> hrs</label></pre>
+                            </div>
+                        </div>
+                        <div class="row pt-3">
+                            <hr class="seperator">
+                        </div>
+                        <div class="row pt-2 ps_p_tag">
+                            <div class="col-sm-6">
+                                <p>Per Cleaning</p>
+                            </div>
+                            <div class="col-sm-3">
+
+                            </div>
+                            <div class="col-sm-3 d-flex">
+                                <p class="ps_per_clean ms-auto">60 €</p>
+                            </div>
+                        </div>
+                        <div class="row pt-2">
+                            <hr class="seperator">
+                        </div>
+                        <div class="row pt-2">
+                            <div class="col-sm-6">
+                                <p class="ps_total_payment">Total Payment</p>
+                            </div>
+                            <div class="col-sm-6 d-flex">
+                                <p class="ps_total_price ms-auto">60</p>
+                                <p class="ps_grand_total">€</p>
+                            </div>
+                        </div>
+                        <div class="row pt-2 ps_footer">
+                            <div class="col-sm-1 ">
+                                <img src="/images/smiley.png" alt="smiley">
+                            </div>
+                            <div class="col-sm-11">
+                                <p class="ps_footer_lbl">See what is always included</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row pt-3 ss_question_sect">
+                        <div class="row">
+                            <div class="col-sm-12 text-center">
+                                <label class="question_lbl">Questions?</label>
+                            </div>
+                        </div>
+                        <div class="row pt-2">
+                            <div class="col-sm-12 accordion" id="accordionone">
+                                <div class="row mb-2 accordion_item">
+                                    <h2 class="accordion-header accordion_btn collapsed" data-bs-toggle="collapse"
+                                        data-bs-target="#fc-1">
+                                        <img src="/images/right-arrow-dark.png" class="" alt="right-arrow-dark">
+                                        What's included in a cleaning?
+                                    </h2>
+                                    <div id="fc-1" class="accordion-collapse collapse" data-bs-parent="#accordionone">
+                                        <div class="accordion-body">
+                                            <p>Bedroom, Living Room & Common Areas, Bathrooms, Kitchen, Extras </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row pt-1">
+                                    <hr class="seperator">
+                                </div>
+                                <div class="row pt-1 mb-2 accordion_item">
+                                    <h2 class="accordion-header accordion_btn collapsed" data-bs-toggle="collapse"
+                                        data-bs-target="#fc-2">
+                                        <img src="/images/right-arrow-dark.png" class="" alt="right-arrow-dark">
+                                        Which Helperland professional will come to my place?
+                                    </h2>
+                                    <div id="fc-2" class="accordion-collapse collapse" data-bs-parent="#accordionone">
+                                        <div class="accordion-body">
+                                            <p>Helperland has a vast network of experienced, top-rated cleaners. Based on the time and date of your request, we work to assign the best professional available. Like working with a specific pro? Add them to your Pro Team from the mobile app and they'll be requested first for all future bookings. You will receive an email with details about your professional prior to your appointment.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row pt-1">
+                                    <hr class="seperator">
+                                </div>
+                                <div class="row pt-1 mb-2 accordion_item">
+                                    <h2 class="accordion-header accordion_btn collapsed" data-bs-toggle="collapse"
+                                        data-bs-target="#fc-3">
+                                        <img src="/images/right-arrow-dark.png" class="" alt="right-arrow-dark">
+                                        Can I skip or reschedule bookings?
+                                    </h2>
+                                    <div id="fc-3" class="accordion-collapse collapse" data-bs-parent="#accordionone">
+                                        <div class="accordion-body">
+                                            <p>You can reschedule any booking for free at least 24 hours in advance of the scheduled start time. If you need to skip a booking within the minimum commitment, we’ll credit the value of the booking to your account. You can use this credit on future cleanings and other Helperland services.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row pt-1">
+                                    <hr class="seperator">
+                                </div>
+                                <div class="row pt-1">
+                                    <a href="#" class="for_more_help">For more help</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+<section class="news_letter f_color bg-white">
+    <div class="container text-center">
+
+        <h2>GET OUR NEWSLETTER</h2>
+        <div class="form-row d-flex justify-content-center align-items-center">
+            <div class="form-group">
+                <label for="email" style="display: none;">YOUR EMAIL</label>
+                <input type="text" placeholder="YOUR EMAIL" id="email" class="form-control">
+            </div>
+            <div class="btn-wrapper">
+                <button class="submit_btn">Submit</button>
+            </div>
+        </div>
+    </div>
+</section>
+

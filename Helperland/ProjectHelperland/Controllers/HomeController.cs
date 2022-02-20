@@ -14,8 +14,11 @@ namespace ProjectHelperland.Controllers
 {
     public class HomeController : Controller
     {
+        public static int cnt = 0;
         private readonly ILogger<HomeController> _logger;
         private readonly HelperlandContext _helperlandContext;
+
+        BookServiceViewModel userAddresses = new BookServiceViewModel();
 
         public HomeController(ILogger<HomeController> logger, HelperlandContext helperlandContext)
         {
@@ -111,7 +114,7 @@ namespace ProjectHelperland.Controllers
                 _helperlandContext.Users.Add(user);
                 _helperlandContext.SaveChanges();
                 ViewBag.successModal = string.Format("valid");
-                return View("~/Views/Home/SpSignUp.cshtml");
+                return View("~/Views/Home/Index.cshtml");
             }
             
             
@@ -123,28 +126,31 @@ namespace ProjectHelperland.Controllers
             return View("~/Views/Home/Index.cshtml");
         }
 
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Login(LoginViewModel loginViewModel)
         {
             if (ModelState.IsValid)
             {
-                var details = (from userlist in _helperlandContext.Users
+                User user = _helperlandContext.Users.Where(x => x.Email == loginViewModel.Email.Trim() && x.Password == loginViewModel.Password.Trim()).FirstOrDefault();
+
+                /*var details = (from userlist in _helperlandContext.Users
                                where userlist.Email == loginViewModel.Email && userlist.Password == loginViewModel.Password
                                select new
                                {
                                    userlist.UserId,
                                    userlist.FirstName,
                                    userlist.UserTypeId
-                               }).ToList();
-                if (details.FirstOrDefault() != null)
+                               }).ToList();*/
+                if (user != null)
                 {
                     HttpContext.Session.SetString("UserId",
-                                                  details.FirstOrDefault().UserId.ToString());
-                    HttpContext.Session.SetString("FirstName", details.FirstOrDefault().FirstName);
-                    HttpContext.Session.SetString("UserTypeId", details.FirstOrDefault().UserTypeId.ToString());
+                                                  user.UserId.ToString());
+                    HttpContext.Session.SetString("FirstName", user.FirstName);
+                    HttpContext.Session.SetString("UserTypeId", user.UserTypeId.ToString());
 
-                    return RedirectToAction("welcome", "Home");
+                    return RedirectToAction("Index", "Home");
                 }
                 else
                 {
@@ -161,11 +167,14 @@ namespace ProjectHelperland.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult ForgotPass(LoginViewModel loginViewModel)
         {
+           
             var email_check = email_exist(loginViewModel.Email);
             //Debug.WriteLine("this is bool of email_check :" + email_check);
             if (email_check)
             {
-                var details = (from userlist in _helperlandContext.Users
+                User user = _helperlandContext.Users.Where(x => x.Email == loginViewModel.Email.Trim()).FirstOrDefault();
+
+                /*var details = (from userlist in _helperlandContext.Users
                                where userlist.Email == loginViewModel.Email
                                select new
                                {
@@ -173,13 +182,13 @@ namespace ProjectHelperland.Controllers
                                    userlist.FirstName,
                                    userlist.Email,
                                    userlist.Password
-                               }).ToList();
-                if (details.FirstOrDefault() != null)
+                               }).ToList();*/
+                if (user != null)
                 {
-                    HttpContext.Session.SetString("UserId",
-                                                  details.FirstOrDefault().UserId.ToString());
-                    HttpContext.Session.SetString("FirstName", details.FirstOrDefault().FirstName);
-                    HttpContext.Session.SetString("Email", details.FirstOrDefault().Email);
+                    HttpContext.Session.SetString("Userid",
+                                                  user.UserId.ToString());
+                    HttpContext.Session.SetString("Firstname", user.FirstName);
+                    HttpContext.Session.SetString("email", user.Email);
 
 
                 }
@@ -198,7 +207,7 @@ namespace ProjectHelperland.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult ChangePassword(LoginViewModel loginViewModel)
         {
-            int id = Int32.Parse(HttpContext.Session.GetString("UserId"));
+            int id = Int32.Parse(HttpContext.Session.GetString("Userid"));
             User user = _helperlandContext.Users.Where(x => x.UserId == id).FirstOrDefault();
             user.Password = loginViewModel.Password;
             _helperlandContext.Update(user);
@@ -210,6 +219,12 @@ namespace ProjectHelperland.Controllers
         {
             return View();
         }
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Index", "Home");
+        }
+       
         public IActionResult About() 
         {
             return View();
@@ -224,19 +239,25 @@ namespace ProjectHelperland.Controllers
         [HttpPost]
         public IActionResult Contact(ContactUsViewModel contactUsViewModel)
         {
-            ContactU contactU = new ContactU()
+            if (ModelState.IsValid)
             {
-                Name = contactUsViewModel.FirstName + " " + contactUsViewModel.LastName,
-                Email = contactUsViewModel.Email,
-                PhoneNumber = contactUsViewModel.PhoneNumber,
-                Subject = contactUsViewModel.Subject,
-                Message = contactUsViewModel.Message,
-                CreatedOn = DateTime.Now
-            };
+                ContactU contactU = new ContactU()
+                {
+                    Name = contactUsViewModel.FirstName + " " + contactUsViewModel.LastName,
+                    Email = contactUsViewModel.Email,
+                    PhoneNumber = contactUsViewModel.PhoneNumber,
+                    Subject = contactUsViewModel.Subject,
+                    Message = contactUsViewModel.Message,
+                    CreatedOn = DateTime.Now
+                };
 
-            _helperlandContext.ContactUs.Add(contactU);
-            _helperlandContext.SaveChanges();
-            return RedirectToAction("Contact");
+                _helperlandContext.ContactUs.Add(contactU);
+                _helperlandContext.SaveChanges();
+                return RedirectToAction("Contact");
+            }
+
+            return View();
+           
         }
         public IActionResult Faq()
         {
@@ -246,6 +267,79 @@ namespace ProjectHelperland.Controllers
         public IActionResult Price()
         {
             return View();
+        }
+
+        public IActionResult BookService()
+        {
+            if(HttpContext.Session.GetString("FirstName") == null){
+                return RedirectToAction("Index_Login","Home");
+            }
+            else
+            {
+                string uname = HttpContext.Session.GetString("FirstName");
+                ViewBag.Uname = uname;
+                ViewBag.login_check = String.Format("loggedin");
+                if (cnt != 0)
+                {
+                    if (HttpContext.Session.GetString("again_called") != "spfound")
+                    {
+                        HttpContext.Session.SetString("ss_step_2", "notset");
+                        ViewBag.foundsp = string.Format("spnotfound");
+                        string temp_var = ViewBag.foundsp;
+                        Debug.WriteLine("this is viewbag foundsp" + temp_var);
+                    }
+                    else
+                    {
+                        ViewBag.foundsp = null;
+                        HttpContext.Session.SetString("ss_step_2", "notset");
+
+                    }
+
+                }
+                cnt = 1;
+                getAddress();
+
+                return View(userAddresses);
+            }
+               
+        }
+
+        public void getAddress()
+        {
+            Debug.WriteLine("this methd is called");
+
+            HttpContext.Session.SetString("getaddress", "set");
+            var userid = Int32.Parse(HttpContext.Session.GetString("UserId"));
+
+            var addresses = (from uaddress in _helperlandContext.UserAddresses
+                             where uaddress.UserId == userid
+                             select new AddressViewModel()
+                             {
+
+                                 addressline1 = uaddress.AddressLine1,
+
+                                 city = uaddress.City,
+                                 phonenumber = uaddress.Mobile,
+
+                                 postalcode = uaddress.PostalCode
+                             }).ToList();
+
+            if (addresses.FirstOrDefault() != null)
+            {
+                userAddresses.address = new List<AddressViewModel>();
+                int countAddress = 1;
+
+                foreach (var add in addresses)
+                {
+
+                    add.id = countAddress;
+                    userAddresses.address.Add(add);
+
+                    countAddress += 1;
+                }
+
+            }
+
         }
 
         public bool email_exist(string email)

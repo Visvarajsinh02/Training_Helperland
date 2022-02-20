@@ -1,4 +1,6 @@
-﻿
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
 @{
     ViewData["Title"] = "Helperland|Home";
     Layout = "~/Views/Shared/HomePageLayout.cshtml";
@@ -12,9 +14,14 @@
             <li>Lorem ipsum dolor sit amet, consectetur adipiscing</li>
             <li>Lorem ipsum dolor sit amet, consectetur adipiscing</li>
         </ul>
-        <div class="btn-wrapper text-center">
-            <a href="#" title="Let's Book a Cleaner" class="ctr-btn">Let's Book a Cleaner</a>
-        </div>
+       
+            <div class="btn-wrapper text-center">
+                 @if (HttpContextAccessor.HttpContext.Session.GetString("UserTypeId") == "1" || HttpContextAccessor.HttpContext.Session.GetString("UserTypeId") == null)
+                 {
+                    <a asp-action="BookService" asp-controller="Home" title="Let's Book a Cleaner" class="ctr-btn">Let's Book a Cleaner</a>
+                 }
+            </div>
+                
         <div class="step-wrapper" id="sw-1">
             <div class="row">
                 <div class="col-lg-2">

@@ -12,6 +12,12 @@
     <title>@ViewBag.Title</title>
 
     <link rel="shortcut icon" href="~/images/favicon_img.png" type="image/x-icon">
+
+    <script src="~/lib/jquery/jquery.js"></script>
+    <script src="~/lib/jquery-validate/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+
+
     <link href="~/css/style.css" rel="stylesheet" />
     <link href="~/lib/twitter-bootstrap/css/bootstrap.css" rel="stylesheet" />
     <script src="~/lib/twitter-bootstrap/js/bootstrap.js"></script>
@@ -80,17 +86,22 @@
                                                                                                                                                                     <img src="/images/user.png" class="arow">
                                                                                                                                                                     <img src="/images/sp-arrow-down.png">
                                                                                                                                                                 </a>
-                                                                                                                                                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                                                                                                                                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                                                                                                                                                     <li>
-                                                                                                                                                                        <a class="dropdown-item" href="#">Setting</a>
+                                                                                                                                                                        <a class="dropdown-item" asp-action="dashboard" asp-controller="Home">My Dashboard</a>
                                                                                                                                                                     </li>
+                                                                                                                                                                    <li>
+                                                                                                                                                                        <a class="dropdown-item" asp-action="mySetting" asp-controller="Home">My Setting</a>
+                                                                                                                                                                    </li>
+                                                                                                                                                                    
                                                                                                                                                                     <li>
                                                                                                                                                                         <a class="dropdown-item" asp-action="Logout" asp-controller="Home">Logout</a>
                                                                                                                                                                     </li>
                                                                                                                                                                 </ul>
-                                                                                                                                                            </li>}
+                                                                                                                                                            </li>
 
-                                                                                                                            </ul>
+                                                                                                                            @*</ul>*@
+                                                                                                                }
             </div>
         </div>
     </nav>
@@ -106,16 +117,18 @@
                 <div class="modal-body">
                     <form class="row g-3" asp-action="Login" asp-controller="Home">
                         <div class="col-12 emailModal">
-                            <input asp-for="Email" type="email" class="form-control" id="" placeholder="Email">
+                            <input asp-for="Email" type="email" class="form-control" id="log_Email" placeholder="Email">
                             <i class="far fa-user"></i>
+                            <span asp-validation-for="Email" class="text-danger"></span>
                         </div>
                         <div class="col-12 pswModal">
-                            <input asp-for="Password" type="password" class="form-control" id="" placeholder="Password">
+                            <input asp-for="Password" type="password" class="form-control" id="log_Pass" placeholder="Password">
                             <i class="fas fa-lock"></i>
+                            <span asp-validation-for="Password" class="text-danger"></span>
                         </div>
                         <div class="col-12">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="gridCheck">
+                                <input asp-for="RememberMe" class="form-check-input" type="checkbox" id="gridCheck">
                                 <label class="form-check-label" for="gridCheck">
                                     Remember me
                                 </label>
@@ -275,6 +288,21 @@
 
 
     <script src="~/js/general.js"></script>
+    @if (ViewBag.message_mail != null && ViewBag.message_pass != null)
+    {
+        <script>
+            var myModal = new bootstrap.Modal(document.getElementById("exampleModal"), {});
+            document.onreadystatechange = function () {
+                myModal.show();
+                var email = @ViewBag.message_mail;
+                var pass = @ViewBag.message_pass;
+                $('#log_Email').val("email");
+                $('#log_Pass').val("pass");
+            };
+
+
+        </script>
+    }
 
     @if (ViewBag.frgtpass != null)
     {
@@ -309,7 +337,7 @@
     @if (ViewBag.successModal != null)
     {
 <script>
-    console.log("IT IZ WORKING!!!>>>");
+   @* console.log("IT IZ WORKING!!!>>>");*@
     var sucModal = new bootstrap.Modal(document.getElementById("successModal"), {});
     document.onreadystatechange = function () {
         sucModal.show();

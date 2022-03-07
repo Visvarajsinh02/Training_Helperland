@@ -157,6 +157,7 @@ C:\Users\VISVARAJSINH\Desktop\Project\Helperland\ProjectHelperland\bin\Debug\net
 C:\Users\VISVARAJSINH\Desktop\Project\Helperland\ProjectHelperland\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
 C:\Users\VISVARAJSINH\Desktop\Project\Helperland\ProjectHelperland\obj\Debug\netcoreapp3.1\Razor\Views\Home\SignUp.cshtml.g.cs
 C:\Users\VISVARAJSINH\Desktop\Project\Helperland\ProjectHelperland\obj\Debug\netcoreapp3.1\Razor\Views\Home\SpSignUp.cshtml.g.cs
-C:\Users\VISVARAJSINH\Desktop\Project\Helperland\ProjectHelperland\obj\Debug\netcoreapp3.1\Razor\Views\Home\welcome.cshtml.g.cs
 C:\Users\VISVARAJSINH\Desktop\Project\Helperland\ProjectHelperland\obj\Debug\netcoreapp3.1\Razor\Views\Home\ForgotPass.cshtml.g.cs
 C:\Users\VISVARAJSINH\Desktop\Project\Helperland\ProjectHelperland\obj\Debug\netcoreapp3.1\Razor\Views\Home\BookService.cshtml.g.cs
+C:\Users\VISVARAJSINH\Desktop\Project\Helperland\ProjectHelperland\obj\Debug\netcoreapp3.1\Razor\Views\Shared\CustomerServiceLayout.cshtml.g.cs
+C:\Users\VISVARAJSINH\Desktop\Project\Helperland\ProjectHelperland\obj\Debug\netcoreapp3.1\Razor\Views\Home\MySetting.cshtml.g.cs

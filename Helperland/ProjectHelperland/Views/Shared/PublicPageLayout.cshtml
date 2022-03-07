@@ -10,6 +10,11 @@
     <title>@ViewBag.Title</title>
 
     <link rel="shortcut icon" href="~/images/favicon_img.png" type="image/x-icon">
+
+    <script src="~/lib/jquery/jquery.js"></script>
+    <script src="~/lib/jquery-validate/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+
     <link href="~/css/style.css" rel="stylesheet" />
     <link href="~/lib/twitter-bootstrap/css/bootstrap.css" rel="stylesheet" />
     <script src="~/lib/twitter-bootstrap/js/bootstrap.js"></script>
@@ -76,9 +81,12 @@
                                     <img src="/images/user.png" class="arow">
                                     <img src="/images/sp-arrow-down.png">
                                 </a>
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                     <li>
-                                        <a class="dropdown-item" href="#">Setting</a>
+                                        <a class="dropdown-item" asp-action="dashboard" asp-controller="Home">My Dashboard</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" asp-action="mySetting" asp-controller="Home">My Setting</a>
                                     </li>
                                     <li>
                                         <a class="dropdown-item" asp-action="Logout" asp-controller="Home">Logout</a>
@@ -214,6 +222,15 @@
                 });
             </script>
         }
+    }
+
+    @if(HttpContextAccessor.HttpContext.Session.GetInt32("address_fetch_cnt") != null)
+    {
+        <script>
+            var cnt_addresst = @HttpContextAccessor.HttpContext.Session.GetInt32("address_fetch_cnt");
+            var cnt_address = cnt_addresst + 1;
+            console.log("this is cnt_addresst" + cnt_addresst);
+        </script>
     }
 
 

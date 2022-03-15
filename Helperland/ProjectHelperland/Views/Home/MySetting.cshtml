@@ -36,8 +36,9 @@
         <div class="sp_detail sp_menu_nav_content tab-content">
 
             <!-- --------------------------------------Dashboard Content --------------------------------------------------- -->
+            
             <div class="tab-pane fade" id="v-pills-dashboard" role="tabpanel" aria-labelledby="v-pills-dashboard-tab">
-                <div class="row mt-2 mb-2">
+                <div class="row mt-2">
                     <div class="col-md-5 sh_title">
                         Current Service Request
                     </div>
@@ -45,7 +46,7 @@
 
                     </div>
                     <form asp-action="book_service_call" asp-controller="Home" class="col-md-3" id="export_end">
-                        <button type="submit" class="sh_new_req_btn">Add New Request</button>
+                        <button  type="submit" class="sh_new_req_btn">Add New Request</button>
                     </form>
                 </div>
                 <table id="dataTable">
@@ -105,13 +106,13 @@
                                     }
 
 
-                                    TimeSpan end_time_cal = new TimeSpan(duration_hr, duration_min, 0);
+                                    TimeSpan end_time_cal = new TimeSpan(duration_hr,duration_min,0);
 
                                     end_time = end_time + end_time_cal;
 
 
                                     string end_str = end_time.ToString();
-                                    string end = end_str.Substring(10, 6);
+                                    string end = end_str.Substring(10,6);
 
                                     string date_str = ser.service_date.ToString();
                                     string date = date_str.Substring(0, 10);
@@ -122,23 +123,25 @@
                                     char[] extra_arr = new char[5];
                                     int extra_total = 5;
                                     int temp = 0;
-                                    for (int i = 0; i < (extra_total - extra_str.Length); i++)
+                                    for(int i=0;i<(extra_total-extra_str.Length);i++)
                                     {
                                         extra_arr[i] = '0';
                                         temp += 1;
                                     }
-                                    for (int i = temp, j = 0; i < 5; i++, j++)
+                                    for(int i=temp,j=0;i<5;i++,j++)
                                     {
                                         extra_arr[i] = extra_str[j];
                                     }
-                                    string[] extra_services = { "Inside Cabinets", "Inside fridge", "Inside Oven", "Laundry wash & dry", "Interior windows" };
+                                    string[] extra_services = { "Inside Cabinets","Inside fridge","Inside Oven","Laundry wash & dry","Interior windows"};
+                                    double rating = Convert.ToDouble(ser.sp_rating);
+                                    int rate_int = Convert.ToInt32(rating);
                                     <tr class="sp_details pt-3">
                                         <td class="col-md-2">
                                             <p class="text-center">@ser.service_id</p>
                                         </td>
 
                                         <td class="col-md-2">
-                                            <div class="" data-bs-target="@("#servicedetailModal"+ser.service_id)" data-bs-toggle="modal" >
+                                            <div class="">
                                                 <p>
                                                     <img src="/images/calendar2.png"> <b>@date</b><br>
                                                     <img src="/images/layer-14.png">@start - @end
@@ -147,6 +150,29 @@
                                         </td>
 
                                         <td class="col-md-3">
+                                            @if(ser.sp_name != null)
+                                            { 
+                                            <div class="row">
+                                                <div class="col-sm-3 sh_cap_border ">
+                                                    <img src="/images/cap.png" id="cap">
+                                                </div>
+                                                <div class="col-sm-9 ">
+                                                    <p>
+                                                        @ser.sp_name<br>
+                                                        @for (int i = 0; i < rate_int; i++)
+                                                        {
+                                                            <img src="/images/star1.png">
+                                                        }
+                                                        @for (int i = rate_int; i < 5; i++)
+                                                        {
+                                                            <img src="/images/star2.png">
+                                                        }
+                                                        @rating
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            }
+                                            
                                         </td>
 
                                         <td class="col-md-2 sh_payment">
@@ -186,13 +212,17 @@
                                                     <div class="row">
                                                         <div class="d-flex">
                                                             <label>Extras : </label>
-                                                            @for (int i = 0; i < 5; i++)
+                                                            <pre class="service_extra">
+                                                            @for(int i =0;i< 5;i++)
                                                             {
-                                                                if (extra_arr[i] == '1')
-                                                                {
-                                                                    <pre class="service_extra"> @extra_services[i]</pre>
+                                                                if(extra_arr[i] == '1')
+                                                                { 
+                                                                     @extra_services[i]  
+
                                                                 }
                                                             }
+                                                            </pre>
+
                                                         </div>
                                                     </div>
 
@@ -277,14 +307,14 @@
                                                     <form asp-action="reschedule_service" asp-controller="Home">
                                                         <div class="row pt-2">
                                                             <div class="col-sm-7 date-container">
-                                                                <input type="text" asp-for="rescheduled_date" id="service_date" class="form-control date_field" onfocus="(this.type='date')" onblur="(this.type='text')" placeholder="01/01/1111" />
-                                                                <span class="date-button2">
+                                                                <input type="text" asp-for="rescheduled_date" id="service_date" class="form-control date_field"  onfocus="(this.type='date')" onblur="(this.type='text')" placeholder="01/01/1111" />
+                                                                <span class="date-button">
                                                                     <img src="/images/admin-calendar-blue.png">
                                                                 </span>
                                                             </div>
                                                             <div class="col-sm-5 clock-container">
-                                                                <input id="service_time" asp-for="rescheduled_time" type="time" placeholder="00:00" class="form-control">
-                                                                <span class="clock-button2">
+                                                                <input id="service_time" asp-for="rescheduled_time" type="time" placeholder="00:00" class="form-control" >
+                                                                <span class="clock-button">
                                                                     <img src="/images/clock-blue.png">
                                                                 </span>
                                                             </div>
@@ -317,7 +347,7 @@
                                                         <button type="button" class="no_btn" data-bs-dismiss="modal">No</button>
                                                     </form>
                                                 </div>
-
+                                                
                                             </div>
                                         </div>
                                     </div>
@@ -331,11 +361,10 @@
 
 
 
-
-
             <!-- --------------------------------------Service History content --------------------------------------------- -->
+
             <div id="v-pills-sh" class="tab-pane fade">
-                <div class="row mt-2 mb-2">
+                <div class="row mt-2">
                     <div class="col-md-3 sh_title">
                         Service History
                     </div>
@@ -350,7 +379,7 @@
                     <thead id="shtable_thead">
                         <tr>
                             <th>
-                                <p>Service Id</p>
+                                <p>ID</p>
                             </th>
                             <th>
                                 <p>Service Details</p>
@@ -371,207 +400,209 @@
                     </thead>
 
                     <tbody>
-                        @{
-                            if (Model.pastServices != null)
-                            {
-                                foreach (var ser in Model.pastServices)
-                                {
-
-                                    int duration_hr = 0;
-                                    int duration_min = 0;
-                                    DateTime end_time = ser.service_date;
-                                    double duration = Convert.ToDouble(ser.duration);
-                                    string dura_str = duration.ToString();
-                                    bool dura_is_decimal = dura_str.Contains(".");
-                                    string[] dura_arr = dura_str.Split(".");
-                                    if (dura_is_decimal)
-                                    {
-                                        duration_hr = Int32.Parse(dura_arr[0]);
-
-
-
-                                        if (Int32.Parse(dura_arr[1]) != 0)
+                        @{ if (Model.pastServices != null)
                                         {
-                                            duration_min = 30;
-                                        }
-                                        else
-                                        {
-                                            duration_min = 0;
-                                        }
-                                    }
-                                    else
-                                    {
-                                        duration_hr = Int32.Parse(dura_str);
-                                        duration_min = 0;
-
-                                    }
-
-
-                                    TimeSpan end_time_cal = new TimeSpan(duration_hr, duration_min, 0);
-
-                                    end_time = end_time + end_time_cal;
-
-
-                                    string end_str = end_time.ToString();
-                                    string end = end_str.Substring(10, 6);
-
-                                    string date_str = ser.service_date.ToString();
-                                    string date = date_str.Substring(0, 10);
-                                    string start = date_str.Substring(10, 6);
-
-                                    <tr class="sp_details pt-3">
-                                        <td class="col-md-1">
-                                            <div>
-                                                <p class="text-center">@ser.service_id</p>
-                                            </div>
-                                        </td>
-                                        <td class="col-md-3">
-                                            <div class="">
-                                                <p>
-                                                    <img src="/images/calendar.png"> <b>@date</b><br>
-                                                    @start - @end
-                                                </p>
-                                            </div>
-                                        </td>
-                                        <td class="col-md-3 ">
-                                            <div class="row">
-                                                <div class="col-sm-3 sh_cap_border ">
-                                                    <img src="/images/cap.png" id="cap">
-                                                </div>
-                                                <div class="col-sm-9 ">
-                                                    <p>
-                                                        Lyum Watson<br>
-                                                        <img src="/images/star1.png">
-                                                        <img src="/images/star1.png">
-                                                        <img src="/images/star1.png">
-                                                        <img src="/images/star1.png">
-                                                        <img src="/images/star2.png">
-                                                        4
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="col-md-2 sh_payment">
-                                            € @ser.service_amount
-                                        </td>
-                                        <td class="col-md-2 sh_status align-items-center pt-1">
-                                            @if (ser.status == 1)
+                                            foreach (var ser in Model.pastServices)
                                             {
-                                                <div class="sh_status_completed">
-                                                    Completed
-                                                </div>
-                                            }
-                                            else
-                                            {
-                                                <div class="sh_status_cancelled">
-                                                    Cancelled
-                                                </div>
-                                            }
+
+                                                int duration_hr = 0;
+                                                int duration_min = 0;
+                                                DateTime end_time = ser.service_date;
+                                                double duration = Convert.ToDouble(ser.duration);
+                                                string dura_str = duration.ToString();
+                                                bool dura_is_decimal = dura_str.Contains(".");
+                                                string[] dura_arr = dura_str.Split(".");
+                                                if (dura_is_decimal)
+                                                {
+                                                    duration_hr = Int32.Parse(dura_arr[0]);
 
 
-                                        </td>
-                                        <td class="col-md-1">
-                                            @if (ser.status == 1)
-                                            {
-                                                <button data-bs-toggle="modal" data-bs-target="@("#ratespModal"+ser.service_id)" class="sh_ratesp">Rate SP</button>
-                                            }
 
-                                        </td>
-                                    </tr>
+                                                    if (Int32.Parse(dura_arr[1]) != 0)
+                                                    {
+                                                        duration_min = 30;
+                                                    }
+                                                    else
+                                                    {
+                                                        duration_min = 0;
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    duration_hr = Int32.Parse(dura_str);
+                                                    duration_min = 0;
 
-                                    <div class="modal fade ratesp_modal" id="@("ratespModal"+ser.service_id)" aria-labelledby="servicedetailModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog modal-dialog-centered justify-content-center">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <div class="row sp_ratings">
-                                                        <div class="col-sm-3 sh_rate_cap_border ">
-                                                            <img src="/images/default-sp-large.png" id="cap">
-                                                        </div>
-                                                        <div class="col-sm-9 pt-3">
-                                                            <p class="">
-                                                                Lyum Watson<br>
-                                                                <img src="/images/star1.png">
-                                                                <img src="/images/star1.png">
-                                                                <img src="/images/star1.png">
-                                                                <img src="/images/star1.png">
-                                                                <img src="/images/star2.png">
-                                                                4
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <div class="row">
-                                                        <label>Rate your Service Provider</label>
-                                                    </div>
-                                                    <div class="row pt-2">
-                                                        <hr class="seperator">
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-sm-5">
-                                                            <label>On Time Arrival</label>
-                                                        </div>
-                                                        <div class="col-sm-4 d-flex rating_stars">
-                                                            <img height="20" width="20" id="@("ota_1"+ser.service_id)" src="/images/star2.png">
-                                                            <img height="20" width="20" id="@("ota_2"+ser.service_id)" src="/images/star2.png">
-                                                            <img height="20" width="20" id="@("ota_3"+ser.service_id)" src="/images/star2.png">
-                                                            <img height="20" width="20" id="@("ota_4"+ser.service_id)" src="/images/star2.png">
-                                                            <img height="20" width="20" id="@("ota_5"+ser.service_id)" src="/images/star2.png">
-                                                        </div>
-                                                    </div>
-                                                    <div class="row pt-2">
-                                                        <div class="col-sm-5">
-                                                            <label>Friendly</label>
-                                                        </div>
-                                                        <div class="col-sm-4 d-flex rating_stars">
-                                                            <img height="20" width="20" id="@("frnd_1"+ser.service_id)" src="/images/star2.png">
-                                                            <img height="20" width="20" id="@("frnd_2"+ser.service_id)" src="/images/star2.png">
-                                                            <img height="20" width="20" id="@("frnd_3"+ser.service_id)" src="/images/star2.png">
-                                                            <img height="20" width="20" id="@("frnd_4"+ser.service_id)" src="/images/star2.png">
-                                                            <img height="20" width="20" id="@("frnd_5"+ser.service_id)" src="/images/star2.png">
-                                                        </div>
-                                                    </div>
-                                                    <div class="row pt-2">
-                                                        <div class="col-sm-5">
-                                                            <label>Quality of Service</label>
-                                                        </div>
-                                                        <div class="col-sm-4 d-flex rating_stars">
-                                                            <img height="20" width="20" id="@("qos_1"+ser.service_id)" src="/images/star2.png">
-                                                            <img height="20" width="20" id="@("qos_2"+ser.service_id)" src="/images/star2.png">
-                                                            <img height="20" width="20" id="@("qos_3"+ser.service_id)" src="/images/star2.png">
-                                                            <img height="20" width="20" id="@("qos_4"+ser.service_id)" src="/images/star2.png">
-                                                            <img height="20" width="20" id="@("qos_5"+ser.service_id)" src="/images/star2.png">
-                                                        </div>
-                                                    </div>
-                                                    <div class="row pt-2">
-                                                        <hr class="seperator">
-                                                    </div>
-                                                    <div class="row">
-                                                        <label>Feedback on Service Provider</label>
-                                                    </div>
-                                                    <div class="row">
-                                                        <textarea class="form-control sp_rate_textarea"></textarea>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-sm-3">
-                                                            <button class="service_reschedule_btn" type="button">Submit</button>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <input type="hidden" id="@("hidden_ota"+ser.service_id)" />
-                                                        <input type="hidden" id="@("hidden_frnd"+ser.service_id)" />
-                                                        <input type="hidden" id="@("hidden_qos"+ser.service_id)" />
-                                                    </div>
+                                                }
 
-                                                </div>
 
-                                            </div>
+                                                TimeSpan end_time_cal = new TimeSpan(duration_hr, duration_min, 0);
+
+                                                end_time = end_time + end_time_cal;
+
+
+                                                string end_str = end_time.ToString();
+                                                string end = end_str.Substring(10, 6);
+
+                                                string date_str = ser.service_date.ToString();
+                                                string date = date_str.Substring(0, 10);
+                                                string start = date_str.Substring(10, 6);
+                                                double rating = Convert.ToDouble(ser.sp_rating);
+                                                int rate_int = Convert.ToInt32(rating);
+                            <tr class="sp_details pt-3">
+                                <td class="col-md-1 col-sm-9">
+                                    <p>@ser.service_id</p>
+                                </td>
+                                <td class="col-md-3">
+                                    <div class="">
+                                        <p>
+                                            <img src="/images/calendar.png"> <b>@date</b><br>
+                                            @start - @end
+                                        </p>
+                                    </div>
+                                </td>
+                                <td class="col-md-3 ">
+                                    <div class="row">
+                                        <div class="col-sm-3 sh_cap_border ">
+                                            <img src="/images/cap.png" id="cap">
+                                        </div>
+                                        <div class="col-sm-9 ">
+                                            <p>
+                                                @ser.sp_name<br>
+                                                @for (int i = 0; i < rate_int; i++)
+                                                {
+                            <img src="/images/star1.png">}
+                                                @for (int i = rate_int; i < 5; i++)
+                                                {
+                            <img src="/images/star2.png">}
+                                                @rating
+                                            </p>
                                         </div>
                                     </div>
-                                }
-                            }
-                        }
+                                </td>
+                                <td class="col-md-2 sh_payment">
+                                    € @ser.service_amount
+                                </td>
+                                <td class="col-md-2 sh_status align-items-center pt-1">
+                                    @if (ser.status == 2)
+                                    {
+                <div class="sh_status_completed">
+                    Completed
+                </div> }
+                                    else
+                                    {
+                <div class="sh_status_cancelled">
+                    Cancelled
+                </div>}
+
+
+                                </td>
+                                <td class="col-md-1">
+                                    @if (ser.status == 2)
+                                    {
+                <button data-bs-toggle="modal" data-bs-target="@("#ratespModal"+ser.service_id)" class="sh_ratesp">Rate SP</button>}
+
+                                </td>
+                            </tr>
+
+                                                <div class="modal fade ratesp_modal" id="@("ratespModal"+ser.service_id)" aria-labelledby="servicedetailModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered justify-content-center">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <div class="row sp_ratings">
+                                                                    <div class="col-sm-3 sh_rate_cap_border ">
+                                                                        <img src="/images/default-sp-large.png" id="cap">
+                                                                    </div>
+                                                                    <div class="col-sm-9 pt-3">
+                                                                        <p class="">
+                                                                            @ser.sp_name<br>
+                                                                            @for (int i = 0; i < rate_int; i++)
+                                                                            {
+                                                        <img src="/images/star1.png">}
+                                                                            @for (int i = rate_int; i < 5; i++)
+                                                                            {
+                                                        <img src="/images/star2.png">}
+                                                                            @rating
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <div class="row">
+                                                                    <label>Rate your Service Provider</label>
+                                                                </div>
+                                                                <div class="row pt-2">
+                                                                    <hr class="seperator">
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-sm-5">
+                                                                        <label>On Time Arrival</label>
+                                                                    </div>
+                                                                    <div class="col-sm-4 d-flex rating_stars">
+                                                                        <img height="20" width="20" id="@("ota_1"+ser.service_id)" src="/images/star2.png">
+                                                                        <img height="20" width="20" id="@("ota_2"+ser.service_id)" src="/images/star2.png">
+                                                                        <img height="20" width="20" id="@("ota_3"+ser.service_id)" src="/images/star2.png">
+                                                                        <img height="20" width="20" id="@("ota_4"+ser.service_id)" src="/images/star2.png">
+                                                                        <img height="20" width="20" id="@("ota_5"+ser.service_id)" src="/images/star2.png">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row pt-2">
+                                                                    <div class="col-sm-5">
+                                                                        <label>Friendly</label>
+                                                                    </div>
+                                                                    <div class="col-sm-4 d-flex rating_stars">
+                                                                        <img height="20" width="20" id="@("frnd_1"+ser.service_id)" src="/images/star2.png">
+                                                                        <img height="20" width="20" id="@("frnd_2"+ser.service_id)" src="/images/star2.png">
+                                                                        <img height="20" width="20" id="@("frnd_3"+ser.service_id)" src="/images/star2.png">
+                                                                        <img height="20" width="20" id="@("frnd_4"+ser.service_id)" src="/images/star2.png">
+                                                                        <img height="20" width="20" id="@("frnd_5"+ser.service_id)" src="/images/star2.png">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row pt-2">
+                                                                    <div class="col-sm-5">
+                                                                        <label>Quality of Service</label>
+                                                                    </div>
+                                                                    <div class="col-sm-4 d-flex rating_stars">
+                                                                        <img height="20" width="20" id="@("qos_1"+ser.service_id)" src="/images/star2.png">
+                                                                        <img height="20" width="20" id="@("qos_2"+ser.service_id)" src="/images/star2.png">
+                                                                        <img height="20" width="20" id="@("qos_3"+ser.service_id)" src="/images/star2.png">
+                                                                        <img height="20" width="20" id="@("qos_4"+ser.service_id)" src="/images/star2.png">
+                                                                        <img height="20" width="20" id="@("qos_5"+ser.service_id)" src="/images/star2.png">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row pt-2">
+                                                                    <hr class="seperator">
+                                                                </div>
+                                                                <div class="row">
+                                                                    <label>Feedback on Service Provider</label>
+                                                                </div>
+                                                                <form asp-action="sp_rating" asp-controller="Home" class="row">
+                                                                    <div class="col-sm-12">
+                                                                        <div class="row">
+                                                                            <textarea asp-for="feedback" class="form-control sp_rate_textarea"></textarea>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <input asp-for="on_time_arrival" type="hidden" id="@("hidden_ota"+ser.service_id)" />
+                                                                            <input asp-for="freindly" type="hidden" id="@("hidden_frnd"+ser.service_id)" />
+                                                                            <input asp-for="qualit_of_service" type="hidden" id="@("hidden_qos"+ser.service_id)" />
+                                                                            <input asp-for="rate_ser_id" value="@ser.service_id" type="hidden" />
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-sm-3">
+                                                                                <button data-bs-dismiss="modal" class="service_reschedule_btn" type="submit">Submit</button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </form>
+
+
+
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div> }
+                                                            } }
 
 
 

@@ -10,7 +10,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@ViewBag.Title</title>
     <link rel="shortcut icon" href="/images/favicon_img.png" type="image/x-icon">
-
     <script src="~/lib/jquery/jquery.js"></script>
     <script src="~/lib/jquery-validate/jquery.validate.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
@@ -29,14 +28,16 @@
         <!-- desktop view nav start -->
         <nav class="serviceHistory-nav navbar navbar-expand-lg navbar-dark p-0 fixed-top " id="serHistoryNav">
             <div class="container-fluid">
-                <a asp-action="Index" asp-controller="Home" class="navbar-brand px-15">
+                <a class="navbar-brand px-15" href="#">
                     <img src="/images/logo-small.png">
                 </a>
                 <div class="" id="navbarSupportedContent">
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0 us-nav text-center align-items-center">
-                        <li class="nav-item">
-                            <a class="sh-sp-btn faq_active" asp-action="BookService" asp-controller="Home">Book now</a>
-                        </li>
+                        @if (HttpContextAccessor.HttpContext.Session.GetString("UserTypeId") == "1")
+                        {
+            <li class="nav-item">
+                <a class="sh-sp-btn faq_active" asp-action="book_service" asp-controller="Home">Book now</a>
+            </li>}
                         <li class="nav-item">
                             <a class="none_active" asp-action="Price" asp-controller="Home">Prices & services</a>
                         </li>
@@ -63,31 +64,49 @@
                                 <li>
                                     <div class="login_info_container ms-2">
                                         <div class="login_welcome_txt">Welcome</div>
-                                        <div class="login_welcome_name">@HttpContextAccessor.HttpContext.Session.GetString("FirstName")</div>
+                                        <div class="login_welcome_name">@HttpContextAccessor.HttpContext.Session.GetString("UserName")</div>
                                     </div>
                                     <div>
                                         <hr class="seperator no_mar" />
                                     </div>
                                 </li>
+                                @if (HttpContextAccessor.HttpContext.Session.GetString("UserTypeId") == "1")
+                                {
+                    <li>
+                        <a class="dropdown-item" asp-action="dashboard" asp-controller="Home">
+                            My Dashboard
+                        </a>
+                    </li>
+                                    <li>
+                                        <a class="dropdown-item" asp-action="mySetting" asp-controller="Home">
+                                            My Settings
+                                        </a>
+                                    </li>
+                                                    <li>
+                                                        <a class="dropdown-item" asp-action="Logout" asp-controller="Home">
+                                                            Logout
+                                                        </a>
+                                                    </li>}
+                                @if (HttpContextAccessor.HttpContext.Session.GetString("UserTypeId") == "2")
+                                {
+                    <li>
+                        <a class="dropdown-item">
+                            My Dashboard
+                        </a>
+                    </li>
+                                    <li>
+                                        <a class="dropdown-item" asp-action="spMySetting" asp-controller="Home">
+                                            My Settings
+                                        </a>
+                                    </li>
+                                                    <li>
+                                                        <a class="dropdown-item" asp-action="Logout" asp-controller="Home">
+                                                            Logout
+                                                        </a>
+                                                    </li>}
 
-                                <li>
-                                    <a class="dropdown-item" asp-action="dashboard" asp-controller="Home">
-                                        My Dashboard
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" asp-action="mySetting" asp-controller="Home">
-                                        My Settings
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" asp-action="Logout" asp-controller="Home">
-                                        Logout
-                                    </a>
-                                </li>
 
                             </ul>
-
                         </li>
                     </ul>
                 </div>
@@ -98,7 +117,7 @@
         <nav class="shSmallNav serviceHistory-nav fixed-top" id="smSerHistoryNav">
             <div class="container-fluid">
                 <div class="smallNavlogo">
-                    <a asp-action="Index" asp-controller="Home"><img src="/images/logo-small.png" alt=""></a>
+                    <a href="#"><img src="/images/logo-small.png" alt=""></a>
                 </div>
                 <div class="smallNavNofitify">
                     <a class="m-2" href="#">
@@ -114,7 +133,7 @@
                     <div class="secondPart">
                         <div class="uName">
                             Welcome,<br>
-                            <strong>@HttpContextAccessor.HttpContext.Session.GetString("FirstName")</strong>
+                            <strong>Visvarajsinh</strong>
                         </div>
                         <hr class="smNavSeparator">
                         <div class="nav flex-column text-start dashNavSide" role="tablist" aria-orientation="vertical">
@@ -145,15 +164,18 @@
                         <div class="navItem"><a asp-action="mySetting" asp-controller="Home"> My Settings</a></div>
                         <div class="navItem"><a asp-action="Logout" asp-controller="Home"> Logout</a></div>
                         <hr class="smNavSeparator">
-                        <div class="navItem"><a asp-action="BookService" asp-controller="Home">Book Now</a></div>
+                        @if (HttpContextAccessor.HttpContext.Session.GetString("UserTypeId") == "1")
+                        {
+            <div class="navItem"><a href="#">Book Now</a></div>}
+
                         <div class="navItem"><a href="#">Plans & Services</a></div>
                         <div class="navItem"><a href="#">Warranty</a></div>
                         <div class="navItem"><a href="#">Blog</a></div>
-                        <div class="navItem"><a asp-action="Contact" asp-controller="Home">Contact>Contact</a></div>
+                        <div class="navItem"><a href="#">Contact</a></div>
                         <hr class="smNavSeparator">
                         <div class="d-flex justify-content-center align-items-center  socialIcon">
-                            <a href="https://www.facebook.com"><img class="fb-social" src="/images/facebook-mobile-menu.png" alt="Facebook"></a>
-                            <a href="https://www.instagram.com/"><img src="/images/instagram-mobile-menu.png" alt="Instagram"></a>
+                            <img class="fb-social" src="/images/facebook-mobile-menu.png" alt="Facebook">
+                            <img src="/images/instagram-mobile-menu.png" alt="Instagram">
                         </div>
                     </div>
                 </div>
@@ -273,52 +295,56 @@
     <script src="https://cdn.datatables.net/buttons/2.1.0/js/dataTables.buttons.min.js"></script>
 
 
-    @*https://code.jquery.com/jquery-3.5.1.js*@
-    @*https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js*@
-   @* https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js*@
-  @* <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>*@
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-   <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
-   <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
 
+   
     <script src="~/js/general.js"></script>
 
-
+    @if (ViewBag.after_rate != null)
+    {
+<script>
+    if ($('#v-pills-mySetting').hasClass('show')) {
+        $('#v-pills-mySetting').removeClass('show');
+        $('#v-pills-mySetting').removeClass('active');
+    }
+    $('#ServiceHistory-li').addClass('active');
+    $('#v-pills-sh').addClass('show');
+    $('#v-pills-sh').addClass('active');
+</script>}
     @if (ViewBag.showDash != null)
     {
-        <script>
-            if ($('#v-pills-mySetting').hasClass('show')) {
-                $('#v-pills-mySetting').removeClass('show');
-                $('#v-pills-mySetting').removeClass('active');
-            }
-            $('#Dashboard-li').addClass('active');
-            $('#v-pills-dashboard').addClass('show');
-            $('#v-pills-dashboard').addClass('active');
-        </script>
+<script>
+    if ($('#v-pills-mySetting').hasClass('show')) {
+        $('#v-pills-mySetting').removeClass('show');
+        $('#v-pills-mySetting').removeClass('active');
     }
+    $('#Dashboard-li').addClass('active');
+    $('#v-pills-dashboard').addClass('show');
+    $('#v-pills-dashboard').addClass('active');
+</script>}
 
     @if (ViewBag.datasave != null)
     {
-        <script>
-            var myModal = new bootstrap.Modal(document.getElementById("datasaveModal"), {});
-            document.onreadystatechange = function () {
-                myModal.show();
-            };
-        </script>
-    }
+<script>
+    var myModal = new bootstrap.Modal(document.getElementById("datasaveModal"), {});
+    document.onreadystatechange = function () {
+        myModal.show();
+    };
+</script>}
 
     @if (ViewBag.add_change != null)
     {
-        <script>
-            $('#ms_head_2').click();
-            $('#myDetails').removeClass('show');
-            $('#myDetails').removeClass('active');
+<script>
+    $('#ms_head_2').click();
+    $('#myDetails').removeClass('show');
+    $('#myDetails').removeClass('active');
 
-            $('#myAddresses').addClass('active');
-            $('#myAddresses').addClass('show');
-        </script>
-    }
+    $('#myAddresses').addClass('active');
+    $('#myAddresses').addClass('show');
+</script>}
 
     @if (ViewBag.fetched_ms_data != null)
     {
@@ -326,7 +352,7 @@
         {
             foreach (var ser in Model.pastServices)
             {
-                <script>
+<script>
                     console.log('this is called');
                     //---------------------------------------service provider rating---------------------------------
                     var @("ota_1"+ser.service_id) = document.getElementById("@("ota_1"+ser.service_id)");
@@ -472,17 +498,15 @@
                         @("qos_5"+ser.service_id).src = "/images/star1.png";
                         $('@("#hidden_qos"+ser.service_id)').val('5');
                     })
-                </script>
-            }
-        }
-        <script>
+</script> }
+                }
+<script>
             console.log("customerpage layout script");
             $('#ms_fname').val("@ViewBag.fname");
             $('#ms_lname').val("@ViewBag.lname");
             $('#ms_email').val("@ViewBag.email");
             $('#ms_phone').val("@ViewBag.phone");
-    $('#DOB_day').val(@ViewBag.DOB_day);
-    console.log(@ViewBag.DOB_day);
+            $('#DOB_day').val(@ViewBag.DOB_day);
             $('#DOB_month').val(@ViewBag.DOB_month);
             $('#DOB_year').val(@ViewBag.DOB_year);
             $('#Language').val(@ViewBag.lang);
@@ -510,7 +534,6 @@
                         },
                         'info': "Total Record: _MAX_",
                     }
-                    
                 });
                 $(".buttons-pdf").hide();
                 $(".buttons-copy").hide();
@@ -521,7 +544,6 @@
                     $(".buttons-csv").trigger("click");
                 });
             });
-            
             // ----------------------------- datatable jquery -----------------------------------------
             $(document).ready(function () {
                 $('#dataTable').DataTable({
@@ -542,43 +564,152 @@
                         'info': "Total Record: _MAX_",
                     }
                 });
+                $(".buttons-pdf").hide();
+                $(".buttons-copy").hide();
+                $(".buttons-csv").hide();
+                $(".buttons-print").hide();
             })
 
-        </script>
-
-
-
-
-
-    }
-    @if (HttpContextAccessor.HttpContext.Session.GetString("oldpass") != null)
+</script>}
+    @if (HttpContextAccessor.HttpContext.Session.GetString("oldpass") == "notok")
     {
-        <script>
-            console.log("hello");
-            $('#ms_head_3').click();
-            $('#myDetails').removeClass('show');
-            $('#myDetails').removeClass('active');
+<script>
+    console.log("hello");
+    $('#ms_head_3').click();
+    $('#myDetails').removeClass('show');
+    $('#myDetails').removeClass('active');
 
-            $('#myChangepass').addClass('active');
-            $('#myChangepass').addClass('show');
-            $('#wrongPass').show();
-        </script>
-    }
-    else
-    {
-        <script>
-            $('#wrongPass').hide();
-        </script>
-    }
+    $('#myChangepass').addClass('active');
+    $('#myChangepass').addClass('show');
+    $('#wrongPass').show();
+</script> }
+            else
+            {
+<script>
+    $('#ms_head_1').click();
+    $('#myDetails').addClass('show');
+    $('#myDetails').addClass('active');
+
+    $('#myChangepass').removeClass('active');
+    $('#myChangepass').removeClass('show');
+    $('#wrongPass').hide();
+</script>}
     @if (ViewBag.showPassModal != null)
     {
-        <script>
-            console.log("show pass modal");
-            var myModal = new bootstrap.Modal(document.getElementById("passchangeModal"), {});
-            document.onreadystatechange = function () {
-                myModal.show();
-            };
-        </script>
-    }
+<script>
+    console.log("show pass modal");
+    var myModal = new bootstrap.Modal(document.getElementById("passchangeModal"), {});
+    document.onreadystatechange = function () {
+        myModal.show();
+    };
+</script>}
+    @if (ViewBag.spmysetting != null)
+    {
+<script>
+    $(document).ready(function () {
+        $("#spshTable").DataTable({
+            "dom": 'Bt<"table-bottom d-flex justify-content-between"<"table-bottom-inner d-flex"li>p>',
+            "pagingType": "full_numbers",
+            "searching": false,
+            'columnDefs': [{
+                'targets': [2],
+                'orderable': false,
+            }],
+            "language": {
+                "paginate": {
+                    "first": '<img src="/images/leftMost.png" alt="">',
+                    "last": '<img src="/images/RightMost.png" alt="">',
+                    "previous": '<img src="/images/Left-arrow-button-copy.png" alt="">',
+                    "next": '<img src="/images/Right-arrow-button.png" alt="">'
+                },
+                'info': "Total Record: _MAX_",
+            }
+        });
+    });
+
+    $(document).ready(function () {
+        $("#spmrTable").DataTable({
+            "dom": 'Bt<"table-bottom d-flex justify-content-between"<"table-bottom-inner d-flex"li>p>',
+            "pagingType": "full_numbers",
+            "searching": false,
+            'columnDefs': [{
+                'targets': [0],
+                'orderable': false,
+            }],
+            "language": {
+                "paginate": {
+                    "first": '<img src="/images/leftMost.png" alt="">',
+                    "last": '<img src="/images/RightMost.png" alt="">',
+                    "previous": '<img src="/images/Left-arrow-button-copy.png" alt="">',
+                    "next": '<img src="/images/Right-arrow-button.png" alt="">'
+                },
+                'info': "Total Record: _MAX_",
+            }
+        });
+    });
+
+    $(document).ready(function () {
+        $("#spbcTable").DataTable({
+            "dom": 'Bt<"table-bottom d-flex justify-content-between"<"table-bottom-inner d-flex"li>p>',
+            "pagingType": "full_numbers",
+            "searching": false,
+            'columnDefs': [{
+                'targets': [0],
+                'orderable': false,
+            }],
+            "language": {
+                "paginate": {
+                    "first": '<img src="/images/leftMost.png" alt="">',
+                    "last": '<img src="/images/RightMost.png" alt="">',
+                    "previous": '<img src="/images/Left-arrow-button-copy.png" alt="">',
+                    "next": '<img src="/images/Right-arrow-button.png" alt="">'
+                },
+                'info': "Total Record: _MAX_",
+            }
+        });
+    });
+
+    $(document).ready(function () {
+        $("#spusTable").DataTable({
+            "dom": 'Bt<"table-bottom d-flex justify-content-between"<"table-bottom-inner d-flex"li>p>',
+            "pagingType": "full_numbers",
+            "searching": false,
+            'columnDefs': [{
+                'targets': [5],
+                'orderable': false,
+            }],
+            "language": {
+                "paginate": {
+                    "first": '<img src="/images/leftMost.png" alt="">',
+                    "last": '<img src="/images/RightMost.png" alt="">',
+                    "previous": '<img src="/images/Left-arrow-button-copy.png" alt="">',
+                    "next": '<img src="/images/Right-arrow-button.png" alt="">'
+                },
+                'info': "Total Record: _MAX_",
+            }
+        });
+    });
+
+    $(document).ready(function () {
+        $("#spnsrTable").DataTable({
+            "dom": 'Bt<"table-bottom d-flex justify-content-between"<"table-bottom-inner d-flex"li>p>',
+            "pagingType": "full_numbers",
+            "searching": false,
+            'columnDefs': [{
+                'targets': [5],
+                'orderable': false,
+            }],
+            "language": {
+                "paginate": {
+                    "first": '<img src="/images/leftMost.png" alt="">',
+                    "last": '<img src="/images/RightMost.png" alt="">',
+                    "previous": '<img src="/images/Left-arrow-button-copy.png" alt="">',
+                    "next": '<img src="/images/Right-arrow-button.png" alt="">'
+                },
+                'info': "Total Record: _MAX_",
+            }
+        });
+    });
+</script>}
 </body>
 </html>

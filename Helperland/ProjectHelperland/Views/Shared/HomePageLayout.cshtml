@@ -41,68 +41,123 @@
                             <a asp-action="BookService" asp-controller="Home" class="nav-item text-white head_item home_active">Book a Cleaner</a>
                         </li>
                     }
-                
 
-                                <li class="nav-item no_active">
-                                    <a asp-action="Price" asp-controller="Home" class="nav-item text-white head_item none_active">Prices</a>
-                                </li>
-                                                <li class="nav-item no_active">
-                                                    <a href="#" class="nav-item text-white head_item none_active">Our Guarantee</a>
-                                                </li>
-                                                                <li class="nav-item no_active">
-                                                                    <a href="#" class="nav-item text-white head_item none_active">Blog</a>
-                                                                </li>
-                                                                                <li class="nav-item no_active">
-                                                                                    <a asp-action="Contact" asp-controller="Home" class="nav-item text-white head_item none_active">Contact Us</a>
 
-                                                                                </li>
-                                                                                                <li class="nav-item">
-                                                                                                    <a asp-action="SpSignUp" asp-controller="Home" class="nav-item text-white head_item home_active">Become a Helper</a>
-                                                                                                </li>
-                                                                                                                @if (HttpContextAccessor.HttpContext.Session.GetString("FirstName") == null)
-                                                                                                                {
-                                                                                                <li class="nav-item">
-                                                                                                    <a href="#" class="nav-item text-white head_item home_active" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                                                                                        Login
-                                                                                                    </a>
-                                                                                                </li> }
-                                                                                                                else
-                                                                                                                {
-                                                                                                <li>
-                                                                                                    <div class="vertical_line">
-                                                                                                    </div>
-                                                                                                </li>
-                                                                                                                    <li class="notification">
-                                                                                                                        <div class="align-items-center justify-content-center" id="notification">
-                                                                                                                            <a href="#"><img src="/images/icon-notification.png"></a>
-                                                                                                                        </div>
-                                                                                                                    </li>
-                                                                                                                                        <li>
-                                                                                                                                            <div class="vertical_line">
-                                                                                                                                            </div>
-                                                                                                                                        </li>
-                                                                                                                                                            <li class="dropdown">
-                                                                                                                                                                <a class="nav-link" id="drpdwn" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                                                                                                                    <img src="/images/user.png" class="arow">
-                                                                                                                                                                    <img src="/images/sp-arrow-down.png">
-                                                                                                                                                                </a>
-                                                                                                                                                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                                                                                                                                                    <li>
-                                                                                                                                                                        <a class="dropdown-item" asp-action="dashboard" asp-controller="Home">My Dashboard</a>
-                                                                                                                                                                    </li>
-                                                                                                                                                                    <li>
-                                                                                                                                                                        <a class="dropdown-item" asp-action="mySetting" asp-controller="Home">My Setting</a>
-                                                                                                                                                                    </li>
-                                                                                                                                                                    
-                                                                                                                                                                    <li>
-                                                                                                                                                                        <a class="dropdown-item" asp-action="Logout" asp-controller="Home">Logout</a>
-                                                                                                                                                                    </li>
-                                                                                                                                                                </ul>
-                                                                                                                                                            </li>
+                    <li class="nav-item no_active">
+                        <a asp-action="Price" asp-controller="Home" class="nav-item text-white head_item none_active">Prices</a>
+                    </li>
+                    <li class="nav-item no_active">
+                        <a href="#" class="nav-item text-white head_item none_active">Our Guarantee</a>
+                    </li>
+                    <li class="nav-item no_active">
+                        <a href="#" class="nav-item text-white head_item none_active">Blog</a>
+                    </li>
+                    <li class="nav-item no_active">
+                        <a asp-action="Contact" asp-controller="Home" class="nav-item text-white head_item none_active">Contact Us</a>
 
-                                                                                                                            @*</ul>*@
-                                                                                                                }
-            </div>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-action="SpSignUp" asp-controller="Home" class="nav-item text-white head_item home_active">Become a Helper</a>
+                    </li>
+                    @if (HttpContextAccessor.HttpContext.Session.GetString("loggedIn") == null)
+                    {
+                        <li class="nav-item">
+                            <a href="#" class="nav-item text-white head_item home_active" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                Login
+                            </a>
+                        </li>
+                    }
+                    else
+                    {
+                        @if (HttpContextAccessor.HttpContext.Session.GetString("UserTypeId") == "1")
+                        {
+                            <li>
+                                <div class="vertical_line">
+                                </div>
+                            </li>
+                            <li class="notification">
+                                <div class="align-items-center justify-content-center" id="notification">
+                                    <a href="#"><img src="/images/icon-notification.png"></a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="vertical_line">
+                                </div>
+                            </li>
+                            <li class="dropdown">
+                                <a class="nav-link" id="drpdwn" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <img src="/images/user.png" class="arow">
+                                    <img src="/images/sp-arrow-down.png">
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    <li>
+                                        <a class="dropdown-item" asp-action="dashboard" asp-controller="Home">My Dashboard</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" asp-action="mySetting" asp-controller="Home">My Setting</a>
+                                    </li>
+
+                                    <li>
+                                        <a class="dropdown-item" asp-action="Logout" asp-controller="Home">Logout</a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                        }
+
+                        @if(HttpContextAccessor.HttpContext.Session.GetString("UserTypeId") == "2") 
+                        { 
+                            <li>
+                                <div class="vertical_line">
+
+                                </div>
+                            </li>
+                            <li class="notification">
+                                <div class="align-items-center justify-content-center" id="notification">
+                                    <a href="#"><img src="/images/icon-notification.png"></a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="vertical_line">
+
+                                </div>
+                            </li>
+                            <li class="dropdown no_active sp_user">
+                                <a class="nav-link dropdown-toggle" id="drpdwn" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <img src="/images/user.png">
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    <li>
+                                        <div class="login_info_container">
+                                            <div class="login_welcome_txt">Welcome</div>
+                                            <div class="login_welcome_name">@HttpContextAccessor.HttpContext.Session.GetString("UserName")</div>
+                                        </div>
+                                        <div>
+                                            <hr class="seperator no_mar" />
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <a asp-action="spNewServices" asp-controller="Home" class="dropdown-item">
+                                            New Services
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" asp-action="spMySetting" asp-controller="Home">
+                                            My Settings
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" asp-action="Logout" asp-controller="Home">
+                                            Logout
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </li>
+                        }
+                    }
+                </ul>
+</div>
         </div>
     </nav>
 

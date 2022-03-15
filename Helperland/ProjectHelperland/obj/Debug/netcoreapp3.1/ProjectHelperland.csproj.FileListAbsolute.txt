@@ -161,3 +161,7 @@ C:\Users\VISVARAJSINH\Desktop\Project\Helperland\ProjectHelperland\obj\Debug\net
 C:\Users\VISVARAJSINH\Desktop\Project\Helperland\ProjectHelperland\obj\Debug\netcoreapp3.1\Razor\Views\Home\BookService.cshtml.g.cs
 C:\Users\VISVARAJSINH\Desktop\Project\Helperland\ProjectHelperland\obj\Debug\netcoreapp3.1\Razor\Views\Shared\CustomerServiceLayout.cshtml.g.cs
 C:\Users\VISVARAJSINH\Desktop\Project\Helperland\ProjectHelperland\obj\Debug\netcoreapp3.1\Razor\Views\Home\MySetting.cshtml.g.cs
+C:\Users\VISVARAJSINH\Desktop\Project\Helperland\ProjectHelperland\obj\Debug\netcoreapp3.1\Razor\Views\Home\Admin.cshtml.g.cs
+C:\Users\VISVARAJSINH\Desktop\Project\Helperland\ProjectHelperland\obj\Debug\netcoreapp3.1\Razor\Views\Home\spMySetting.cshtml.g.cs
+C:\Users\VISVARAJSINH\Desktop\Project\Helperland\ProjectHelperland\obj\Debug\netcoreapp3.1\Razor\Views\Shared\AdminPageLayout.cshtml.g.cs
+C:\Users\VISVARAJSINH\Desktop\Project\Helperland\ProjectHelperland\obj\Debug\netcoreapp3.1\Razor\Views\Shared\ServiceProviderPageLayout.cshtml.g.cs

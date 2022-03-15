@@ -32,22 +32,18 @@ namespace ProjectHelperland.Controllers
                                  splist.FirstName,
                                  splist.LastName
                              }).ToList();
+            if (spdetails.FirstOrDefault() != null)
+            {
+                HttpContext.Session.SetString("again_called", "spfound");
+                HttpContext.Session.SetString("zipcode", bookServiceViewModel.zipCodeViewModel.zipcode);
 
-                if (spdetails.FirstOrDefault() != null)
-                {
-                    HttpContext.Session.SetString("again_called", "spfound");
-                    HttpContext.Session.SetString("zipcode", bookServiceViewModel.zipCodeViewModel.zipcode);
-
-                    return RedirectToAction("BookService", "Home");
-                }
-                else
-                {
-                    HttpContext.Session.SetString("again_called", "temp");
-                    return RedirectToAction("BookService", "Home");
-                }
-            
-           
-           
+                return RedirectToAction("BookService", "Home");
+            }
+            else
+            {
+                HttpContext.Session.SetString("again_called", "temp");
+                return RedirectToAction("BookService", "Home");
+            }
         }
 
         [HttpPost]
@@ -92,6 +88,7 @@ namespace ProjectHelperland.Controllers
 
             Debug.WriteLine("this is service start time " + startdate);
             var get_ser_id = _helperlandContext.ServiceRequests.OrderBy(x => x.ServiceRequestId).Last(x => x.UserId == Int32.Parse(userid));
+            Debug.WriteLine("this is previous service id " + get_ser_id.ServiceId);
             ServiceRequest service = new ServiceRequest()
             {
                 UserId = Int32.Parse(userid),
@@ -105,11 +102,11 @@ namespace ProjectHelperland.Controllers
                 TotalCost = total,
                 PaymentDue = false,
                 HasPets = haspet,
+                Comments = bookServiceViewModel.ServiceRequestViewModel.comments,
                 CreatedDate = DateTime.Now,
                 ModifiedDate = DateTime.Now,
                 Distance = 10,
-                Status = 1,
-                Comments = bookServiceViewModel.ServiceRequestViewModel.comments
+                Status = 0
             };
             _helperlandContext.ServiceRequests.Add(service);
             _helperlandContext.SaveChanges();
@@ -165,30 +162,37 @@ namespace ProjectHelperland.Controllers
                                });
 
 
-                
-                    ServiceRequestAddress serviceRequestAddress = new ServiceRequestAddress()
-                    {
-                        ServiceRequestId = getservicerequestid,
-                        AddressLine1 = address.FirstOrDefault().addressline1,
-                        City = address.FirstOrDefault().city,
-                        PostalCode = address.FirstOrDefault().postalcode,
-                        Mobile = address.FirstOrDefault().phonenumber,
-                        Email = u_email.Email
 
-                    };
-                    _helperlandContext.ServiceRequestAddresses.Add(serviceRequestAddress);
-                    _helperlandContext.SaveChanges();
-                
-                
-               
+                ServiceRequestAddress serviceRequestAddress = new ServiceRequestAddress()
+                {
+                    ServiceRequestId = getservicerequestid,
+                    AddressLine1 = address.FirstOrDefault().addressline1,
+                    City = address.FirstOrDefault().city,
+                    PostalCode = address.FirstOrDefault().postalcode,
+                    Mobile = address.FirstOrDefault().phonenumber,
+                    Email = u_email.Email
+
+                };
+                _helperlandContext.ServiceRequestAddresses.Add(serviceRequestAddress);
+                _helperlandContext.SaveChanges();
             }
-
-
+            Rating rating = new Rating()
+            {
+                ServiceRequestId = getservicerequestid,
+                RatingFrom = Int32.Parse(userid),
+                RatingTo = 1,
+                Ratings = 0,
+                RatingDate = DateTime.Now,
+                OnTimeArrival = 0,
+                Friendly = 0,
+                QualityOfService = 0
+            };
+            _helperlandContext.Ratings.Add(rating);
+            _helperlandContext.SaveChanges();
             HttpContext.Session.SetString("showBookSuccess", "yes");
 
             HttpContext.Session.SetInt32("serviceRequestID", getservicerequestid);
             return View("~/Views/Home/Index.cshtml");
         }
-
     }
 }

@@ -56,9 +56,17 @@
                         <a asp-action="Contact" asp-controller="Home" class="nav-item text-white head_item none_active">Contact Us</a>
 
                     </li>
-                    <li class="nav-item">
-                        <a asp-action="SpSignUp" asp-controller="Home" class="nav-item text-white head_item home_active">Become a Helper</a>
-                    </li>
+                    @if (HttpContextAccessor.HttpContext.Session.GetString("UserTypeId") == "2")
+                    {
+                        @*<li class="nav-item"> </li>*@
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a asp-action="SpSignUp" asp-controller="Home" class="nav-item text-white head_item home_active">Become a Helper</a>
+                        </li>
+                    }
+
                     @if (HttpContextAccessor.HttpContext.Session.GetString("loggedIn") == null)
                     {
                         <li class="nav-item">
@@ -105,8 +113,8 @@
 
                         }
 
-                        @if(HttpContextAccessor.HttpContext.Session.GetString("UserTypeId") == "2") 
-                        { 
+                        @if (HttpContextAccessor.HttpContext.Session.GetString("UserTypeId") == "2")
+                        {
                             <li>
                                 <div class="vertical_line">
 
@@ -128,7 +136,7 @@
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                     <li>
-                                        <div class="login_info_container">
+                                        <div class="login_info_container  ms-2">
                                             <div class="login_welcome_txt">Welcome</div>
                                             <div class="login_welcome_name">@HttpContextAccessor.HttpContext.Session.GetString("UserName")</div>
                                         </div>
@@ -157,7 +165,7 @@
                         }
                     }
                 </ul>
-</div>
+            </div>
         </div>
     </nav>
 
@@ -184,7 +192,7 @@
                         <div class="col-12">
                             <div class="form-check">
                                 <input asp-for="RememberMe" class="form-check-input" type="checkbox" id="gridCheck">
-                                <label class="form-check-label" for="gridCheck">
+                                <label class="form-check-label check_label" for="gridCheck">
                                     Remember me
                                 </label>
                             </div>
@@ -275,6 +283,30 @@
         </div>
     </div>
     <!-- Forgot Password Modal End -->
+    <!-- booking successfully submitted modal -->
+    <div class="modal fade" id="bookingsuccessModal" aria-labelledby="bookingsuccessModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered justify-content-center">
+            <div class="modal-content">
+                <div class="modal-header justify-content-center">
+                    <img src="/images/yes-tickmark.png" alt="success" />
+                </div>
+                <div class="modal-body">
+                    <div class="modal_register">
+                        Booking has been  Successfully submitted
+                    </div>
+                    <div class="modal_register text-center">
+                        Service Request ID : @HttpContextAccessor.HttpContext.Session.GetInt32("serviceRequestID")
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-center login-btn">
+                    <button type="submit" data-bs-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- booking successfully submitted modal end-->
+
+
     <div>
         @RenderBody()
     </div>
@@ -343,6 +375,16 @@
 
 
     <script src="~/js/general.js"></script>
+
+    <script>
+            var email = '@HttpContextAccessor.HttpContext.Request.Cookies["Email"]';
+
+            var pass = '@HttpContextAccessor.HttpContext.Request.Cookies["Password"]';
+
+        $('#log_Email').val(email);
+        $('#log_Pass').val(pass);
+    </script>
+
     @if (ViewBag.message_mail != null && ViewBag.message_pass != null)
     {
         <script>
@@ -391,13 +433,25 @@
 
     @if (ViewBag.successModal != null)
     {
-<script>
+        <script>
    @* console.log("IT IZ WORKING!!!>>>");*@
     var sucModal = new bootstrap.Modal(document.getElementById("successModal"), {});
     document.onreadystatechange = function () {
         sucModal.show();
     };
-</script>}
+        </script>
+    }
+
+    @if (HttpContextAccessor.HttpContext.Session.GetString("showBookSuccess") != null)
+    {
+        <script>
+
+            var myModal = new bootstrap.Modal(document.getElementById("bookingsuccessModal"), {});
+            document.onreadystatechange = function () {
+                myModal.show();
+            };
+        </script>
+    }
 
 
 </body>

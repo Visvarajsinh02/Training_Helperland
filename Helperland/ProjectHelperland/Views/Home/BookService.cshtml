@@ -1,4 +1,7 @@
-﻿@model ProjectHelperland.ViewModel.BookServiceViewModel
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@model ProjectHelperland.ViewModel.BookServiceViewModel
 @{
     ViewData["Title"] = "BookService";
     Layout = "~/Views/Shared/PublicPageLayout.cshtml";
@@ -50,13 +53,13 @@
                             </li>
                         </ul>
 
-                        <form id="postcode_form"  class="bathsec" asp-action="CheckPostalCode" asp-controller="UserBookService">
+                        <form id="postcode_form" class="bathsec" asp-action="CheckPostalCode" asp-controller="UserBookService">
                             <div class="ss_step_1">
                                 <p class="fw-bold">Enter Your Postal Code: </p>
                                 <div class="bed-row">
                                     <div class="postcode">
-                                        <input asp-for="zipCodeViewModel.zipcode" type="tel" class="form-control" placeholder="Postal code" required>
-                                        <span  asp-validation-for="zipCodeViewModel.zipcode" class="text-danger"></span>
+                                        <input asp-for="zipCodeViewModel.zipcode" type="tel" class="form-control" placeholder="Postal code" pattern="[0-9]{10}" onkeypress="return (event.charCode !=8 && event.charCode ==0 || ( event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)))">
+                                        <span asp-validation-for="zipCodeViewModel.zipcode" class="text-danger"></span>
                                     </div>
                                     <div class="bt book">
                                         <button type="submit" class="c_sub_btn postal_check_btn"><h3>Check Availability</h3></button>
@@ -72,16 +75,18 @@
                                         <p class="fw-bold">When do you need the cleaner?</p>
                                         <div class="bed-row">
                                             <div class="col-sm-7 cal-dt">
-                                                <input asp-for="ServiceRequestViewModel.servicestartdate" type="text" id="service_date" class="form-control date_field"  onfocus="(this.type='date')" onblur="(this.type='text')" placeholder="01/01/1111" />
+                                                <input asp-for="ServiceRequestViewModel.servicestartdate" type="text" id="service_date" class="form-control date_field" onfocus="(this.type='date')" onblur="(this.type='text')" placeholder="01/01/1111"/>
                                                 <span class="date-button">
                                                     <img src="/images/admin-calendar-blue.png">
                                                 </span>
+                                                <p class="text-danger validate_date_empty fade">Select date & time</p>
                                             </div>
                                             <div class="col-sm-5 clock-container">
                                                 <input asp-for="ServiceRequestViewModel.servicestrarttime" id="service_time" type="time" placeholder="00:00" class="form-control">
                                                 <span class="clock-button">
                                                     <img src="/images/clock-blue.png">
                                                 </span>
+                                                <p class="text-danger validate_time fade">Please select time</p>
                                             </div>
                                         </div>
                                     </div>
@@ -90,14 +95,14 @@
                                         <div class="mg-right">
                                             <select asp-for="ServiceRequestViewModel.servicehours" id="basic_time" class="form-select bed-option">
                                                 <option selected value="3">3.0 Hrs</option>
-                                                
+
                                                 <option value="4">4.0 Hrs</option>
-                                                
+
                                                 <option value="5">5.0 Hrs</option>
-                                                
+
                                                 <option value="6">6.0 Hrs</option>
-                                                
-                                                
+
+
                                             </select>
                                         </div>
                                     </div>
@@ -199,7 +204,7 @@
                                                 {
                                                     <div class="row ss_address_radio" id="add1">
                                                         <div class="col-md-1 text-center">
-                                                            <input class="radio_address form-check-input" id="@data.id" name="ss_address" type="radio" />
+                                                            <input class="radio_address form-check-input" id="@data.id" name="ss_address" type="radio" required/>
                                                         </div>
                                                         <div class="col-md-7 align-items-center">
                                                             <div class="row pt-2">
@@ -234,11 +239,14 @@
                                     <div class="col-lg-1">
                                         <button class="newadd_btn mb-3 mt-2" type="button" name="newadd">+ Add New Address</button>
                                     </div>
+                                    <div>
+                                        <span id="add_validation" class="text-danger">Please select address</span>
+                                    </div>
                                     <div class="new_add fade">
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <p class="mb-1">Street</p>
-                                                <input asp-for="streetname" id="add_street" type="text"  class="form-control" placeholder="Street">
+                                                <input asp-for="streetname" id="add_street" type="text" class="form-control" placeholder="Street">
                                                 <div id="add_street_err" class="text-danger fade">
                                                     streetname required
                                                 </div>
@@ -252,7 +260,7 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <p class="mt-3 mb-1">Postcode</p>
-                                                <input asp-for="postalCode" id="add_postal" type="text" placeholder="Postalcode" class="form-control" onkeypress="return (event.charCode !=8 && event.charCode ==0 || ( event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)))" />
+                                                <input asp-for="postalCode" value="@HttpContextAccessor.HttpContext.Session.GetString("zipcode")" id="add_postal" type="text" placeholder="Postalcode" class="form-control" onkeypress="return (event.charCode !=8 && event.charCode ==0 || ( event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)))" disabled/>
 
                                             </div>
                                             <div class="col-md-6">
@@ -352,17 +360,18 @@
 
                                     <div class="row pt-2 accept_3_policy">
                                         <div class="col-md-1 pt-1">
-                                            <input type="checkbox" asp-for="checkPolicy" id="terms-book" class="check_box">
+                                            <input type="checkbox" asp-for="checkPolicy" id="terms-book" class="check_box" required>
                                         </div>
                                         <div class="col-md-11">
                                             <label class="check_label_book">
                                                 I accept <a href="#">terms and conditions </a>, the <a href="#">
-                                                  Cancellation Policy </a> and the <a href="#"> privacy policy</a>. 
-                                                I confirm that Helperland starts to execute the contract before the expiry of the withdrawal 
-                                                period and I loose my right of withdrawal as a consumer with full performance of the contract. 
+                                                    Cancellation Policy
+                                                </a> and the <a href="#"> privacy policy</a>.
+                                                I confirm that Helperland starts to execute the contract before the expiry of the withdrawal
+                                                period and I loose my right of withdrawal as a consumer with full performance of the contract.
                                             </label>
                                         </div>
-                                        @*<span asp-validation-for="checkPolicy" class="text-danger"></span>*@
+                                        <span asp-validation-for="checkPolicy" class="text-danger"></span>
                                     </div>
 
                                     <hr>

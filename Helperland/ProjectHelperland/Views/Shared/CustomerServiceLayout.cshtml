@@ -28,7 +28,7 @@
         <!-- desktop view nav start -->
         <nav class="serviceHistory-nav navbar navbar-expand-lg navbar-dark p-0 fixed-top " id="serHistoryNav">
             <div class="container-fluid">
-                <a class="navbar-brand px-15" href="#">
+                <a class="navbar-brand px-15" asp-controller="Home" asp-action="Index">
                     <img src="/images/logo-small.png">
                 </a>
                 <div class="" id="navbarSupportedContent">
@@ -36,7 +36,7 @@
                         @if (HttpContextAccessor.HttpContext.Session.GetString("UserTypeId") == "1")
                         {
             <li class="nav-item">
-                <a class="sh-sp-btn faq_active" asp-action="book_service" asp-controller="Home">Book now</a>
+                <a class="sh-sp-btn faq_active" asp-action="BookService" asp-controller="Home">Book now</a>
             </li>}
                         <li class="nav-item">
                             <a class="none_active" asp-action="Price" asp-controller="Home">Prices & services</a>
@@ -133,7 +133,7 @@
                     <div class="secondPart">
                         <div class="uName">
                             Welcome,<br>
-                            <strong>Visvarajsinh</strong>
+                                    <strong>@HttpContextAccessor.HttpContext.Session.GetString("UserName")</strong>
                         </div>
                         <hr class="smNavSeparator">
                         <div class="nav flex-column text-start dashNavSide" role="tablist" aria-orientation="vertical">
@@ -153,12 +153,7 @@
                             <a id="v-pills-favPro-tab" data-bs-toggle="pill" data-bs-target="#v-pills-fp" role="tab"
                                aria-controls="#v-pills-fp" aria-selected="false">Favourite Pros</a>
 
-                            <a id="v-pills-invoices-tab" data-bs-toggle="pill" data-bs-target="#v-pills-invoices"
-                               role="tab" aria-controls="v-pills-invoices" aria-selected="false">Invoices</a>
-
-                            <a id="v-pills-notification-tab" data-bs-toggle="pill"
-                               data-bs-target="#v-pills-notif" role="tab" aria-controls="#v-pills-notif"
-                               aria-selected="false">Notifications</a>
+                           
                         </div>
 
                         <div class="navItem"><a asp-action="mySetting" asp-controller="Home"> My Settings</a></div>
@@ -191,12 +186,12 @@
     </div>
 
 
-    <footer class="site-footer mt-5">
+    <footer class="site-footer fmt">
         <div class="footer-top">
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-lg-2 footer-widget">
-                        <a href="#" title="Helper Hand">
+                        <aasp-controller="Home" asp-action="Index" title="Helper Hand">
                             <img src="/images/footer-logo.png" alt="Helper Hand">
                         </a>
                     </div>
@@ -248,7 +243,7 @@
             </div>
         </div>
     </footer>
-    <!-- -------------------------------------------- Datyasave modal --------------------------------------------------->
+    <!-- -------------------------------------------- Datasave modal --------------------------------------------------->
     <div class="modal fade" id="datasaveModal" aria-labelledby="datasaveModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered justify-content-center">
             <div class="modal-content">
@@ -571,7 +566,7 @@
             })
 
 </script>}
-    @if (HttpContextAccessor.HttpContext.Session.GetString("oldpass") == "notok")
+    @if (HttpContextAccessor.HttpContext.Session.GetString("oldpass") == "not ok")
     {
 <script>
     console.log("hello");

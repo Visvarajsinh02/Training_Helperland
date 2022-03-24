@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 #nullable disable
 
@@ -19,10 +20,17 @@ namespace ProjectHelperland.Models
         }
 
         public int UserId { get; set; }
+        [Required(ErrorMessage = "Please enter your firstname")]
         public string FirstName { get; set; }
+        [Required(ErrorMessage = "Please enter your lastname")]
         public string LastName { get; set; }
+        [Required(ErrorMessage = "Please enter your email")]
         public string Email { get; set; }
+
         public string Password { get; set; }
+
+        [Required(ErrorMessage = "Please enter your phone number"), MaxLength(10)]
+        [RegularExpression(@"^(\d{10})$", ErrorMessage = "Wrong mobile number")]
         public string Mobile { get; set; }
         public int UserTypeId { get; set; }
         public int? Gender { get; set; }

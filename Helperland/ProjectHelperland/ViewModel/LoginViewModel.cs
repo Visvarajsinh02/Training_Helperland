@@ -8,12 +8,12 @@ namespace ProjectHelperland.ViewModel
 {
     public class LoginViewModel
     {
-        [RegularExpression(@"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$", ErrorMessage = "Invalid Email Format")]
+        [RegularExpression(@"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$", ErrorMessage = "Invalid email format")]
         [Required]
         [EmailAddress]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "Please enter your Password!")]
+        [Required(ErrorMessage = "Please enter your password!")]
         public string Password { get; set; }
 
         public bool RememberMe { get; set; }

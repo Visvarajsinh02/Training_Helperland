@@ -38,7 +38,7 @@
             <!-- --------------------------------------Dashboard Content --------------------------------------------------- -->
             
             <div class="tab-pane fade" id="v-pills-dashboard" role="tabpanel" aria-labelledby="v-pills-dashboard-tab">
-                <div class="row mt-2">
+                <div class="row mt-2 mb-2">
                     <div class="col-md-5 sh_title">
                         Current Service Request
                     </div>
@@ -135,7 +135,7 @@
                                     string[] extra_services = { "Inside Cabinets","Inside fridge","Inside Oven","Laundry wash & dry","Interior windows"};
                                     double rating = Convert.ToDouble(ser.sp_rating);
                                     int rate_int = Convert.ToInt32(rating);
-                                    <tr class="sp_details pt-3">
+                                    <tr class="sp_details pt-3"  data-bs-target="@("#servicedetailModal"+ser.service_id)" data-bs-toggle="modal">
                                         <td class="col-md-2">
                                             <p class="text-center">@ser.service_id</p>
                                         </td>
@@ -284,7 +284,7 @@
                                                             <button data-bs-toggle="modal" data-bs-target="@("#rescheduleModal"+ser.service_id)" class="service_reschedule_btn" type="button">Reschedule</button>
                                                         </div>
                                                         <div class="col-sm-3">
-                                                            <button class="cancel_btn" data-bs-dismiss="modal" type="button">Cancel</button>
+                                                            <button class="cancel_btn"  data-bs-target="@("#cancelserviceModal"+ser.service_id)" data-bs-toggle="modal" type="button">Cancel</button>
                                                         </div>
 
                                                     </div>
@@ -307,14 +307,14 @@
                                                     <form asp-action="reschedule_service" asp-controller="Home">
                                                         <div class="row pt-2">
                                                             <div class="col-sm-7 date-container">
-                                                                <input type="text" asp-for="rescheduled_date" id="service_date" class="form-control date_field"  onfocus="(this.type='date')" onblur="(this.type='text')" placeholder="01/01/1111" />
-                                                                <span class="date-button">
+                                                                <input type="text" asp-for="rescheduled_date" id="service_date" class="form-control date_field"  onfocus="(this.type='date')" onblur="(this.type='text')" placeholder="01/01/1111" required/>
+                                                                <span class="date-button2">
                                                                     <img src="/images/admin-calendar-blue.png">
                                                                 </span>
                                                             </div>
                                                             <div class="col-sm-5 clock-container">
-                                                                <input id="service_time" asp-for="rescheduled_time" type="time" placeholder="00:00" class="form-control" >
-                                                                <span class="clock-button">
+                                                                <input id="service_time" asp-for="rescheduled_time" type="time" placeholder="00:00" class="form-control" required>
+                                                                <span class="clock-button2">
                                                                     <img src="/images/clock-blue.png">
                                                                 </span>
                                                             </div>
@@ -332,6 +332,7 @@
                                         </div>
                                     </div>
 
+                                    
                                     <!-- ------------------------------ cancel service modal ------------------------------------------------- -->
                                     <div class="modal fade cancelservice_modal" id="@("cancelserviceModal"+ser.service_id)" aria-labelledby="cancelserviceModalLabel" aria-hidden="true">
                                         <div class="modal-dialog modal-dialog-centered justify-content-center">
@@ -351,6 +352,11 @@
                                             </div>
                                         </div>
                                     </div>
+                                
+                                    
+                                    
+                                 
+                                    
                                 }
                             }
                         }
@@ -364,7 +370,7 @@
             <!-- --------------------------------------Service History content --------------------------------------------- -->
 
             <div id="v-pills-sh" class="tab-pane fade">
-                <div class="row mt-2">
+                <div class="row mt-2 mb-2">
                     <div class="col-md-3 sh_title">
                         Service History
                     </div>
@@ -401,208 +407,213 @@
 
                     <tbody>
                         @{ if (Model.pastServices != null)
-                                        {
-                                            foreach (var ser in Model.pastServices)
-                                            {
+                            {
+                                foreach (var ser in Model.pastServices)
+                                {
 
-                                                int duration_hr = 0;
-                                                int duration_min = 0;
-                                                DateTime end_time = ser.service_date;
-                                                double duration = Convert.ToDouble(ser.duration);
-                                                string dura_str = duration.ToString();
-                                                bool dura_is_decimal = dura_str.Contains(".");
-                                                string[] dura_arr = dura_str.Split(".");
-                                                if (dura_is_decimal)
-                                                {
-                                                    duration_hr = Int32.Parse(dura_arr[0]);
-
-
-
-                                                    if (Int32.Parse(dura_arr[1]) != 0)
-                                                    {
-                                                        duration_min = 30;
-                                                    }
-                                                    else
-                                                    {
-                                                        duration_min = 0;
-                                                    }
-                                                }
-                                                else
-                                                {
-                                                    duration_hr = Int32.Parse(dura_str);
-                                                    duration_min = 0;
-
-                                                }
-
-
-                                                TimeSpan end_time_cal = new TimeSpan(duration_hr, duration_min, 0);
-
-                                                end_time = end_time + end_time_cal;
-
-
-                                                string end_str = end_time.ToString();
-                                                string end = end_str.Substring(10, 6);
-
-                                                string date_str = ser.service_date.ToString();
-                                                string date = date_str.Substring(0, 10);
-                                                string start = date_str.Substring(10, 6);
-                                                double rating = Convert.ToDouble(ser.sp_rating);
-                                                int rate_int = Convert.ToInt32(rating);
-                            <tr class="sp_details pt-3">
-                                <td class="col-md-1 col-sm-9">
-                                    <p>@ser.service_id</p>
-                                </td>
-                                <td class="col-md-3">
-                                    <div class="">
-                                        <p>
-                                            <img src="/images/calendar.png"> <b>@date</b><br>
-                                            @start - @end
-                                        </p>
-                                    </div>
-                                </td>
-                                <td class="col-md-3 ">
-                                    <div class="row">
-                                        <div class="col-sm-3 sh_cap_border ">
-                                            <img src="/images/cap.png" id="cap">
-                                        </div>
-                                        <div class="col-sm-9 ">
-                                            <p>
-                                                @ser.sp_name<br>
-                                                @for (int i = 0; i < rate_int; i++)
-                                                {
-                            <img src="/images/star1.png">}
-                                                @for (int i = rate_int; i < 5; i++)
-                                                {
-                            <img src="/images/star2.png">}
-                                                @rating
-                                            </p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="col-md-2 sh_payment">
-                                    € @ser.service_amount
-                                </td>
-                                <td class="col-md-2 sh_status align-items-center pt-1">
-                                    @if (ser.status == 2)
+                                    int duration_hr = 0;
+                                    int duration_min = 0;
+                                    DateTime end_time = ser.service_date;
+                                    double duration = Convert.ToDouble(ser.duration);
+                                    string dura_str = duration.ToString();
+                                    bool dura_is_decimal = dura_str.Contains(".");
+                                    string[] dura_arr = dura_str.Split(".");
+                                    if (dura_is_decimal)
                                     {
-                <div class="sh_status_completed">
-                    Completed
-                </div> }
+                                        duration_hr = Int32.Parse(dura_arr[0]);
+
+
+
+                                        if (Int32.Parse(dura_arr[1]) != 0)
+                                        {
+                                            duration_min = 30;
+                                        }
+                                        else
+                                        {
+                                            duration_min = 0;
+                                        }
+                                    }
                                     else
                                     {
-                <div class="sh_status_cancelled">
-                    Cancelled
-                </div>}
+                                        duration_hr = Int32.Parse(dura_str);
+                                        duration_min = 0;
+
+                                    }
 
 
-                                </td>
-                                <td class="col-md-1">
-                                    @if (ser.status == 2)
-                                    {
-                <button data-bs-toggle="modal" data-bs-target="@("#ratespModal"+ser.service_id)" class="sh_ratesp">Rate SP</button>}
+                                    TimeSpan end_time_cal = new TimeSpan(duration_hr, duration_min, 0);
 
-                                </td>
-                            </tr>
-
-                                                <div class="modal fade ratesp_modal" id="@("ratespModal"+ser.service_id)" aria-labelledby="servicedetailModalLabel" aria-hidden="true">
-                                                    <div class="modal-dialog modal-dialog-centered justify-content-center">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <div class="row sp_ratings">
-                                                                    <div class="col-sm-3 sh_rate_cap_border ">
-                                                                        <img src="/images/default-sp-large.png" id="cap">
-                                                                    </div>
-                                                                    <div class="col-sm-9 pt-3">
-                                                                        <p class="">
-                                                                            @ser.sp_name<br>
-                                                                            @for (int i = 0; i < rate_int; i++)
-                                                                            {
-                                                        <img src="/images/star1.png">}
-                                                                            @for (int i = rate_int; i < 5; i++)
-                                                                            {
-                                                        <img src="/images/star2.png">}
-                                                                            @rating
-                                                                        </p>
-                                                                    </div>
-                                                                </div>
-                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                <div class="row">
-                                                                    <label>Rate your Service Provider</label>
-                                                                </div>
-                                                                <div class="row pt-2">
-                                                                    <hr class="seperator">
-                                                                </div>
-                                                                <div class="row">
-                                                                    <div class="col-sm-5">
-                                                                        <label>On Time Arrival</label>
-                                                                    </div>
-                                                                    <div class="col-sm-4 d-flex rating_stars">
-                                                                        <img height="20" width="20" id="@("ota_1"+ser.service_id)" src="/images/star2.png">
-                                                                        <img height="20" width="20" id="@("ota_2"+ser.service_id)" src="/images/star2.png">
-                                                                        <img height="20" width="20" id="@("ota_3"+ser.service_id)" src="/images/star2.png">
-                                                                        <img height="20" width="20" id="@("ota_4"+ser.service_id)" src="/images/star2.png">
-                                                                        <img height="20" width="20" id="@("ota_5"+ser.service_id)" src="/images/star2.png">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="row pt-2">
-                                                                    <div class="col-sm-5">
-                                                                        <label>Friendly</label>
-                                                                    </div>
-                                                                    <div class="col-sm-4 d-flex rating_stars">
-                                                                        <img height="20" width="20" id="@("frnd_1"+ser.service_id)" src="/images/star2.png">
-                                                                        <img height="20" width="20" id="@("frnd_2"+ser.service_id)" src="/images/star2.png">
-                                                                        <img height="20" width="20" id="@("frnd_3"+ser.service_id)" src="/images/star2.png">
-                                                                        <img height="20" width="20" id="@("frnd_4"+ser.service_id)" src="/images/star2.png">
-                                                                        <img height="20" width="20" id="@("frnd_5"+ser.service_id)" src="/images/star2.png">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="row pt-2">
-                                                                    <div class="col-sm-5">
-                                                                        <label>Quality of Service</label>
-                                                                    </div>
-                                                                    <div class="col-sm-4 d-flex rating_stars">
-                                                                        <img height="20" width="20" id="@("qos_1"+ser.service_id)" src="/images/star2.png">
-                                                                        <img height="20" width="20" id="@("qos_2"+ser.service_id)" src="/images/star2.png">
-                                                                        <img height="20" width="20" id="@("qos_3"+ser.service_id)" src="/images/star2.png">
-                                                                        <img height="20" width="20" id="@("qos_4"+ser.service_id)" src="/images/star2.png">
-                                                                        <img height="20" width="20" id="@("qos_5"+ser.service_id)" src="/images/star2.png">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="row pt-2">
-                                                                    <hr class="seperator">
-                                                                </div>
-                                                                <div class="row">
-                                                                    <label>Feedback on Service Provider</label>
-                                                                </div>
-                                                                <form asp-action="sp_rating" asp-controller="Home" class="row">
-                                                                    <div class="col-sm-12">
-                                                                        <div class="row">
-                                                                            <textarea asp-for="feedback" class="form-control sp_rate_textarea"></textarea>
-                                                                        </div>
-                                                                        <div class="row">
-                                                                            <input asp-for="on_time_arrival" type="hidden" id="@("hidden_ota"+ser.service_id)" />
-                                                                            <input asp-for="freindly" type="hidden" id="@("hidden_frnd"+ser.service_id)" />
-                                                                            <input asp-for="qualit_of_service" type="hidden" id="@("hidden_qos"+ser.service_id)" />
-                                                                            <input asp-for="rate_ser_id" value="@ser.service_id" type="hidden" />
-                                                                        </div>
-                                                                        <div class="row">
-                                                                            <div class="col-sm-3">
-                                                                                <button data-bs-dismiss="modal" class="service_reschedule_btn" type="submit">Submit</button>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </form>
+                                    end_time = end_time + end_time_cal;
 
 
+                                    string end_str = end_time.ToString();
+                                    string end = end_str.Substring(10, 6);
 
-                                                            </div>
+                                    string date_str = ser.service_date.ToString();
+                                    string date = date_str.Substring(0, 10);
+                                    string start = date_str.Substring(10, 6);
+                                    double rating = Convert.ToDouble(ser.sp_rating);
+                                    int rate_int = Convert.ToInt32(rating);
+                                    <tr class="sp_details pt-3">
+                                        <td class="col-md-1 col-sm-9">
+                                            <p>@ser.service_id</p>
+                                        </td>
+                                        <td class="col-md-3">
+                                            <div class="" data-bs-target="@("#servicehistoryModal"+ser.service_id)" data-bs-toggle="modal">
+                                                <p>
+                                                    <img src="/images/calendar.png"> <b>@date</b><br>
+                                                    @start - @end
+                                                </p>
+                                            </div>
+                                        </td>
+                                        <td class="col-md-3 ">
+                                            <div class="row">
+                                                <div class="col-sm-3 sh_cap_border ">
+                                                    <img src="/images/cap.png" id="cap">
+                                                </div>
+                                                <div class="col-sm-9 ">
+                                                    <p>
+                                                        @ser.sp_name<br>
+                                                        @for (int i = 0; i < rate_int; i++)
+                                                        {
+                                                            <img src="/images/star1.png">}
+                                                        @for (int i = rate_int; i < 5; i++)
+                                                        {
+                                                            <img src="/images/star2.png">}
+                                                        @rating
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="col-md-2 sh_payment">
+                                            € @ser.service_amount
+                                        </td>
+                                        <td class="col-md-2 sh_status align-items-center pt-1">
+                                            @if (ser.status == 2)
+                                            {
+                                                <div class="sh_status_completed">
+                                                    Completed
+                                                </div> }
+                                            else
+                                            {
+                                                <div class="sh_status_cancelled">
+                                                    Cancelled
+                                                </div>}
 
+
+                                        </td>
+                                        <td class="col-md-1">
+                                            @if (ser.status == 2)
+                                            {
+                                                <button data-bs-toggle="modal" data-bs-target="@("#ratespModal"+ser.service_id)" class="sh_ratesp">Rate SP</button>}
+
+                                        </td>
+                                    </tr>
+
+                                    <div class="modal fade ratesp_modal" id="@("ratespModal"+ser.service_id)" aria-labelledby="servicedetailModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered justify-content-center">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <div class="row sp_ratings">
+                                                        <div class="col-sm-3 sh_rate_cap_border ">
+                                                            <img src="/images/default-sp-large.png" id="cap">
+                                                        </div>
+                                                        <div class="col-sm-9 pt-3">
+                                                            <p class="">
+                                                                @ser.sp_name<br>
+                                                                @for (int i = 0; i < rate_int; i++)
+                                                                {
+                                                                    <img src="/images/star1.png">}
+                                                                @for (int i = rate_int; i < 5; i++)
+                                                                {
+                                                                    <img src="/images/star2.png">}
+                                                                @rating
+                                                            </p>
                                                         </div>
                                                     </div>
-                                                </div> }
-                                                            } }
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="row">
+                                                        <label>Rate your Service Provider</label>
+                                                    </div>
+                                                    <div class="row pt-2">
+                                                        <hr class="seperator">
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-5">
+                                                            <label>On Time Arrival</label>
+                                                        </div>
+                                                        <div class="col-sm-4 d-flex rating_stars">
+                                                            <img height="20" width="20" id="@("ota_1"+ser.service_id)" src="/images/star2.png">
+                                                            <img height="20" width="20" id="@("ota_2"+ser.service_id)" src="/images/star2.png">
+                                                            <img height="20" width="20" id="@("ota_3"+ser.service_id)" src="/images/star2.png">
+                                                            <img height="20" width="20" id="@("ota_4"+ser.service_id)" src="/images/star2.png">
+                                                            <img height="20" width="20" id="@("ota_5"+ser.service_id)" src="/images/star2.png">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row pt-2">
+                                                        <div class="col-sm-5">
+                                                            <label>Friendly</label>
+                                                        </div>
+                                                        <div class="col-sm-4 d-flex rating_stars">
+                                                            <img height="20" width="20" id="@("frnd_1"+ser.service_id)" src="/images/star2.png">
+                                                            <img height="20" width="20" id="@("frnd_2"+ser.service_id)" src="/images/star2.png">
+                                                            <img height="20" width="20" id="@("frnd_3"+ser.service_id)" src="/images/star2.png">
+                                                            <img height="20" width="20" id="@("frnd_4"+ser.service_id)" src="/images/star2.png">
+                                                            <img height="20" width="20" id="@("frnd_5"+ser.service_id)" src="/images/star2.png">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row pt-2">
+                                                        <div class="col-sm-5">
+                                                            <label>Quality of Service</label>
+                                                        </div>
+                                                        <div class="col-sm-4 d-flex rating_stars">
+                                                            <img height="20" width="20" id="@("qos_1"+ser.service_id)" src="/images/star2.png">
+                                                            <img height="20" width="20" id="@("qos_2"+ser.service_id)" src="/images/star2.png">
+                                                            <img height="20" width="20" id="@("qos_3"+ser.service_id)" src="/images/star2.png">
+                                                            <img height="20" width="20" id="@("qos_4"+ser.service_id)" src="/images/star2.png">
+                                                            <img height="20" width="20" id="@("qos_5"+ser.service_id)" src="/images/star2.png">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row pt-2">
+                                                        <hr class="seperator">
+                                                    </div>
+                                                    <div class="row">
+                                                        <label>Feedback on Service Provider</label>
+                                                    </div>
+                                                    <form asp-action="sp_rating" asp-controller="Home" class="row">
+                                                        <div class="col-sm-12">
+                                                            <div class="row">
+                                                                <textarea asp-for="feedback" class="form-control sp_rate_textarea"></textarea>
+                                                            </div>
+                                                            <div class="row">
+                                                                <input asp-for="on_time_arrival" type="hidden" id="@("hidden_ota"+ser.service_id)" />
+                                                                <input asp-for="freindly" type="hidden" id="@("hidden_frnd"+ser.service_id)" />
+                                                                <input asp-for="qualit_of_service" type="hidden" id="@("hidden_qos"+ser.service_id)" />
+                                                                <input asp-for="rate_ser_id" value="@ser.service_id" type="hidden" />
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-sm-3">
+                                                                    <button data-bs-dismiss="modal" class="service_reschedule_btn" type="submit">Submit</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+
+
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                }
+                            }
+                        }
 
 
 
@@ -629,37 +640,40 @@
 
                 <!-- Pills content -->
                 <!-- -----------------------mydetails content---------------- -->
-                <form asp-action="mySetting" asp-controller="Home" class="tab-pane fade show active" id="myDetails" role="tabpanel" aria-labelledby="v-pills-dashboard-tab">
+                <form asp-action="mySetting" asp-controller="Home" class="tab-pane fade show active spms" id="myDetails" role="tabpanel" aria-labelledby="v-pills-dashboard-tab">
 
-                    <div class="row pt-4 personal_info">
-                        <div class="col-md-4">
+                    <div class="row pt-4">
+                        <div class="col-md-4 col-sm-12">
                             <div class="row">
                                 <label>First Name</label>
                             </div>
                             <div class="row pt-1">
                                 <input asp-for="user.FirstName" id="ms_fname" class="form-control" type="text" placeholder="Firstname" />
+                                <span asp-validation-for="user.FirstName" class="text-danger"></span>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-4 col-sm-12">
                             <div class="row">
                                 <label>Last Name</label>
                             </div>
                             <div class="row pt-1">
                                 <input asp-for="user.LastName" id="ms_lname" class="form-control" type="text" placeholder="Lastname" />
+                                <span asp-validation-for="user.LastName" class="text-danger"></span>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-4 col-sm-12">
                             <div class="row">
                                 <label>Email</label>
                             </div>
                             <div class="row pt-1">
                                 <input asp-for="user.Email" id="ms_email" class="form-control" type="email" placeholder="E-mail" />
+                                <span asp-validation-for="user.Email" class="text-danger"></span>
                             </div>
                         </div>
                     </div>
 
                     <div class="row pt-3 phone_num">
-                        <div class="col-md-4">
+                        <div class="col-md-4 col-sm-12">
                             <div class="row">
                                 <label>Phone Number</label>
                             </div>
@@ -668,6 +682,7 @@
                                     <span class="c_code align-items-center justify-content-center">+49</span>
                                     <input asp-for="user.Mobile" type="text" class="form-control" id="ms_phone" placeholder="Mobile Number" onkeypress="return (event.charCode !=8 && event.charCode ==0 || ( event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)))" pattern="[0-9]{10}" />
                                 </div>
+                                <span asp-validation-for="user.Mobile" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="col-md-5 DOB_select">
@@ -885,7 +900,8 @@
                                                                 </div>
                                                                 <div class="row pt-1">
                                                                     <div class="col-sm-12">
-                                                                        <input id="@("add_street"+data.AddressId)" asp-for="street" type="text" placeholder="Street Name" class="form-control" value="@street_str" />
+                                                                        <input id="@("add_street"+data.AddressId)" asp-for="mydetail.street" type="text" placeholder="Street Name" class="form-control" value="@street_str"/>
+                                                                        <span asp-validation-for="mydetail.street" class="text-danger"></span>
                                                                         <div id="add_street_err" class="text-danger fade">
                                                                             streetname required
                                                                         </div>
@@ -897,8 +913,8 @@
                                                                 </div>
                                                                 <div class="row pt-1">
                                                                     <div class="col-sm-12">
-                                                                        <input asp-for="pincode" id="@("add_postal"+data.AddressId)" value="@data.PostalCode" type="text" placeholder="Postalcode" class="form-control" onkeypress="return (event.charCode !=8 && event.charCode ==0 || ( event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)))" />
-
+                                                                        <input asp-for="mydetail.pincode" id="@("add_postal"+data.AddressId)" value="@data.PostalCode" type="text" placeholder="Postalcode" class="form-control" onkeypress="return (event.charCode !=8 && event.charCode ==0 || ( event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)))" />
+                                                                        <span asp-validation-for="mydetail.pincode" class="text-danger"></span>
                                                                     </div>
                                                                 </div>
 
@@ -909,8 +925,8 @@
                                                                     <div class="col-sm-12">
                                                                         <div class="col-sm-12 input-group">
                                                                             <span class="c_code align-items-center justify-content-center">+49</span>
-                                                                            <input asp-for="phone" type="text" value="@data.Mobile" class="form-control" id="@("add_mobile"+data.AddressId)" placeholder="Mobile Number" onkeypress="return (event.charCode !=8 && event.charCode ==0 || ( event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)))" pattern="[0-9]{10}" />
-
+                                                                            <input asp-for="mydetail.phone" type="text" value="@data.Mobile" class="form-control" id="@("add_mobile"+data.AddressId)" placeholder="Mobile Number" onkeypress="return (event.charCode !=8 && event.charCode ==0 || ( event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)))" pattern="[0-9]{10}" />
+                                                                            <span asp-validation-for="mydetail.phone" class="text-danger"></span>
                                                                         </div>
                                                                         <div id="add_mobile_err" class="text-danger fade">
                                                                             phonenumber required
@@ -928,7 +944,8 @@
                                                                 </div>
                                                                 <div class="row pt-1">
                                                                     <div class="col-sm-12">
-                                                                        <input asp-for="hno" id="@("add_house"+data.AddressId)" value="@house" type="text" placeholder="House number" class="form-control" onkeypress="return (event.charCode !=8 && event.charCode ==0 || ( event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)))" />
+                                                                        <input asp-for="mydetail.hno" id="@("add_house"+data.AddressId)" value="@house" type="text" placeholder="House number" class="form-control" onkeypress="return (event.charCode !=8 && event.charCode ==0 || ( event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)))"/>
+                                                                        <span asp-validation-for="mydetail.hno" class="text-danger"></span>
                                                                         <div id="add_house_err" class="text-danger fade">
                                                                             House number required
                                                                         </div>
@@ -940,7 +957,8 @@
                                                                 </div>
                                                                 <div class="row pt-1">
                                                                     <div class="col-sm-12">
-                                                                        <input asp-for="city" id="@("add_city"+data.AddressId)" value="@data.City" type="text" placeholder="City" class="form-control" />
+                                                                        <input asp-for="mydetail.city" id="@("add_city"+data.AddressId)" value="@data.City" type="text" placeholder="City" class="form-control"/>
+                                                                        <span asp-validation-for="mydetail.city" class="text-danger"></span>
                                                                         <div id="add_city_err" class="text-danger fade">
                                                                             city name required
                                                                         </div>
@@ -1019,7 +1037,8 @@
                                             </div>
                                             <div class="row pt-1">
                                                 <div class="col-sm-12">
-                                                    <input asp-for="street" type="text" placeholder="Street Name" class="form-control" />
+                                                    <input asp-for="mydetail.street" type="text" placeholder="Street Name" class="form-control" required/>
+                                                    <span asp-validation-for="mydetail.street" class="text-danger"></span>
                                                     <div id="add_street_err" class="text-danger fade">
                                                         streetname required
                                                     </div>
@@ -1031,8 +1050,8 @@
                                             </div>
                                             <div class="row pt-1">
                                                 <div class="col-sm-12">
-                                                    <input asp-for="pincode" type="text" placeholder="Postalcode" class="form-control" onkeypress="return (event.charCode !=8 && event.charCode ==0 || ( event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)))" />
-
+                                                    <input asp-for="mydetail.pincode" type="text" placeholder="Postalcode" class="form-control" onkeypress="return (event.charCode !=8 && event.charCode ==0 || ( event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)))" />
+                                                    <span asp-validation-for="mydetail.pincode" class="text-danger"></span>
                                                 </div>
                                             </div>
 
@@ -1043,8 +1062,8 @@
                                                 <div class="col-sm-12">
                                                     <div class="col-sm-12 input-group">
                                                         <span class="c_code align-items-center justify-content-center">+49</span>
-                                                        <input asp-for="phone" type="text" class="form-control" placeholder="Mobile Number" onkeypress="return (event.charCode !=8 && event.charCode ==0 || ( event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)))" pattern="[0-9]{10}" />
-
+                                                        <input asp-for="mydetail.phone" type="text" class="form-control" placeholder="Mobile Number" onkeypress="return (event.charCode !=8 && event.charCode ==0 || ( event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)))" pattern="[0-9]{10}" required />
+                                                        <span asp-validation-for="mydetail.phone" class="text-danger"></span>
                                                     </div>
                                                     <div id="add_mobile_err" class="text-danger fade">
                                                         phonenumber required
@@ -1062,7 +1081,8 @@
                                             </div>
                                             <div class="row pt-1">
                                                 <div class="col-sm-12">
-                                                    <input asp-for="hno" type="text" placeholder="House number" class="form-control" onkeypress="return (event.charCode !=8 && event.charCode ==0 || ( event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)))" />
+                                                    <input asp-for="mydetail.hno" type="text" placeholder="House number" class="form-control" onkeypress="return (event.charCode !=8 && event.charCode ==0 || ( event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)))"/>
+                                                    <span asp-validation-for="mydetail.hno" class="text-danger"></span>
                                                     <div id="add_house_err" class="text-danger fade">
                                                         House number required
                                                     </div>
@@ -1074,7 +1094,8 @@
                                             </div>
                                             <div class="row pt-1">
                                                 <div class="col-sm-12">
-                                                    <input asp-for="city" type="text" placeholder="City" class="form-control" />
+                                                    <input asp-for="mydetail.city" type="text" placeholder="City" class="form-control"/>
+                                                    <span asp-validation-for="mydetail.city" class="text-danger"></span>
                                                     <div id="add_city_err" class="text-danger fade">
                                                         city name required
                                                     </div>
@@ -1108,6 +1129,7 @@
                             </div>
                             <div class="row pt-1">
                                 <input asp-for="pwd" id="old_pass" type="password" class="form-control" placeholder="Old Password" />
+                                <span asp-validation-for="pwd" class="text-danger"></span>
                                 <span id="wrongPass" class="text-danger">Old password is invalid</span>
                             </div>
 
@@ -1115,14 +1137,16 @@
                                 <label>New Password</label>
                             </div>
                             <div class="row pt-1">
-                                <input asp-for="user.Password" type="password" id="password" minlength="1" class="form-control" placeholder="Password" />
+                                <input asp-for="change.CPassword" type="password" id="password" minlength="1" class="form-control" placeholder="Password" />
+                                <span asp-validation-for="change.CPassword" class="text-danger"></span>
                             </div>
 
                             <div class="row pt-3">
                                 <label>Confirm Password</label>
                             </div>
                             <div class="row pt-1">
-                                <input type="password" id="confirm_password" class="form-control" placeholder="Confirm Password">
+                                <input asp-for="change.confirmPass" type="password" id="confirm_password" class="form-control" placeholder="Confirm Password">
+                                <span asp-validation-for="change.confirmPass" class="text-danger"></span>
                                 <span id='message'></span>
                             </div>
 

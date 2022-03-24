@@ -18,14 +18,15 @@ namespace ProjectHelperland.ViewModel
 
         public string postalCode { get; set; }
 
-        // public class MustBeTrueAttribute : ValidationAttribute
-        //{
-        //    public override bool IsValid(object value)
-        //    {
-        //        return value is bool && (bool)value;
-        //    }
-        //} 
-        //[MustBeTrue(ErrorMessage = "Please accept Privacy Policy")]
+        public class MustBeTrueAttribute : ValidationAttribute
+        {
+            public override bool IsValid(object value)
+            {
+                return value is bool && (bool)value;
+            }
+        }
+        [MustBeTrue(ErrorMessage = "Please accept privacy policy")]
+        [Required]
         public bool checkPolicy { get; set; }
 
         public string streetname { get; set; }

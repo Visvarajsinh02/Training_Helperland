@@ -26,12 +26,13 @@
                 <div class="collapse navbar-collapse user_mng_usr" id="navbarTogglerDemo03">
                     <ul class="navbar-nav">
                         <li>
-                            <ul class="user_mng_head_menu mx-auto">
+                             <ul class="user_mng_head_menu mx-auto">
 
                                 <li data-bs-toggle="pill" data-bs-target="#v-pills-ServiceRequest" class=""><a href="#" class="">Service Request</a></li>
                                 <li data-bs-toggle="pill" data-bs-target="#v-pills-UserManagement" class=""><a href="#" class="">User Management</a></li>
 
-                            </ul>
+                             </ul>
+                            
                         </li>
                         <li class="dropdown">
                             <a class="nav-link text-white" id="drpdwn" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -65,23 +66,23 @@
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-lg-2 footer-widget">
-                        <a href="#" title="Helper Hand">
+                        <a asp-action="Index" asp-controller="Home" title="Helper Hand">
                             <img src="/images/footer-logo.png" alt="Helper Hand">
                         </a>
                     </div>
                     <div class="col-lg-8 footer-widget">
                         <ul class="footer-navigation d-flex justify-content-center">
                             <li>
-                                <a href="#" title="Home">Home</a>
+                                <a asp-action="Index" asp-controller="Home" title="Home">Home</a>
                             </li>
                             <li>
-                                <a href="#" title="About">About</a>
+                                <a asp-action="About" asp-controller="Home" title="About">About</a>
                             </li>
                             <li>
                                 <a href="#" title="Testimonials">Testimonials</a>
                             </li>
                             <li>
-                                <a href="#" title="FAQs">FAQs</a>
+                                <a asp-action="Faq" asp-controller="Home" title="FAQs">FAQs</a>
                             </li>
                             <li>
                                 <a href="#" title="Insurance Policy">Insurance Policy</a>
@@ -106,19 +107,14 @@
                         </ul>
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <div class="footer-bottom">
-            <div class="row faq-policy text-center">
-                <p>©️2018 Helperland. All rights reserved. Terms and Conditions | Privacy Policy</p>
-            </div>
-        </div>
-
-        <div class="footer-bottom privacy-pol">
-            <div class="container text-center">
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut feugiat nunc libero, ac malesuada ligula aliquam ac. <a href="#" title="Privacy Policy">Privacy Policy</a></p>
-                <a href="#" class="yellow-btn ok-btn">OK!</a>
+                <div class="row ">
+                    <div class="col-lg-12 p-0">
+                        <hr class="footer-separator">
+                    </div>
+                </div>
+                <div class="row faq-policy text-center">
+                    <p>©2018 Helperland. All rights reserved. Terms and Conditions | Privacy Policy</p>
+                </div>
             </div>
         </div>
     </footer>
@@ -134,12 +130,12 @@
 
     <script>
         $(document).ready(function () {
-                $("#umAdminTable").DataTable({
+        var table = $("#umAdminTable").DataTable({
                     "dom": 'Bt<"table-bottom d-flex justify-content-between"<"table-bottom-inner d-flex"li>p>',
                     "pagingType": "full_numbers",
-                    "searching": false,
+                    "searching": true,
                     'columnDefs': [{
-                        'targets': [5],
+                        'targets': [7],
                         'orderable': false,
                     }],
                     "language": {
@@ -151,19 +147,85 @@
                         },
                         'info': "Total Record: _MAX_",
                     }
-                });
+        });
+
+
+
+            $("#searchBtn").click(() => {
+                //var serId = $("#searchServiceId").val();
+                var Pin = $("#searchPinCode").val();
+                //console.log(serId);
+                //table.column(0).search(serId).draw();
+
+                //var email = $("#searchEmail").val();
+                var cust = $("#customerSelect").val();
+                console.log(cust);
+
+                //var sp = $("#spSelect").val();
+                //var status = $("#reqStatusSelect").val();
+                //console.log(status);
+                //var FromDT = $("#searchFromDate").val();
+                //console.log(FromDT);
+                //var ToDT = $("#searchToDate").val();
+                @*console.log(ToDT);
+                if (serId != "") {
+                    table.column(0).search(serId);
+                } else {
+                    table.column(0).search("");
+                }*@
+
+                if (cust != "") {
+                    table.column(2).search(cust);
+                } else {
+                    table.column(2).search("");
+                }
+
+                @*if (Pin != "") {
+                    table.column(8).search(Pin)
+                        ;
+                } else {
+                    table.column(8).search("");
+                }*@
+
+                    @*if (email != "") {
+                    table.column(7).search(email)
+                        ;
+                } else {
+                    table.column(7).search("");
+                }*@
+
+                    if (sp != "") {
+                    table.column(3).search(sp);
+                } else {
+                    table.column(3).search("");
+                }
+
+                if (status != null) {
+                    table.column(5).search(status);
+                } else {
+                    table.column(5).search("");
+                }
+
+               
+
+                table.draw();
+            });
+
+
                     $(".buttons-pdf").hide();
                     $(".buttons-copy").hide();
                     $(".buttons-csv").hide();
                     $(".buttons-print").hide();
-            });
+        });
+
+
             $(document).ready(function () {
-                $("#srAdminTable").DataTable({
+                var table = $("#srAdminTable").DataTable({
                     "dom": 'Bt<"table-bottom d-flex justify-content-between"<"table-bottom-inner d-flex"li>p>',
                     "pagingType": "full_numbers",
-                    "searching": false,
+                    "searching": true,
                     'columnDefs': [{
-                        'targets': [5],
+                        'targets': [6],
                         'orderable': false,
                     }],
                     "language": {
@@ -176,18 +238,114 @@
                         'info': "Total Record: _MAX_",
                     }
                 });
+
+
+                $("#searchBtn").click(() => {
+                    var serId = $("#searchServiceId").val();
+                    //var Pin = $("#searchPinCode").val();
+                    console.log(serId);
+                    //table.column(0).search(serId).draw();
+                        
+                    //var email = $("#searchEmail").val();
+                    var cust = $("#customerSelect").val();
+                    console.log(cust);
+
+                    var sp = $("#spSelect").val();
+                   var status = $("#reqStatusSelect").val();
+                    console.log(status);
+                    var FromDT = $("#searchFromDate").val();
+                    console.log(FromDT);
+                    var ToDT = $("#searchToDate").val();
+                    console.log(ToDT);
+                    if (serId != "") {
+                        table.column(0).search(serId);
+                    } else {
+                        table.column(0).search("");
+                    }
+
+                    if (cust != "") {
+                        table.column(2).search(cust);
+                    } else {
+                        table.column(2).search("");
+                    }
+
+                    @*if (Pin != "") {
+                        table.column(8).search(Pin)
+                            ;
+                    } else {
+                        table.column(8).search("");
+                    }*@
+
+                    @*if (email != "") {
+                        table.column(7).search(email)
+                            ;
+                    } else {
+                        table.column(7).search("");
+                    }*@
+
+                    if (sp != "") {
+                        table.column(3).search(sp);
+                    } else {
+                        table.column(3).search("");
+                    }
+
+                    if (status != null) {
+                        table.column(5).search(status);
+                    } else {
+                        table.column(5).search("");
+                    }
+
+                    if (FromDT != "" && ToDT != "") {
+                        $.fn.dataTable.ext.search.push(
+                            function (settings, data, dataIndex) {
+                                var min = new Date(FromDT.split("-")[1] + "-" + FromDT.split("-")[2] + "-" + FromDT.split("-")[0]);
+                                var max = new Date(ToDT.split("-")[1] + "-" + ToDT.split("-")[2] + "-" + ToDT.split("-")[0]);
+                                console.log(min);
+                                console.log(max);
+                                console.log(data[1] + "this is data1");
+                                var date = new Date(data[1].split("-")[2] + "-" + data[1].split("-")[1] + "-" + data[1].split("-")[0]);
+                                console.log(date+"yo");
+                                if (
+                                    (min === null && max === null) ||
+                                    (min === null && date <= max) ||
+                                    (min <= date && max === null) ||
+                                    (min <= date && date <= max)
+                                ) {
+                                    return true;
+                                }
+                                return false;
+                            }
+                        );
+                    } else {
+                        table.column(1).search("");
+                    }
+
+                    table.draw();
+                });
+
+
+
+
+
+
                 $(".buttons-pdf").hide();
                 $(".buttons-copy").hide();
                 $(".buttons-csv").hide();
                 $(".buttons-print").hide();
-            });</script>
+            });
+    </script>
+
+
     @if (ViewBag.admin_service != null)
     {
-<script>$('#admin_ser').addClass('active');
-                $('#admin_user').removeClass('active');
-                $('#v-pills-ServiceRequest').addClass('show');
-                $('#v-pills-ServiceRequest').addClass('active');
-                $('#v-pills-UserManagement').removeClass('show');
-                $('#v-pills-UserManagement').removeClass('active');</script>}
+        <script>
+            $('#admin_ser').addClass('active');
+            $('#admin_user').removeClass('active');
+            $('#v-pills-ServiceRequest').addClass('show');
+            $('#v-pills-ServiceRequest').addClass('active');
+            $('#v-pills-UserManagement').removeClass('show');
+            $('#v-pills-UserManagement').removeClass('active');
+        </script>
+    }
 </body>
 </html>

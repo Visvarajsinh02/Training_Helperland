@@ -26,8 +26,9 @@
                     <div class="col-sm-12 input-group">
                         <span class="c_code align-items-center justify-content-center">+49</span>
                         <input asp-for="PhoneNumber" type="tel" class="form-control" id="Phone number" placeholder="Mobile Number" pattern="[0-9]{10}" onkeypress="return (event.charCode !=8 && event.charCode ==0 || ( event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)))">
-                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+
                     </div>
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                 </div>
             </div>
             <div class="col-md-6">
@@ -39,14 +40,13 @@
                 <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                 <span id='message'></span>
             </div>
-            @*<div class="text-danger" asp-validation-summary="All"></div>*@
-        <div>
-            <input type="checkbox" asp-for="PrivacyPolicy">
-            <label>I have read the <a href="#" class="pv_link">privacy policy</a>.</label><br />
-            <span asp-validation-for="PrivacyPolicy" class="text-danger"></span>
-            @*<div id='message2' style="color: red; display: none;">Please accept Privacy Policy</div>*@
-        </div>
             
+            <div>
+                <input type="checkbox" asp-for="PrivacyPolicy" id="terms" class="check_box" required>
+                <label class="check_label">I have read the <a href="#" class="pv_link">privacy policy</a>.</label>
+            </div>
+                <span asp-validation-for="PrivacyPolicy" class="text-danger"></span>
+
             <div class="col-md-12 text-center">
                 <button class="c_sub_btn" id="but" type="submit" name="Register"><h3>Register</h3></button>
             </div>

@@ -31,7 +31,7 @@
         <!-- desktop view nav start -->
         <nav class="serviceHistory-nav navbar navbar-expand-lg navbar-dark p-0 fixed-top " id="serHistoryNav">
             <div class="container-fluid">
-                <a class="navbar-brand px-15" href="#">
+                <a class="navbar-brand px-15" asp-controller="Home" asp-action="Index">
                     <img src="/images/logo-small.png">
                 </a>
                 <div class="" id="navbarSupportedContent">
@@ -115,32 +115,17 @@
                     <div class="secondPart">
                         <div class="uName">
                             Welcome,<br>
-                            <strong>Visvarajsinh</strong>
+                            <strong>@HttpContextAccessor.HttpContext.Session.GetString("UserName")</strong>
                         </div>
                         <hr class="smNavSeparator">
                         <div class="nav flex-column text-start dashNavSide" role="tablist" aria-orientation="vertical">
-                            <a id="dashboard" data-bs-toggle="pill" data-bs-target="#v-pills-dashboard" role="tab"
-                               aria-controls="v-pills-dashboard" aria-selected="true">Dashboard</a>
 
-                            <a class="active" id="v-pills-serHistory-tab" data-bs-toggle="pill"
-                               data-bs-target="#v-pills-sh" role="tab" aria-controls="#v-pills-sh"
-                               aria-selected="false">Service History</a>
+                            <a id="v-pills-nsr-nav" data-bs-toggle="pill" data-bs-target="#v-pills-nsr">New Service Requests</a>
+                            <a id="v-pills-us-nav" data-bs-toggle="pill" data-bs-target="#v-pills-us">Upcoming Services</a>
+                            <a id="v-pills-sh-nav" data-bs-toggle="pill" data-bs-target="#v-pills-sh">Service History</a>
+                            <a id="v-pills-mr-nav" data-bs-toggle="pill" data-bs-target="#v-pills-mr">My Ratings</a>
+                            <a id="v-pills-bc-nav" data-bs-toggle="pill" data-bs-target="#v-pills-bc">Block Customer</a>
 
-                            <a id="v-pills-serSchedule-tab" data-bs-toggle="pill" data-bs-target="#v-pills-ss"
-                               role="tab" aria-controls="#v-pills-ss" aria-selected="false">
-                                Service
-                                Schedule
-                            </a>
-
-                            <a id="v-pills-favPro-tab" data-bs-toggle="pill" data-bs-target="#v-pills-fp" role="tab"
-                               aria-controls="#v-pills-fp" aria-selected="false">Favourite Pros</a>
-
-                            <a id="v-pills-invoices-tab" data-bs-toggle="pill" data-bs-target="#v-pills-invoices"
-                               role="tab" aria-controls="v-pills-invoices" aria-selected="false">Invoices</a>
-
-                            <a id="v-pills-notification-tab" data-bs-toggle="pill"
-                               data-bs-target="#v-pills-notif" role="tab" aria-controls="#v-pills-notif"
-                               aria-selected="false">Notifications</a>
                         </div>
 
                         <div class="navItem"><a asp-action="spMySetting" asp-controller="Home"> My Settings</a></div>
@@ -169,12 +154,12 @@
     </div>
 
 
-    <footer class="site-footer">
+    <footer class="site-footer  fmt">
         <div class="footer-top">
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-lg-2 footer-widget">
-                        <a href="#" title="Helper Hand">
+                        <a asp-controller="Home" asp-action="Index" title="Helper Hand">
                             <img src="/images/footer-logo.png" alt="Helper Hand">
                         </a>
                     </div>
@@ -282,6 +267,30 @@
             </div>
         </div>
     </div>
+
+
+
+    <!-- -------------------------------------------- Datasave modal --------------------------------------------------->
+    <div class="modal fade" id="datasaveModal" aria-labelledby="datasaveModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered justify-content-center">
+            <div class="modal-content">
+                <div class="modal-header justify-content-center">
+                    <img src="/images/yes-tickmark.png" alt="success" />
+                </div>
+                <div class="modal-body">
+                    <div class="modal_register">
+                        Data Saved Successfully
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-center login-btn">
+                    <button type="submit" data-bs-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 
@@ -297,785 +306,810 @@
     <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
 
-   
+
 
     <script src="~/js/general.js"></script>
+
+
+    @if (ViewBag.datasave != null)
+    {
+    <script>
+        var myModal = new bootstrap.Modal(document.getElementById("datasaveModal"), {});
+        document.onreadystatechange = function () {
+            myModal.show();
+        };
+    </script>
+}
+
+
+
     @if (ViewBag.showPassModal != null)
     {
 
-<script>console.log("show pass modal");
-            var myModal = new bootstrap.Modal(document.getElementById("passchangeModal"), {});
-            document.onreadystatechange = function () {
-                myModal.show();
-            };</script>}
+<script>
+    console.log("show pass modal");
+    var myModal = new bootstrap.Modal(document.getElementById("passchangeModal"), {});
+    document.onreadystatechange = function () {
+        myModal.show();
+    };</script>}
     @if (ViewBag.doactive != null)
     {
 
-<script>var myModal = new bootstrap.Modal(document.getElementById("cantacceptModal"), {});
-            document.onreadystatechange = function () {
-                myModal.show();
-            };</script>}
+<script>
+    var myModal = new bootstrap.Modal(document.getElementById("cantacceptModal"), {});
+    document.onreadystatechange = function () {
+        myModal.show();
+    };</script>}
     @if (HttpContextAccessor.HttpContext.Session.GetString("oldpass") == "notok")
     {
-<script>console.log("hello");
-            $('#ms_head_3').click();
-            $('#spmyDetails').removeClass('show');
-            $('#spmyDetails').removeClass('active');
+<script>
+    console.log("hello");
+    $('#ms_head_3').click();
+    $('#spmyDetails').removeClass('show');
+    $('#spmyDetails').removeClass('active');
 
-            $('#spmyChangepass').addClass('active');
-            $('#spmyChangepass').addClass('show');
-            $('#wrongPass').show();</script> }
+    $('#spmyChangepass').addClass('active');
+    $('#spmyChangepass').addClass('show');
+    $('#wrongPass').show();</script> }
             else
             {
-<script>$('#ms_head_1').click();
-            $('#spmyDetails').addClass('show');
-            $('#spmyDetails').addClass('active');
+<script>
+    $('#ms_head_1').click();
+    $('#spmyDetails').addClass('show');
+    $('#spmyDetails').addClass('active');
 
-            $('#spmyChangepass').removeClass('active');
-            $('#spmyChangepass').removeClass('show');
-            $('#wrongPass').hide();</script>}
+    $('#spmyChangepass').removeClass('active');
+    $('#spmyChangepass').removeClass('show');
+    $('#wrongPass').hide();</script>}
     @if (Model.avatar == "1")
     {
-<script>var sp_avtr_1 = 1;
-            var sp_avtr_2 = 0;
-            var sp_avtr_3 = 0;
-            var sp_avtr_4 = 0;
-            var sp_avtr_5 = 0;
-            var sp_avtr_6 = 0;
+<script>
+    var sp_avtr_1 = 1;
+    var sp_avtr_2 = 0;
+    var sp_avtr_3 = 0;
+    var sp_avtr_4 = 0;
+    var sp_avtr_5 = 0;
+    var sp_avtr_6 = 0;
+    $('#avatar-1').addClass('active');
+    $('#hidden_avatar').val(1);
+    $(document).on('click', '#avatar-1', function () {
+        if (sp_avtr_1 == 0) {
             $('#avatar-1').addClass('active');
-            $('#hidden_avatar').val(1);
-            $(document).on('click', '#avatar-1', function () {
-                if (sp_avtr_1 == 0) {
-                    $('#avatar-1').addClass('active');
-                    sp_avtr_1 = 1;
-                    $('#hidden_avatar').val(1); console.log("avatar - 1 ", $('#hidden_avatar').val());
-                    if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
-                    if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
-                    if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
-                    if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
-                    if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
-                }
-                else {
-                    $('#avatar-1').removeClass('active');
-                    sp_avtr_1 = 0;
-                }
-            })
-            $(document).on('click', '#avatar-2', function () {
-                if (sp_avtr_2 == 0) {
-                    $('#avatar-2').addClass('active');
-                    sp_avtr_2 = 1;
-                    $('#hidden_avatar').val(2);
-                    if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
-                    if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
-                    if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
-                    if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
-                    if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
-                }
-                else {
-                    $('#avatar-2').removeClass('active');
-                    sp_avtr_2 = 0;
-                }
-            })
-            $(document).on('click', '#avatar-3', function () {
-                if (sp_avtr_3 == 0) {
-                    $('#avatar-3').addClass('active');
-                    sp_avtr_3 = 1;
-                    $('#hidden_avatar').val(3);
-                    if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
-                    if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
-                    if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
-                    if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
-                    if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
-                }
-                else {
-                    $('#avatar-3').removeClass('active');
-                    sp_avtr_3 = 0;
-                }
-            })
-            $(document).on('click', '#avatar-4', function () {
-                if (sp_avtr_4 == 0) {
-                    $('#avatar-4').addClass('active');
-                    sp_avtr_4 = 1;
-                    $('#hidden_avatar').val(4);
-                    if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
-                    if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
-                    if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
-                    if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
-                    if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
-                }
-                else {
-                    $('#avatar-4').removeClass('active');
-                    sp_avtr_4 = 0;
-                }
-            })
-            $(document).on('click', '#avatar-5', function () {
-                if (sp_avtr_5 == 0) {
-                    $('#avatar-5').addClass('active');
-                    sp_avtr_5 = 1;
-                    $('#hidden_avatar').val(5);
-                    if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
-                    if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
-                    if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
-                    if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
-                    if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
-                }
-                else {
-                    $('#avatar-5').removeClass('active');
-                    sp_avtr_5 = 0;
-                }
-            })
-            $(document).on('click', '#avatar-6', function () {
-                if (sp_avtr_6 == 0) {
-                    $('#avatar-6').addClass('active');
-                    sp_avtr_6 = 1;
-                    $('#hidden_avatar').val(6);
-                    if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
-                    if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
-                    if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
-                    if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
-                    if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
-                }
-                else {
-                    $('#avatar-6').removeClass('active');
-                    sp_avtr_6 = 0;
-                }
-            })</script>}
+            sp_avtr_1 = 1;
+            $('#hidden_avatar').val(1); console.log("avatar - 1 ", $('#hidden_avatar').val());
+            if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
+            if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
+            if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
+            if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
+            if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
+        }
+        else {
+            $('#avatar-1').removeClass('active');
+            sp_avtr_1 = 0;
+        }
+    })
+    $(document).on('click', '#avatar-2', function () {
+        if (sp_avtr_2 == 0) {
+            $('#avatar-2').addClass('active');
+            sp_avtr_2 = 1;
+            $('#hidden_avatar').val(2);
+            if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
+            if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
+            if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
+            if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
+            if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
+        }
+        else {
+            $('#avatar-2').removeClass('active');
+            sp_avtr_2 = 0;
+        }
+    })
+    $(document).on('click', '#avatar-3', function () {
+        if (sp_avtr_3 == 0) {
+            $('#avatar-3').addClass('active');
+            sp_avtr_3 = 1;
+            $('#hidden_avatar').val(3);
+            if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
+            if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
+            if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
+            if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
+            if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
+        }
+        else {
+            $('#avatar-3').removeClass('active');
+            sp_avtr_3 = 0;
+        }
+    })
+    $(document).on('click', '#avatar-4', function () {
+        if (sp_avtr_4 == 0) {
+            $('#avatar-4').addClass('active');
+            sp_avtr_4 = 1;
+            $('#hidden_avatar').val(4);
+            if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
+            if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
+            if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
+            if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
+            if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
+        }
+        else {
+            $('#avatar-4').removeClass('active');
+            sp_avtr_4 = 0;
+        }
+    })
+    $(document).on('click', '#avatar-5', function () {
+        if (sp_avtr_5 == 0) {
+            $('#avatar-5').addClass('active');
+            sp_avtr_5 = 1;
+            $('#hidden_avatar').val(5);
+            if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
+            if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
+            if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
+            if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
+            if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
+        }
+        else {
+            $('#avatar-5').removeClass('active');
+            sp_avtr_5 = 0;
+        }
+    })
+    $(document).on('click', '#avatar-6', function () {
+        if (sp_avtr_6 == 0) {
+            $('#avatar-6').addClass('active');
+            sp_avtr_6 = 1;
+            $('#hidden_avatar').val(6);
+            if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
+            if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
+            if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
+            if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
+            if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
+        }
+        else {
+            $('#avatar-6').removeClass('active');
+            sp_avtr_6 = 0;
+        }
+    })</script>}
     @if (Model.avatar == "2")
     {
-<script>var sp_avtr_1 = 0;
-            var sp_avtr_2 = 1;
-            var sp_avtr_3 = 0;
-            var sp_avtr_4 = 0;
-            var sp_avtr_5 = 0;
-            var sp_avtr_6 = 0;
+<script>
+    var sp_avtr_1 = 0;
+    var sp_avtr_2 = 1;
+    var sp_avtr_3 = 0;
+    var sp_avtr_4 = 0;
+    var sp_avtr_5 = 0;
+    var sp_avtr_6 = 0;
+    $('#avatar-2').addClass('active');
+    $('#hidden_avatar').val(2);
+    $(document).on('click', '#avatar-1', function () {
+        if (sp_avtr_1 == 0) {
+            $('#avatar-1').addClass('active');
+            sp_avtr_1 = 1;
+            $('#hidden_avatar').val(1); console.log("avatar - 1 ", $('#hidden_avatar').val());
+            if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
+            if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
+            if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
+            if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
+            if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
+        }
+        else {
+            $('#avatar-1').removeClass('active');
+            sp_avtr_1 = 0;
+        }
+    })
+    $(document).on('click', '#avatar-2', function () {
+        if (sp_avtr_2 == 0) {
             $('#avatar-2').addClass('active');
+            sp_avtr_2 = 1;
             $('#hidden_avatar').val(2);
-            $(document).on('click', '#avatar-1', function () {
-                if (sp_avtr_1 == 0) {
-                    $('#avatar-1').addClass('active');
-                    sp_avtr_1 = 1;
-                    $('#hidden_avatar').val(1); console.log("avatar - 1 ", $('#hidden_avatar').val());
-                    if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
-                    if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
-                    if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
-                    if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
-                    if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
-                }
-                else {
-                    $('#avatar-1').removeClass('active');
-                    sp_avtr_1 = 0;
-                }
-            })
-            $(document).on('click', '#avatar-2', function () {
-                if (sp_avtr_2 == 0) {
-                    $('#avatar-2').addClass('active');
-                    sp_avtr_2 = 1;
-                    $('#hidden_avatar').val(2);
-                    if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
-                    if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
-                    if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
-                    if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
-                    if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
-                }
-                else {
-                    $('#avatar-2').removeClass('active');
-                    sp_avtr_2 = 0;
-                }
-            })
-            $(document).on('click', '#avatar-3', function () {
-                if (sp_avtr_3 == 0) {
-                    $('#avatar-3').addClass('active');
-                    sp_avtr_3 = 1;
-                    $('#hidden_avatar').val(3);
-                    if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
-                    if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
-                    if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
-                    if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
-                    if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
-                }
-                else {
-                    $('#avatar-3').removeClass('active');
-                    sp_avtr_3 = 0;
-                }
-            })
-            $(document).on('click', '#avatar-4', function () {
-                if (sp_avtr_4 == 0) {
-                    $('#avatar-4').addClass('active');
-                    sp_avtr_4 = 1;
-                    $('#hidden_avatar').val(4);
-                    if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
-                    if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
-                    if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
-                    if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
-                    if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
-                }
-                else {
-                    $('#avatar-4').removeClass('active');
-                    sp_avtr_4 = 0;
-                }
-            })
-            $(document).on('click', '#avatar-5', function () {
-                if (sp_avtr_5 == 0) {
-                    $('#avatar-5').addClass('active');
-                    sp_avtr_5 = 1;
-                    $('#hidden_avatar').val(5);
-                    if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
-                    if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
-                    if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
-                    if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
-                    if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
-                }
-                else {
-                    $('#avatar-5').removeClass('active');
-                    sp_avtr_5 = 0;
-                }
-            })
-            $(document).on('click', '#avatar-6', function () {
-                if (sp_avtr_6 == 0) {
-                    $('#avatar-6').addClass('active');
-                    sp_avtr_6 = 1;
-                    $('#hidden_avatar').val(6);
-                    if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
-                    if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
-                    if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
-                    if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
-                    if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
-                }
-                else {
-                    $('#avatar-6').removeClass('active');
-                    sp_avtr_6 = 0;
-                }
-            })</script>}
+            if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
+            if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
+            if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
+            if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
+            if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
+        }
+        else {
+            $('#avatar-2').removeClass('active');
+            sp_avtr_2 = 0;
+        }
+    })
+    $(document).on('click', '#avatar-3', function () {
+        if (sp_avtr_3 == 0) {
+            $('#avatar-3').addClass('active');
+            sp_avtr_3 = 1;
+            $('#hidden_avatar').val(3);
+            if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
+            if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
+            if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
+            if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
+            if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
+        }
+        else {
+            $('#avatar-3').removeClass('active');
+            sp_avtr_3 = 0;
+        }
+    })
+    $(document).on('click', '#avatar-4', function () {
+        if (sp_avtr_4 == 0) {
+            $('#avatar-4').addClass('active');
+            sp_avtr_4 = 1;
+            $('#hidden_avatar').val(4);
+            if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
+            if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
+            if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
+            if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
+            if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
+        }
+        else {
+            $('#avatar-4').removeClass('active');
+            sp_avtr_4 = 0;
+        }
+    })
+    $(document).on('click', '#avatar-5', function () {
+        if (sp_avtr_5 == 0) {
+            $('#avatar-5').addClass('active');
+            sp_avtr_5 = 1;
+            $('#hidden_avatar').val(5);
+            if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
+            if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
+            if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
+            if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
+            if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
+        }
+        else {
+            $('#avatar-5').removeClass('active');
+            sp_avtr_5 = 0;
+        }
+    })
+    $(document).on('click', '#avatar-6', function () {
+        if (sp_avtr_6 == 0) {
+            $('#avatar-6').addClass('active');
+            sp_avtr_6 = 1;
+            $('#hidden_avatar').val(6);
+            if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
+            if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
+            if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
+            if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
+            if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
+        }
+        else {
+            $('#avatar-6').removeClass('active');
+            sp_avtr_6 = 0;
+        }
+    })</script>}
     @if (Model.avatar == "3")
     {
-<script>var sp_avtr_1 = 0;
-            var sp_avtr_2 = 0;
-            var sp_avtr_3 = 1;
-            var sp_avtr_4 = 0;
-            var sp_avtr_5 = 0;
-            var sp_avtr_6 = 0;
+<script>
+    var sp_avtr_1 = 0;
+    var sp_avtr_2 = 0;
+    var sp_avtr_3 = 1;
+    var sp_avtr_4 = 0;
+    var sp_avtr_5 = 0;
+    var sp_avtr_6 = 0;
+    $('#avatar-3').addClass('active');
+    $('#hidden_avatar').val(3);
+    $(document).on('click', '#avatar-1', function () {
+        if (sp_avtr_1 == 0) {
+            $('#avatar-1').addClass('active');
+            sp_avtr_1 = 1;
+            $('#hidden_avatar').val(1); console.log("avatar - 1 ", $('#hidden_avatar').val());
+            if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
+            if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
+            if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
+            if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
+            if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
+        }
+        else {
+            $('#avatar-1').removeClass('active');
+            sp_avtr_1 = 0;
+        }
+    })
+    $(document).on('click', '#avatar-2', function () {
+        if (sp_avtr_2 == 0) {
+            $('#avatar-2').addClass('active');
+            sp_avtr_2 = 1;
+            $('#hidden_avatar').val(2);
+            if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
+            if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
+            if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
+            if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
+            if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
+        }
+        else {
+            $('#avatar-2').removeClass('active');
+            sp_avtr_2 = 0;
+        }
+    })
+    $(document).on('click', '#avatar-3', function () {
+        if (sp_avtr_3 == 0) {
             $('#avatar-3').addClass('active');
+            sp_avtr_3 = 1;
             $('#hidden_avatar').val(3);
-            $(document).on('click', '#avatar-1', function () {
-                if (sp_avtr_1 == 0) {
-                    $('#avatar-1').addClass('active');
-                    sp_avtr_1 = 1;
-                    $('#hidden_avatar').val(1); console.log("avatar - 1 ", $('#hidden_avatar').val());
-                    if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
-                    if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
-                    if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
-                    if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
-                    if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
-                }
-                else {
-                    $('#avatar-1').removeClass('active');
-                    sp_avtr_1 = 0;
-                }
-            })
-            $(document).on('click', '#avatar-2', function () {
-                if (sp_avtr_2 == 0) {
-                    $('#avatar-2').addClass('active');
-                    sp_avtr_2 = 1;
-                    $('#hidden_avatar').val(2);
-                    if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
-                    if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
-                    if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
-                    if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
-                    if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
-                }
-                else {
-                    $('#avatar-2').removeClass('active');
-                    sp_avtr_2 = 0;
-                }
-            })
-            $(document).on('click', '#avatar-3', function () {
-                if (sp_avtr_3 == 0) {
-                    $('#avatar-3').addClass('active');
-                    sp_avtr_3 = 1;
-                    $('#hidden_avatar').val(3);
-                    if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
-                    if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
-                    if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
-                    if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
-                    if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
-                }
-                else {
-                    $('#avatar-3').removeClass('active');
-                    sp_avtr_3 = 0;
-                }
-            })
-            $(document).on('click', '#avatar-4', function () {
-                if (sp_avtr_4 == 0) {
-                    $('#avatar-4').addClass('active');
-                    sp_avtr_4 = 1;
-                    $('#hidden_avatar').val(4);
-                    if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
-                    if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
-                    if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
-                    if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
-                    if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
-                }
-                else {
-                    $('#avatar-4').removeClass('active');
-                    sp_avtr_4 = 0;
-                }
-            })
-            $(document).on('click', '#avatar-5', function () {
-                if (sp_avtr_5 == 0) {
-                    $('#avatar-5').addClass('active');
-                    sp_avtr_5 = 1;
-                    $('#hidden_avatar').val(5);
-                    if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
-                    if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
-                    if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
-                    if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
-                    if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
-                }
-                else {
-                    $('#avatar-5').removeClass('active');
-                    sp_avtr_5 = 0;
-                }
-            })
-            $(document).on('click', '#avatar-6', function () {
-                if (sp_avtr_6 == 0) {
-                    $('#avatar-6').addClass('active');
-                    sp_avtr_6 = 1;
-                    $('#hidden_avatar').val(6);
-                    if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
-                    if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
-                    if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
-                    if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
-                    if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
-                }
-                else {
-                    $('#avatar-6').removeClass('active');
-                    sp_avtr_6 = 0;
-                }
-            })</script>}
+            if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
+            if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
+            if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
+            if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
+            if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
+        }
+        else {
+            $('#avatar-3').removeClass('active');
+            sp_avtr_3 = 0;
+        }
+    })
+    $(document).on('click', '#avatar-4', function () {
+        if (sp_avtr_4 == 0) {
+            $('#avatar-4').addClass('active');
+            sp_avtr_4 = 1;
+            $('#hidden_avatar').val(4);
+            if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
+            if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
+            if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
+            if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
+            if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
+        }
+        else {
+            $('#avatar-4').removeClass('active');
+            sp_avtr_4 = 0;
+        }
+    })
+    $(document).on('click', '#avatar-5', function () {
+        if (sp_avtr_5 == 0) {
+            $('#avatar-5').addClass('active');
+            sp_avtr_5 = 1;
+            $('#hidden_avatar').val(5);
+            if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
+            if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
+            if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
+            if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
+            if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
+        }
+        else {
+            $('#avatar-5').removeClass('active');
+            sp_avtr_5 = 0;
+        }
+    })
+    $(document).on('click', '#avatar-6', function () {
+        if (sp_avtr_6 == 0) {
+            $('#avatar-6').addClass('active');
+            sp_avtr_6 = 1;
+            $('#hidden_avatar').val(6);
+            if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
+            if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
+            if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
+            if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
+            if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
+        }
+        else {
+            $('#avatar-6').removeClass('active');
+            sp_avtr_6 = 0;
+        }
+    })</script>}
     @if (Model.avatar == "4")
     {
-<script>var sp_avtr_1 = 0;
-            var sp_avtr_2 = 0;
-            var sp_avtr_3 = 0;
-            var sp_avtr_4 = 1;
-            var sp_avtr_5 = 0;
-            var sp_avtr_6 = 0;
+<script>
+    var sp_avtr_1 = 0;
+    var sp_avtr_2 = 0;
+    var sp_avtr_3 = 0;
+    var sp_avtr_4 = 1;
+    var sp_avtr_5 = 0;
+    var sp_avtr_6 = 0;
+    $('#avatar-4').addClass('active');
+    $('#hidden_avatar').val(4);
+    $(document).on('click', '#avatar-1', function () {
+        if (sp_avtr_1 == 0) {
+            $('#avatar-1').addClass('active');
+            sp_avtr_1 = 1;
+            $('#hidden_avatar').val(1); console.log("avatar - 1 ", $('#hidden_avatar').val());
+            if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
+            if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
+            if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
+            if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
+            if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
+        }
+        else {
+            $('#avatar-1').removeClass('active');
+            sp_avtr_1 = 0;
+        }
+    })
+    $(document).on('click', '#avatar-2', function () {
+        if (sp_avtr_2 == 0) {
+            $('#avatar-2').addClass('active');
+            sp_avtr_2 = 1;
+            $('#hidden_avatar').val(2);
+            if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
+            if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
+            if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
+            if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
+            if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
+        }
+        else {
+            $('#avatar-2').removeClass('active');
+            sp_avtr_2 = 0;
+        }
+    })
+    $(document).on('click', '#avatar-3', function () {
+        if (sp_avtr_3 == 0) {
+            $('#avatar-3').addClass('active');
+            sp_avtr_3 = 1;
+            $('#hidden_avatar').val(3);
+            if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
+            if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
+            if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
+            if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
+            if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
+        }
+        else {
+            $('#avatar-3').removeClass('active');
+            sp_avtr_3 = 0;
+        }
+    })
+    $(document).on('click', '#avatar-4', function () {
+        if (sp_avtr_4 == 0) {
             $('#avatar-4').addClass('active');
+            sp_avtr_4 = 1;
             $('#hidden_avatar').val(4);
-            $(document).on('click', '#avatar-1', function () {
-                if (sp_avtr_1 == 0) {
-                    $('#avatar-1').addClass('active');
-                    sp_avtr_1 = 1;
-                    $('#hidden_avatar').val(1); console.log("avatar - 1 ", $('#hidden_avatar').val());
-                    if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
-                    if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
-                    if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
-                    if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
-                    if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
-                }
-                else {
-                    $('#avatar-1').removeClass('active');
-                    sp_avtr_1 = 0;
-                }
-            })
-            $(document).on('click', '#avatar-2', function () {
-                if (sp_avtr_2 == 0) {
-                    $('#avatar-2').addClass('active');
-                    sp_avtr_2 = 1;
-                    $('#hidden_avatar').val(2);
-                    if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
-                    if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
-                    if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
-                    if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
-                    if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
-                }
-                else {
-                    $('#avatar-2').removeClass('active');
-                    sp_avtr_2 = 0;
-                }
-            })
-            $(document).on('click', '#avatar-3', function () {
-                if (sp_avtr_3 == 0) {
-                    $('#avatar-3').addClass('active');
-                    sp_avtr_3 = 1;
-                    $('#hidden_avatar').val(3);
-                    if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
-                    if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
-                    if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
-                    if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
-                    if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
-                }
-                else {
-                    $('#avatar-3').removeClass('active');
-                    sp_avtr_3 = 0;
-                }
-            })
-            $(document).on('click', '#avatar-4', function () {
-                if (sp_avtr_4 == 0) {
-                    $('#avatar-4').addClass('active');
-                    sp_avtr_4 = 1;
-                    $('#hidden_avatar').val(4);
-                    if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
-                    if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
-                    if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
-                    if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
-                    if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
-                }
-                else {
-                    $('#avatar-4').removeClass('active');
-                    sp_avtr_4 = 0;
-                }
-            })
-            $(document).on('click', '#avatar-5', function () {
-                if (sp_avtr_5 == 0) {
-                    $('#avatar-5').addClass('active');
-                    sp_avtr_5 = 1;
-                    $('#hidden_avatar').val(5);
-                    if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
-                    if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
-                    if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
-                    if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
-                    if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
-                }
-                else {
-                    $('#avatar-5').removeClass('active');
-                    sp_avtr_5 = 0;
-                }
-            })
-            $(document).on('click', '#avatar-6', function () {
-                if (sp_avtr_6 == 0) {
-                    $('#avatar-6').addClass('active');
-                    sp_avtr_6 = 1;
-                    $('#hidden_avatar').val(6);
-                    if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
-                    if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
-                    if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
-                    if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
-                    if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
-                }
-                else {
-                    $('#avatar-6').removeClass('active');
-                    sp_avtr_6 = 0;
-                }
-            })</script>}
+            if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
+            if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
+            if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
+            if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
+            if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
+        }
+        else {
+            $('#avatar-4').removeClass('active');
+            sp_avtr_4 = 0;
+        }
+    })
+    $(document).on('click', '#avatar-5', function () {
+        if (sp_avtr_5 == 0) {
+            $('#avatar-5').addClass('active');
+            sp_avtr_5 = 1;
+            $('#hidden_avatar').val(5);
+            if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
+            if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
+            if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
+            if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
+            if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
+        }
+        else {
+            $('#avatar-5').removeClass('active');
+            sp_avtr_5 = 0;
+        }
+    })
+    $(document).on('click', '#avatar-6', function () {
+        if (sp_avtr_6 == 0) {
+            $('#avatar-6').addClass('active');
+            sp_avtr_6 = 1;
+            $('#hidden_avatar').val(6);
+            if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
+            if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
+            if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
+            if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
+            if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
+        }
+        else {
+            $('#avatar-6').removeClass('active');
+            sp_avtr_6 = 0;
+        }
+    })</script>}
     @if (Model.avatar == "5")
     {
-<script>var sp_avtr_1 = 0;
-            var sp_avtr_2 = 0;
-            var sp_avtr_3 = 0;
-            var sp_avtr_4 = 0;
-            var sp_avtr_5 = 1;
-            var sp_avtr_6 = 0;
+<script>
+    var sp_avtr_1 = 0;
+    var sp_avtr_2 = 0;
+    var sp_avtr_3 = 0;
+    var sp_avtr_4 = 0;
+    var sp_avtr_5 = 1;
+    var sp_avtr_6 = 0;
+    $('#avatar-5').addClass('active');
+    $('#hidden_avatar').val(5);
+    $(document).on('click', '#avatar-1', function () {
+        if (sp_avtr_1 == 0) {
+            $('#avatar-1').addClass('active');
+            sp_avtr_1 = 1;
+            $('#hidden_avatar').val(1); console.log("avatar - 1 ", $('#hidden_avatar').val());
+            if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
+            if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
+            if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
+            if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
+            if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
+        }
+        else {
+            $('#avatar-1').removeClass('active');
+            sp_avtr_1 = 0;
+        }
+    })
+    $(document).on('click', '#avatar-2', function () {
+        if (sp_avtr_2 == 0) {
+            $('#avatar-2').addClass('active');
+            sp_avtr_2 = 1;
+            $('#hidden_avatar').val(2);
+            if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
+            if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
+            if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
+            if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
+            if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
+        }
+        else {
+            $('#avatar-2').removeClass('active');
+            sp_avtr_2 = 0;
+        }
+    })
+    $(document).on('click', '#avatar-3', function () {
+        if (sp_avtr_3 == 0) {
+            $('#avatar-3').addClass('active');
+            sp_avtr_3 = 1;
+            $('#hidden_avatar').val(3);
+            if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
+            if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
+            if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
+            if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
+            if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
+        }
+        else {
+            $('#avatar-3').removeClass('active');
+            sp_avtr_3 = 0;
+        }
+    })
+    $(document).on('click', '#avatar-4', function () {
+        if (sp_avtr_4 == 0) {
+            $('#avatar-4').addClass('active');
+            sp_avtr_4 = 1;
+            $('#hidden_avatar').val(4);
+            if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
+            if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
+            if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
+            if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
+            if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
+        }
+        else {
+            $('#avatar-4').removeClass('active');
+            sp_avtr_4 = 0;
+        }
+    })
+    $(document).on('click', '#avatar-5', function () {
+        if (sp_avtr_5 == 0) {
             $('#avatar-5').addClass('active');
+            sp_avtr_5 = 1;
             $('#hidden_avatar').val(5);
-            $(document).on('click', '#avatar-1', function () {
-                if (sp_avtr_1 == 0) {
-                    $('#avatar-1').addClass('active');
-                    sp_avtr_1 = 1;
-                    $('#hidden_avatar').val(1); console.log("avatar - 1 ", $('#hidden_avatar').val());
-                    if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
-                    if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
-                    if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
-                    if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
-                    if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
-                }
-                else {
-                    $('#avatar-1').removeClass('active');
-                    sp_avtr_1 = 0;
-                }
-            })
-            $(document).on('click', '#avatar-2', function () {
-                if (sp_avtr_2 == 0) {
-                    $('#avatar-2').addClass('active');
-                    sp_avtr_2 = 1;
-                    $('#hidden_avatar').val(2);
-                    if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
-                    if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
-                    if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
-                    if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
-                    if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
-                }
-                else {
-                    $('#avatar-2').removeClass('active');
-                    sp_avtr_2 = 0;
-                }
-            })
-            $(document).on('click', '#avatar-3', function () {
-                if (sp_avtr_3 == 0) {
-                    $('#avatar-3').addClass('active');
-                    sp_avtr_3 = 1;
-                    $('#hidden_avatar').val(3);
-                    if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
-                    if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
-                    if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
-                    if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
-                    if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
-                }
-                else {
-                    $('#avatar-3').removeClass('active');
-                    sp_avtr_3 = 0;
-                }
-            })
-            $(document).on('click', '#avatar-4', function () {
-                if (sp_avtr_4 == 0) {
-                    $('#avatar-4').addClass('active');
-                    sp_avtr_4 = 1;
-                    $('#hidden_avatar').val(4);
-                    if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
-                    if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
-                    if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
-                    if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
-                    if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
-                }
-                else {
-                    $('#avatar-4').removeClass('active');
-                    sp_avtr_4 = 0;
-                }
-            })
-            $(document).on('click', '#avatar-5', function () {
-                if (sp_avtr_5 == 0) {
-                    $('#avatar-5').addClass('active');
-                    sp_avtr_5 = 1;
-                    $('#hidden_avatar').val(5);
-                    if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
-                    if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
-                    if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
-                    if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
-                    if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
-                }
-                else {
-                    $('#avatar-5').removeClass('active');
-                    sp_avtr_5 = 0;
-                }
-            })
-            $(document).on('click', '#avatar-6', function () {
-                if (sp_avtr_6 == 0) {
-                    $('#avatar-6').addClass('active');
-                    sp_avtr_6 = 1;
-                    $('#hidden_avatar').val(6);
-                    if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
-                    if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
-                    if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
-                    if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
-                    if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
-                }
-                else {
-                    $('#avatar-6').removeClass('active');
-                    sp_avtr_6 = 0;
-                }
-            })</script>}
+            if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
+            if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
+            if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
+            if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
+            if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
+        }
+        else {
+            $('#avatar-5').removeClass('active');
+            sp_avtr_5 = 0;
+        }
+    })
+    $(document).on('click', '#avatar-6', function () {
+        if (sp_avtr_6 == 0) {
+            $('#avatar-6').addClass('active');
+            sp_avtr_6 = 1;
+            $('#hidden_avatar').val(6);
+            if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
+            if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
+            if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
+            if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
+            if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
+        }
+        else {
+            $('#avatar-6').removeClass('active');
+            sp_avtr_6 = 0;
+        }
+    })</script>}
     @if (Model.avatar == "6")
     {
-<script>var sp_avtr_1 = 0;
-            var sp_avtr_2 = 0;
-            var sp_avtr_3 = 0;
-            var sp_avtr_4 = 0;
-            var sp_avtr_5 = 0;
-            var sp_avtr_6 = 1;
+<script>
+    var sp_avtr_1 = 0;
+    var sp_avtr_2 = 0;
+    var sp_avtr_3 = 0;
+    var sp_avtr_4 = 0;
+    var sp_avtr_5 = 0;
+    var sp_avtr_6 = 1;
+    $('#avatar-6').addClass('active');
+    $('#hidden_avatar').val(6);
+    $(document).on('click', '#avatar-1', function () {
+        if (sp_avtr_1 == 0) {
+            $('#avatar-1').addClass('active');
+            sp_avtr_1 = 1;
+            $('#hidden_avatar').val(1); console.log("avatar - 1 ", $('#hidden_avatar').val());
+            if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
+            if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
+            if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
+            if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
+            if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
+        }
+        else {
+            $('#avatar-1').removeClass('active');
+            sp_avtr_1 = 0;
+        }
+    })
+    $(document).on('click', '#avatar-2', function () {
+        if (sp_avtr_2 == 0) {
+            $('#avatar-2').addClass('active');
+            sp_avtr_2 = 1;
+            $('#hidden_avatar').val(2);
+            if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
+            if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
+            if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
+            if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
+            if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
+        }
+        else {
+            $('#avatar-2').removeClass('active');
+            sp_avtr_2 = 0;
+        }
+    })
+    $(document).on('click', '#avatar-3', function () {
+        if (sp_avtr_3 == 0) {
+            $('#avatar-3').addClass('active');
+            sp_avtr_3 = 1;
+            $('#hidden_avatar').val(3);
+            if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
+            if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
+            if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
+            if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
+            if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
+        }
+        else {
+            $('#avatar-3').removeClass('active');
+            sp_avtr_3 = 0;
+        }
+    })
+    $(document).on('click', '#avatar-4', function () {
+        if (sp_avtr_4 == 0) {
+            $('#avatar-4').addClass('active');
+            sp_avtr_4 = 1;
+            $('#hidden_avatar').val(4);
+            if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
+            if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
+            if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
+            if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
+            if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
+        }
+        else {
+            $('#avatar-4').removeClass('active');
+            sp_avtr_4 = 0;
+        }
+    })
+    $(document).on('click', '#avatar-5', function () {
+        if (sp_avtr_5 == 0) {
+            $('#avatar-5').addClass('active');
+            sp_avtr_5 = 1;
+            $('#hidden_avatar').val(5);
+            if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
+            if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
+            if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
+            if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
+            if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
+        }
+        else {
+            $('#avatar-5').removeClass('active');
+            sp_avtr_5 = 0;
+        }
+    })
+    $(document).on('click', '#avatar-6', function () {
+        if (sp_avtr_6 == 0) {
             $('#avatar-6').addClass('active');
+            sp_avtr_6 = 1;
             $('#hidden_avatar').val(6);
-            $(document).on('click', '#avatar-1', function () {
-                if (sp_avtr_1 == 0) {
-                    $('#avatar-1').addClass('active');
-                    sp_avtr_1 = 1;
-                    $('#hidden_avatar').val(1); console.log("avatar - 1 ", $('#hidden_avatar').val());
-                    if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
-                    if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
-                    if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
-                    if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
-                    if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
-                }
-                else {
-                    $('#avatar-1').removeClass('active');
-                    sp_avtr_1 = 0;
-                }
-            })
-            $(document).on('click', '#avatar-2', function () {
-                if (sp_avtr_2 == 0) {
-                    $('#avatar-2').addClass('active');
-                    sp_avtr_2 = 1;
-                    $('#hidden_avatar').val(2);
-                    if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
-                    if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
-                    if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
-                    if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
-                    if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
-                }
-                else {
-                    $('#avatar-2').removeClass('active');
-                    sp_avtr_2 = 0;
-                }
-            })
-            $(document).on('click', '#avatar-3', function () {
-                if (sp_avtr_3 == 0) {
-                    $('#avatar-3').addClass('active');
-                    sp_avtr_3 = 1;
-                    $('#hidden_avatar').val(3);
-                    if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
-                    if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
-                    if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
-                    if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
-                    if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
-                }
-                else {
-                    $('#avatar-3').removeClass('active');
-                    sp_avtr_3 = 0;
-                }
-            })
-            $(document).on('click', '#avatar-4', function () {
-                if (sp_avtr_4 == 0) {
-                    $('#avatar-4').addClass('active');
-                    sp_avtr_4 = 1;
-                    $('#hidden_avatar').val(4);
-                    if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
-                    if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
-                    if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
-                    if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
-                    if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
-                }
-                else {
-                    $('#avatar-4').removeClass('active');
-                    sp_avtr_4 = 0;
-                }
-            })
-            $(document).on('click', '#avatar-5', function () {
-                if (sp_avtr_5 == 0) {
-                    $('#avatar-5').addClass('active');
-                    sp_avtr_5 = 1;
-                    $('#hidden_avatar').val(5);
-                    if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
-                    if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
-                    if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
-                    if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
-                    if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
-                }
-                else {
-                    $('#avatar-5').removeClass('active');
-                    sp_avtr_5 = 0;
-                }
-            })
-            $(document).on('click', '#avatar-6', function () {
-                if (sp_avtr_6 == 0) {
-                    $('#avatar-6').addClass('active');
-                    sp_avtr_6 = 1;
-                    $('#hidden_avatar').val(6);
-                    if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
-                    if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
-                    if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
-                    if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
-                    if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
-                }
-                else {
-                    $('#avatar-6').removeClass('active');
-                    sp_avtr_6 = 0;
-                }
-            })</script>}
+            if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
+            if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
+            if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
+            if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
+            if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
+        }
+        else {
+            $('#avatar-6').removeClass('active');
+            sp_avtr_6 = 0;
+        }
+    })</script>}
     @if (Model.avatar == null)
     {
-<script>var sp_avtr_1 = 0;
-            var sp_avtr_2 = 0;
-            var sp_avtr_3 = 0;
-            var sp_avtr_4 = 0;
-            var sp_avtr_5 = 0;
-            var sp_avtr_6 = 0;
+<script>
+    var sp_avtr_1 = 0;
+    var sp_avtr_2 = 0;
+    var sp_avtr_3 = 0;
+    var sp_avtr_4 = 0;
+    var sp_avtr_5 = 0;
+    var sp_avtr_6 = 0;
+    $('#avatar-6').addClass('active');
+    $('#hidden_avatar').val(6);
+    $(document).on('click', '#avatar-1', function () {
+        if (sp_avtr_1 == 0) {
+            $('#avatar-1').addClass('active');
+            sp_avtr_1 = 1;
+            $('#hidden_avatar').val(1); console.log("avatar - 1 ", $('#hidden_avatar').val());
+            if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
+            if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
+            if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
+            if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
+            if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
+        }
+        else {
+            $('#avatar-1').removeClass('active');
+            sp_avtr_1 = 0;
+        }
+    })
+    $(document).on('click', '#avatar-2', function () {
+        if (sp_avtr_2 == 0) {
+            $('#avatar-2').addClass('active');
+            sp_avtr_2 = 1;
+            $('#hidden_avatar').val(2);
+            if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
+            if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
+            if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
+            if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
+            if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
+        }
+        else {
+            $('#avatar-2').removeClass('active');
+            sp_avtr_2 = 0;
+        }
+    })
+    $(document).on('click', '#avatar-3', function () {
+        if (sp_avtr_3 == 0) {
+            $('#avatar-3').addClass('active');
+            sp_avtr_3 = 1;
+            $('#hidden_avatar').val(3);
+            if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
+            if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
+            if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
+            if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
+            if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
+        }
+        else {
+            $('#avatar-3').removeClass('active');
+            sp_avtr_3 = 0;
+        }
+    })
+    $(document).on('click', '#avatar-4', function () {
+        if (sp_avtr_4 == 0) {
+            $('#avatar-4').addClass('active');
+            sp_avtr_4 = 1;
+            $('#hidden_avatar').val(4);
+            if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
+            if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
+            if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
+            if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
+            if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
+        }
+        else {
+            $('#avatar-4').removeClass('active');
+            sp_avtr_4 = 0;
+        }
+    })
+    $(document).on('click', '#avatar-5', function () {
+        if (sp_avtr_5 == 0) {
+            $('#avatar-5').addClass('active');
+            sp_avtr_5 = 1;
+            $('#hidden_avatar').val(5);
+            if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
+            if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
+            if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
+            if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
+            if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
+        }
+        else {
+            $('#avatar-5').removeClass('active');
+            sp_avtr_5 = 0;
+        }
+    })
+    $(document).on('click', '#avatar-6', function () {
+        if (sp_avtr_6 == 0) {
             $('#avatar-6').addClass('active');
+            sp_avtr_6 = 1;
             $('#hidden_avatar').val(6);
-            $(document).on('click', '#avatar-1', function () {
-                if (sp_avtr_1 == 0) {
-                    $('#avatar-1').addClass('active');
-                    sp_avtr_1 = 1;
-                    $('#hidden_avatar').val(1); console.log("avatar - 1 ", $('#hidden_avatar').val());
-                    if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
-                    if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
-                    if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
-                    if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
-                    if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
-                }
-                else {
-                    $('#avatar-1').removeClass('active');
-                    sp_avtr_1 = 0;
-                }
-            })
-            $(document).on('click', '#avatar-2', function () {
-                if (sp_avtr_2 == 0) {
-                    $('#avatar-2').addClass('active');
-                    sp_avtr_2 = 1;
-                    $('#hidden_avatar').val(2);
-                    if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
-                    if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
-                    if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
-                    if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
-                    if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
-                }
-                else {
-                    $('#avatar-2').removeClass('active');
-                    sp_avtr_2 = 0;
-                }
-            })
-            $(document).on('click', '#avatar-3', function () {
-                if (sp_avtr_3 == 0) {
-                    $('#avatar-3').addClass('active');
-                    sp_avtr_3 = 1;
-                    $('#hidden_avatar').val(3);
-                    if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
-                    if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
-                    if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
-                    if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
-                    if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
-                }
-                else {
-                    $('#avatar-3').removeClass('active');
-                    sp_avtr_3 = 0;
-                }
-            })
-            $(document).on('click', '#avatar-4', function () {
-                if (sp_avtr_4 == 0) {
-                    $('#avatar-4').addClass('active');
-                    sp_avtr_4 = 1;
-                    $('#hidden_avatar').val(4);
-                    if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
-                    if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
-                    if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
-                    if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
-                    if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
-                }
-                else {
-                    $('#avatar-4').removeClass('active');
-                    sp_avtr_4 = 0;
-                }
-            })
-            $(document).on('click', '#avatar-5', function () {
-                if (sp_avtr_5 == 0) {
-                    $('#avatar-5').addClass('active');
-                    sp_avtr_5 = 1;
-                    $('#hidden_avatar').val(5);
-                    if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
-                    if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
-                    if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
-                    if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
-                    if (sp_avtr_6 == 1) { $('#avatar-6').removeClass('active'); sp_avtr_6 = 0; }
-                }
-                else {
-                    $('#avatar-5').removeClass('active');
-                    sp_avtr_5 = 0;
-                }
-            })
-            $(document).on('click', '#avatar-6', function () {
-                if (sp_avtr_6 == 0) {
-                    $('#avatar-6').addClass('active');
-                    sp_avtr_6 = 1;
-                    $('#hidden_avatar').val(6);
-                    if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
-                    if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
-                    if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
-                    if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
-                    if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
-                }
-                else {
-                    $('#avatar-6').removeClass('active');
-                    sp_avtr_6 = 0;
-                }
-            })</script>}
+            if (sp_avtr_2 == 1) { $('#avatar-2').removeClass('active'); sp_avtr_2 = 0; }
+            if (sp_avtr_3 == 1) { $('#avatar-3').removeClass('active'); sp_avtr_3 = 0; }
+            if (sp_avtr_4 == 1) { $('#avatar-4').removeClass('active'); sp_avtr_4 = 0; }
+            if (sp_avtr_5 == 1) { $('#avatar-5').removeClass('active'); sp_avtr_5 = 0; }
+            if (sp_avtr_1 == 1) { $('#avatar-1').removeClass('active'); sp_avtr_1 = 0; }
+        }
+        else {
+            $('#avatar-6').removeClass('active');
+            sp_avtr_6 = 0;
+        }
+    })</script>}
     @if (ViewBag.sp_gender != null)
     {
         if (ViewBag.sp_gender == 1)
@@ -1090,175 +1124,181 @@
             }
     @if (ViewBag.sp_cust_block != null)
     {
-<script>$('#v-pills-bc-nav').addClass('active');
-            $('#v-pills-mySetting').removeClass('active');
-            $('#v-pills-mySetting').removeClass('show');
-            $('#v-pills-bc').addClass('show');
-            $('#v-pills-bc').addClass('active');</script>}
+<script>
+    $('#v-pills-bc-nav').addClass('active');
+    $('#v-pills-mySetting').removeClass('active');
+    $('#v-pills-mySetting').removeClass('show');
+    $('#v-pills-bc').addClass('show');
+    $('#v-pills-bc').addClass('active');</script>}
     @if (HttpContextAccessor.HttpContext.Session.GetString("cant_complete_ser") == "true")
     {
-<script>var nospModal = new bootstrap.Modal(document.getElementById("nospModal"), {});
-            document.onreadystatechange = function () {
-                nospModal.show();
-            };
-            $('#v-pills-us-nav').addClass('active');
-            $('#v-pills-mySetting').removeClass('active');
-            $('#v-pills-mySetting').removeClass('show');
-            $('#v-pills-us').addClass('show');
-            $('#v-pills-us').addClass('active');</script>}
+<script>
+    var nospModal = new bootstrap.Modal(document.getElementById("nospModal"), {});
+    document.onreadystatechange = function () {
+        nospModal.show();
+    };
+    $('#v-pills-us-nav').addClass('active');
+    $('#v-pills-mySetting').removeClass('active');
+    $('#v-pills-mySetting').removeClass('show');
+    $('#v-pills-us').addClass('show');
+    $('#v-pills-us').addClass('active');</script>}
     @if (ViewBag.sp_cancel_service != null)
     {
-<script>$('#v-pills-us-nav').addClass('active');
-            $('#v-pills-mySetting').removeClass('active');
-            $('#v-pills-mySetting').removeClass('show');
-            $('#v-pills-us').addClass('show');
-            $('#v-pills-us').addClass('active');</script>}
+<script>
+    $('#v-pills-us-nav').addClass('active');
+    $('#v-pills-mySetting').removeClass('active');
+    $('#v-pills-mySetting').removeClass('show');
+    $('#v-pills-us').addClass('show');
+    $('#v-pills-us').addClass('active');</script>}
     @if (ViewBag.sp_complete_service != null)
     {
-<script>$('#v-pills-us-nav').addClass('active');
-            $('#v-pills-mySetting').removeClass('active');
-            $('#v-pills-mySetting').removeClass('show');
-            $('#v-pills-us').addClass('show');
-            $('#v-pills-us').addClass('active');</script>}
+<script>
+    $('#v-pills-us-nav').addClass('active');
+    $('#v-pills-mySetting').removeClass('active');
+    $('#v-pills-mySetting').removeClass('show');
+    $('#v-pills-us').addClass('show');
+    $('#v-pills-us').addClass('active');</script>}
     @if (ViewBag.service_accepted != null)
     {
-<script>$('#v-pills-nsr-nav').addClass('active');
-            $('#v-pills-mySetting').removeClass('active');
-            $('#v-pills-mySetting').removeClass('show');
-            $('#v-pills-nsr').addClass('show');
-            $('#v-pills-nsr').addClass('active');</script>}
+<script>
+    $('#v-pills-nsr-nav').addClass('active');
+    $('#v-pills-mySetting').removeClass('active');
+    $('#v-pills-mySetting').removeClass('show');
+    $('#v-pills-nsr').addClass('show');
+    $('#v-pills-nsr').addClass('active');</script>}
 
     @if (ViewBag.spmysetting != null)
     {
-<script>$(document).ready(function () {
-                $("#spshTable").DataTable({
-                    "dom": 'Bt<"table-bottom d-flex justify-content-between"<"table-bottom-inner d-flex"li>p>',
-                    "pagingType": "full_numbers",
-                    "searching": false,
-                    'columnDefs': [{
-                        'targets': [2],
-                        'orderable': false,
-                    }],
-                    "language": {
-                        "paginate": {
-                            "first": '<img src="/images/leftMost.png" alt="">',
-                            "last": '<img src="/images/RightMost.png" alt="">',
-                            "previous": '<img src="/images/Left-arrow-button-copy.png" alt="">',
-                            "next": '<img src="/images/Right-arrow-button.png" alt="">'
-                        },
-                        'info': "Total Record: _MAX_",
-                    }
-                });
-                $(".buttons-pdf").hide();
-                $(".buttons-copy").hide();
-                $(".buttons-csv").hide();
-                $(".buttons-print").hide();
+<script>
+    $(document).ready(function () {
+        $("#spshTable").DataTable({
+            "dom": 'Bt<"table-bottom d-flex justify-content-between"<"table-bottom-inner d-flex"li>p>',
+            "pagingType": "full_numbers",
+            "searching": false,
+            'columnDefs': [{
+                'targets': [2],
+                'orderable': false,
+            }],
+            "language": {
+                "paginate": {
+                    "first": '<img src="/images/leftMost.png" alt="">',
+                    "last": '<img src="/images/RightMost.png" alt="">',
+                    "previous": '<img src="/images/Left-arrow-button-copy.png" alt="">',
+                    "next": '<img src="/images/Right-arrow-button.png" alt="">'
+                },
+                'info': "Total Record: _MAX_",
+            }
+        });
+        $(".buttons-pdf").hide();
+        $(".buttons-copy").hide();
+        $(".buttons-csv").hide();
+        $(".buttons-print").hide();
 
-                $("#export").on("click", function () {
-                    $(".buttons-csv").trigger("click");
-                });
-            });
+        $("#export").on("click", function () {
+            $(".buttons-csv").trigger("click");
+        });
+    });
 
-            $(document).ready(function () {
-                $("#spmrTable").DataTable({
-                    "dom": 'Bt<"table-bottom d-flex justify-content-between"<"table-bottom-inner d-flex"li>p>',
-                    "pagingType": "full_numbers",
-                    "searching": false,
-                    'columnDefs': [{
-                        'targets': [0],
-                        'orderable': false,
-                    }],
-                    "language": {
-                        "paginate": {
-                            "first": '<img src="/images/leftMost.png" alt="">',
-                            "last": '<img src="/images/RightMost.png" alt="">',
-                            "previous": '<img src="/images/Left-arrow-button-copy.png" alt="">',
-                            "next": '<img src="/images/Right-arrow-button.png" alt="">'
-                        },
-                        'info': "Total Record: _MAX_",
-                    }
-                });
-                $(".buttons-pdf").hide();
-                $(".buttons-copy").hide();
-                $(".buttons-csv").hide();
-                $(".buttons-print").hide();
-            });
+    $(document).ready(function () {
+        $("#spmrTable").DataTable({
+            "dom": 'Bt<"table-bottom d-flex justify-content-between"<"table-bottom-inner d-flex"li>p>',
+            "pagingType": "full_numbers",
+            "searching": false,
+            'columnDefs': [{
+                'targets': [0],
+                'orderable': false,
+            }],
+            "language": {
+                "paginate": {
+                    "first": '<img src="/images/leftMost.png" alt="">',
+                    "last": '<img src="/images/RightMost.png" alt="">',
+                    "previous": '<img src="/images/Left-arrow-button-copy.png" alt="">',
+                    "next": '<img src="/images/Right-arrow-button.png" alt="">'
+                },
+                'info': "Total Record: _MAX_",
+            }
+        });
+        $(".buttons-pdf").hide();
+        $(".buttons-copy").hide();
+        $(".buttons-csv").hide();
+        $(".buttons-print").hide();
+    });
 
-            $(document).ready(function () {
-                $("#spbcTable").DataTable({
-                    "dom": 'Bt<"table-bottom d-flex justify-content-between"<"table-bottom-inner d-flex"li>p>',
-                    "pagingType": "full_numbers",
-                    "searching": false,
-                    'columnDefs': [{
-                        'targets': [0],
-                        'orderable': false,
-                    }],
-                    "language": {
-                        "paginate": {
-                            "first": '<img src="/images/leftMost.png" alt="">',
-                            "last": '<img src="/images/RightMost.png" alt="">',
-                            "previous": '<img src="/images/Left-arrow-button-copy.png" alt="">',
-                            "next": '<img src="/images/Right-arrow-button.png" alt="">'
-                        },
-                        'info': "Total Record: _MAX_",
-                    }
-                });
-                $(".buttons-pdf").hide();
-                $(".buttons-copy").hide();
-                $(".buttons-csv").hide();
-                $(".buttons-print").hide();
-            });
+    $(document).ready(function () {
+        $("#spbcTable").DataTable({
+            "dom": 'Bt<"table-bottom d-flex justify-content-between"<"table-bottom-inner d-flex"li>p>',
+            "pagingType": "full_numbers",
+            "searching": false,
+            'columnDefs': [{
+                'targets': [0],
+                'orderable': false,
+            }],
+            "language": {
+                "paginate": {
+                    "first": '<img src="/images/leftMost.png" alt="">',
+                    "last": '<img src="/images/RightMost.png" alt="">',
+                    "previous": '<img src="/images/Left-arrow-button-copy.png" alt="">',
+                    "next": '<img src="/images/Right-arrow-button.png" alt="">'
+                },
+                'info': "Total Record: _MAX_",
+            }
+        });
+        $(".buttons-pdf").hide();
+        $(".buttons-copy").hide();
+        $(".buttons-csv").hide();
+        $(".buttons-print").hide();
+    });
 
-            $(document).ready(function () {
-                $("#spusTable").DataTable({
-                    "dom": 'Bt<"table-bottom d-flex justify-content-between"<"table-bottom-inner d-flex"li>p>',
-                    "pagingType": "full_numbers",
-                    "searching": false,
-                    'columnDefs': [{
-                        'targets': [5],
-                        'orderable': false,
-                    }],
-                    "language": {
-                        "paginate": {
-                            "first": '<img src="/images/leftMost.png" alt="">',
-                            "last": '<img src="/images/RightMost.png" alt="">',
-                            "previous": '<img src="/images/Left-arrow-button-copy.png" alt="">',
-                            "next": '<img src="/images/Right-arrow-button.png" alt="">'
-                        },
-                        'info': "Total Record: _MAX_",
-                    }
-                });
-                $(".buttons-pdf").hide();
-                $(".buttons-copy").hide();
-                $(".buttons-csv").hide();
-                $(".buttons-print").hide();
-            });
+    $(document).ready(function () {
+        $("#spusTable").DataTable({
+            "dom": 'Bt<"table-bottom d-flex justify-content-between"<"table-bottom-inner d-flex"li>p>',
+            "pagingType": "full_numbers",
+            "searching": false,
+            'columnDefs': [{
+                'targets': [5],
+                'orderable': false,
+            }],
+            "language": {
+                "paginate": {
+                    "first": '<img src="/images/leftMost.png" alt="">',
+                    "last": '<img src="/images/RightMost.png" alt="">',
+                    "previous": '<img src="/images/Left-arrow-button-copy.png" alt="">',
+                    "next": '<img src="/images/Right-arrow-button.png" alt="">'
+                },
+                'info': "Total Record: _MAX_",
+            }
+        });
+        $(".buttons-pdf").hide();
+        $(".buttons-copy").hide();
+        $(".buttons-csv").hide();
+        $(".buttons-print").hide();
+    });
 
-            $(document).ready(function () {
-                $("#spnsrTable").DataTable({
-                    "dom": 'Bt<"table-bottom d-flex justify-content-between"<"table-bottom-inner d-flex"li>p>',
-                    "pagingType": "full_numbers",
-                    "searching": false,
-                    'columnDefs': [{
-                        'targets': [5],
-                        'orderable': false,
-                    }],
-                    "language": {
-                        "paginate": {
-                            "first": '<img src="/images/leftMost.png" alt="">',
-                            "last": '<img src="/images/RightMost.png" alt="">',
-                            "previous": '<img src="/images/Left-arrow-button-copy.png" alt="">',
-                            "next": '<img src="/images/Right-arrow-button.png" alt="">'
-                        },
-                        'info': "Total Record: _MAX_",
-                    }
-                });
-                $(".buttons-pdf").hide();
-                $(".buttons-copy").hide();
-                $(".buttons-csv").hide();
-                $(".buttons-print").hide();
-            });
-    </script>}
+    $(document).ready(function () {
+        $("#spnsrTable").DataTable({
+            "dom": 'Bt<"table-bottom d-flex justify-content-between"<"table-bottom-inner d-flex"li>p>',
+            "pagingType": "full_numbers",
+            "searching": false,
+            'columnDefs': [{
+                'targets': [5],
+                'orderable': false,
+            }],
+            "language": {
+                "paginate": {
+                    "first": '<img src="/images/leftMost.png" alt="">',
+                    "last": '<img src="/images/RightMost.png" alt="">',
+                    "previous": '<img src="/images/Left-arrow-button-copy.png" alt="">',
+                    "next": '<img src="/images/Right-arrow-button.png" alt="">'
+                },
+                'info': "Total Record: _MAX_",
+            }
+        });
+        $(".buttons-pdf").hide();
+        $(".buttons-copy").hide();
+        $(".buttons-csv").hide();
+        $(".buttons-print").hide();
+    });
+</script>}
 
 </body>
 </html>

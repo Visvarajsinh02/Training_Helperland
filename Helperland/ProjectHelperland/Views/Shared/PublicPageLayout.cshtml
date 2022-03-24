@@ -49,10 +49,16 @@
                         <li class="nav-item ">
                             <a asp-action="Contact" asp-controller="Home" class="nav-item text-white head_item none_active">Contact</a>
                         </li>
-
-                        <li class="nav-item">
-                            <a asp-action="SpSignUp" asp-controller="Home" class="nav-item text-white head_item faq_active">Become a Helper</a>
-                        </li>
+                        @if (HttpContextAccessor.HttpContext.Session.GetString("UserTypeId") == "2")
+                        {
+                            @*<li class="nav-item"> </li>*@
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a asp-action="SpSignUp" asp-controller="Home" class="nav-item text-white head_item faq_active">Become a Helper</a>
+                            </li>
+                        }
                         @if (HttpContextAccessor.HttpContext.Session.GetString("FirstName") == null)
                         {
                             <li class="nav-item">
@@ -163,20 +169,27 @@
         </div>
     </footer>
 
+    <div class="modal fade" id="nospModal" aria-labelledby="nospModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered justify-content-center">
+            <div class="modal-content">
+                <div class="modal-header justify-content-center">
+                    <img src="/images/no-tickmark.png" alt="failed" />
+                </div>
+                <div class="modal-body">
+                    <div class="modal_register">
+                        No Service Provider Found
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-center login-btn">
+                    <button type="submit" data-bs-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="~/js/general.js"></script>
 
 
-    @if (HttpContextAccessor.HttpContext.Session.GetString("zipcode") != null)
-    {
-        <script>
-            var userpostalcode = @HttpContextAccessor.HttpContext.Session.GetString("zipcode");
-            console.log("this is called " + userpostalcode);
-            $('#add_postal').val(userpostalcode);
-            $('#add_postal').attr('disabled', 'disabled');
-        </script>
-
-
-    }
     @if (HttpContextAccessor.HttpContext.Session.GetString("ss_step_2") == "notset")
     {
         @if (ViewBag.foundsp != null)
@@ -192,11 +205,7 @@
         @if (ViewBag.foundsp == null)
         {
             <script>
-                $(function () {
-                    $('.postal_check_btn').click();
-                });
-                $(document).on('click', '.postal_check_btn', function () {
-
+                
                     $(".ss_step_1").addClass('fade');
                     $(".ss_step_2").removeClass('fade');
                     $(".col-step-1").removeClass('active_tab');
@@ -205,26 +214,79 @@
                     progress_step_2 = 1;
                     console.log("this is progress step 2" + progress_step_2);
                     //set date to be disable before today & set time
-                    var today = new Date();
+                    let today = new Date();
                     today.setHours(today.getHours() + 2);
-                    var dd = String(today.getDate()).padStart(2, '0');
-                    var mm = String(today.getMonth() + 1).padStart(2, '0');
-                    var yyyy = today.getFullYear();
-                    var hr = today.getHours();
-                    var minit = today.getMinutes();
+                    let dd = String(today.getDate()).padStart(2, '0');
+                    let mm = String(today.getMonth() + 1).padStart(2, '0');
+                    let yyyy = today.getFullYear();
+                    let hr = today.getHours();
+                    let minit = today.getMinutes();
 
-                    var max_time = hr + ':' + minit;
-                    $('#service_time').val(max_time);
+                let max_time = hr + ':' + minit;
+                const s_time = document.getElementById("service_time");
+                    s_time.value = max_time;
+                    console.log("this sets time ", max_time);
+                let max_date = yyyy + '-' + mm + '-' + dd;
+                const s_date = document.getElementById("service_date");
+                s_date.setAttribute('min', max_date);
 
-                    var max_date = yyyy + '-' + mm + '-' + dd;
-                    $('#service_date').attr('min', max_date);
-
-                });
+                
             </script>
         }
+
     }
 
-    @if(HttpContextAccessor.HttpContext.Session.GetInt32("address_fetch_cnt") != null)
+
+
+
+
+
+    @*@if (HttpContextAccessor.HttpContext.Session.GetString("ss_step_2") == "notset")
+    {
+        @if (ViewBag.foundsp != null)
+        {
+            <script>
+
+                var nospModal = new bootstrap.Modal(document.getElementById("nospModal"), {});
+                document.onreadystatechange = function () {
+                    nospModal.show();
+                };
+            </script>
+        }
+        @if (ViewBag.foundsp == null)
+        {
+            <script>
+
+
+
+                $(".ss_step_1").addClass('fade');
+                $(".ss_step_2").removeClass('fade');
+                $(".col-step-1").removeClass('active_tab');
+                $(".col-step-2").addClass('active').addClass('active_tab');
+                step_2_img.src = "/images/schedule-plan.png";
+                progress_step_2 = 1;
+                console.log("this is progress step 2" + progress_step_2);
+                //set date to be disable before today & set time
+                var today = new Date();
+                today.setHours(today.getHours() + 2);
+                var dd = String(today.getDate()).padStart(2, '0');
+                var mm = String(today.getMonth() + 1).padStart(2, '0');
+                var yyyy = today.getFullYear();
+                var hr = today.getHours();
+                var minit = today.getMinutes();
+
+                var max_time = hr + ':' + minit;
+                $('#service_time').val(max_time);
+
+                var max_date = yyyy + '-' + mm + '-' + dd;
+                $('#service_date').attr('min', max_date);
+
+
+            </script>
+        }
+    }*@
+
+    @if (HttpContextAccessor.HttpContext.Session.GetInt32("address_fetch_cnt") != null)
     {
         <script>
             var cnt_addresst = @HttpContextAccessor.HttpContext.Session.GetInt32("address_fetch_cnt");

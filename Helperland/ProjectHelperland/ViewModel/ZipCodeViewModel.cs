@@ -8,7 +8,10 @@ namespace ProjectHelperland.ViewModel
 {
     public class ZipCodeViewModel
     {
-       /* [Required(ErrorMessage = "Please enter your postal code!")]*/
+       [Required(ErrorMessage = "Please enter your postal code!"), ]
+
+       [StringLength(6, MinimumLength = 6, ErrorMessage = "Invaid postal code")]
+      
         public string zipcode { get; set; }
     }
 }

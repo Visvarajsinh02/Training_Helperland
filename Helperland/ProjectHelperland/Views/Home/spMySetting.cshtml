@@ -45,7 +45,7 @@
                             <th class="text-center">
                                 <p>Service Date</p>
                             </th>
-                            <th>
+                            <th class="text-center">
                                 <p>Customer Details</p>
                             </th>
                             <th>
@@ -125,7 +125,7 @@
                                     }
                                     string[] extra_services = { "Inside Cabinets", "Inside fridge", "Inside Oven", "Laundry wash & dry", "Interior windows" };
 
-                                    <tr class="sp_details pt-3">
+                                    <tr class="sp_details pt-3"  data-bs-toggle="modal" data-bs-target="@("#servicedetailModal"+ser.service_id)">
                                         <td class="col-md-1 text-center">
                                             <p>@ser.service_id</p>
                                         </td>
@@ -139,7 +139,7 @@
                                             </div>
                                         </td>
 
-                                        <td class="col-md-4">
+                                        <td class="col-md-4 text-center">
                                             <div class="row">
 
                                                 <div class="col-sm-11 spsh_address">
@@ -163,13 +163,17 @@
                                         </td>
                                         <td class="col-md-1">
                                             <div>
-                                                <p></p>
+                                                <p>@ser.conflictId</p>
                                             </div>
                                         </td>
                                         <td class="col-md-2">
-                                            <div>
-                                                <button data-bs-toggle="modal" data-bs-target="@("#servicedetailModal"+ser.service_id)" class="spnsr_accept_btn">Accept</button>
-                                            </div>
+                                            @if(ser.conflictId == null)
+                                            { 
+                                                 <div>
+                                                    <button data-bs-toggle="modal" data-bs-target="@("#servicedetailModal"+ser.service_id)" class="spnsr_accept_btn">Accept</button>
+                                                 </div>
+                                            }
+                                            
                                         </td>
                                     </tr>
 
@@ -269,11 +273,13 @@
 
                                                     <form asp-action="accept_service" asp-controller="Home" class="row">
                                                         <input asp-for="hidden_nsr_ser_id" type="hidden" value="@ser.service_id" />
-                                                        <div class="col-sm-3">
-                                                            <button data-bs-dismiss="modal" class="service_accept_btn" type="submit"><img src="/images/ic-check.png">Accept</button>
-                                                        </div>
-
-                                                    </form>
+                                                        @if (ser.conflictId == null)
+                                                        {
+                                                            <div class="col-sm-3">
+                                                                <button data-bs-dismiss="modal" class="service_accept_btn" type="submit"><img src="/images/ic-check.png">Accept</button>
+                                                            </div>
+                                                        }
+                                                        </form>
 
                                                 </div>
 
@@ -290,7 +296,7 @@
                 </table>
             </div>
 
-            <div class="tab-pane fade " id="v-pills-us" role="tabpanel" aria-labelledby="v-pills-dashboard-tab">
+            <div class="tab-pane fade tborder" id="v-pills-us" role="tabpanel" aria-labelledby="v-pills-dashboard-tab">
                 <table id="spusTable">
                     <thead id="spusTable_thead">
                         <tr>
@@ -300,7 +306,7 @@
                             <th class="text-center">
                                 <p>Service Date</p>
                             </th>
-                            <th>
+                            <th  class="text-center">
                                 <p>Customer Details</p>
                             </th>
                             <th>
@@ -379,7 +385,7 @@
                                     }
                                     string[] extra_services = { "Inside Cabinets", "Inside fridge", "Inside Oven", "Laundry wash & dry", "Interior windows" };
 
-                                    <tr class="sp_details pt-3">
+                                    <tr class="sp_details pt-3" data-bs-toggle="modal" data-bs-target="@("#serviceacceptcancelModal"+ser.service_id)">
                                         <td class="col-md-1 text-center">
                                             <p>@ser.service_id</p>
                                         </td>
@@ -393,7 +399,7 @@
                                             </div>
                                         </td>
 
-                                        <td class="col-md-4">
+                                        <td class="col-md-4 text-center">
                                             <div class="row">
 
                                                 <div class="col-sm-11 spsh_address">
@@ -425,8 +431,9 @@
                                                 <button data-bs-toggle="modal" data-bs-target="@("#serviceacceptcancelModal"+ser.service_id)" class="spus_cancel_btn">Cancel</button>
                                             </div>
                                         </td>
-                                    </tr>
 
+                                    </tr>
+                                    
                                     <!-- --------------------------service cancelcomplete modal -------------------------- -->
                                     <div class="modal fade serviceacceptcancel_modal" id="@("serviceacceptcancelModal"+ser.service_id)" aria-labelledby="servicedetailModalLabel" aria-hidden="true">
                                         <div class="modal-dialog modal-dialog-centered justify-content-center">
@@ -547,7 +554,7 @@
             </div>
 
             <div class="tab-pane fade" id="v-pills-sh" role="tabpanel" aria-labelledby="v-pills-dashboard-tab">
-                <div class="row mt-2">
+                <div class="row mt-2  mb-2">
                     <div class="col-md-5 sh_title">
                         Service History
                     </div>
@@ -567,7 +574,7 @@
                             <th class="text-center">
                                 <p>Service Date</p>
                             </th>
-                            <th>
+                            <th class="text-center">
                                 <p>Customer Details</p>
                             </th>
                         </tr>
@@ -634,7 +641,7 @@
                                             </div>
                                         </td>
 
-                                        <td class="col-md-5">
+                                        <td class="col-md-5 text-center">
                                             <div class="row">
 
 
@@ -863,7 +870,7 @@
 
                 <!-- Pills content -->
                 <!-- -----------------------mydetails content---------------- -->
-                <form asp-action="spMydetail" asp-controller="Home" class="tab-pane fade show active" id="spmyDetails" role="tabpanel" aria-labelledby="v-pills-dashboard-tab">
+                <form asp-action="spMydetail" asp-controller="Home" class="tab-pane fade show active spms" id="spmyDetails" role="tabpanel" aria-labelledby="v-pills-dashboard-tab">
                     @if (Model != null)
                     {
                         <div class="row pt-3">
@@ -921,7 +928,8 @@
                                     <label>First Name</label>
                                 </div>
                                 <div class="row pt-1">
-                                    <input asp-for="Firsname" value="@Model.Firsname" class="form-control" type="text" placeholder="Firstname" />
+                                    <input asp-for="spmydetail.Firstname" value="@Model.spmydetail.Firstname" class="form-control" type="text" placeholder="Firstname"/>
+                                    <span asp-validation-for="spmydetail.Firstname" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -929,7 +937,8 @@
                                     <label>Last Name</label>
                                 </div>
                                 <div class="row pt-1">
-                                    <input asp-for="Lastname" value="@Model.Lastname" class="form-control" type="text" placeholder="Lastname" />
+                                    <input asp-for="spmydetail.Lastname" value="@Model.spmydetail.Lastname" class="form-control" type="text" placeholder="Lastname"/>
+                                    <span asp-validation-for="spmydetail.Lastname" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -937,7 +946,8 @@
                                     <label>Email</label>
                                 </div>
                                 <div class="row pt-1">
-                                    <input asp-for="Email" value="@Model.Email" class="form-control" type="email" placeholder="E-mail" disabled />
+                                    <input asp-for="spmydetail.Email" value="@Model.spmydetail.Email" class="form-control" type="email" placeholder="E-mail" disabled />
+                                    <span asp-validation-for="spmydetail.Email" class="text-danger"></span>
                                 </div>
                             </div>
                         </div>
@@ -950,8 +960,9 @@
                                 <div class="row pt-1">
                                     <div class="input-group">
                                         <span class="c_code align-items-center justify-content-center">+49</span>
-                                        <input asp-for="phone" value="@Model.phone" type="text" class="form-control" id="Phone number" placeholder="Mobile Number" onkeypress="return (event.charCode !=8 && event.charCode ==0 || ( event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)))" pattern="[0-9]{10}" />
+                                        <input asp-for="spmydetail.phone" value="@Model.spmydetail.phone" type="text" class="form-control" id="Phone number" placeholder="Mobile Number" onkeypress="return (event.charCode !=8 && event.charCode ==0 || ( event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)))" pattern="[0-9]{10}"/>
                                     </div>
+                                    <span asp-validation-for="spmydetail.phone" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="col-md-4 spDOB_select">
@@ -1161,7 +1172,8 @@
                                     <label>Street Name</label>
                                 </div>
                                 <div class="row pt-1">
-                                    <input asp-for="street" value="@Model.street" class="form-control" type="text" placeholder="Street name" />
+                                    <input asp-for="spmydetail.street" value="@Model.spmydetail.street" class="form-control" type="text" placeholder="Street name"/>
+                                    <span asp-validation-for="spmydetail.street" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -1169,7 +1181,8 @@
                                     <label>House Number</label>
                                 </div>
                                 <div class="row pt-1">
-                                    <input asp-for="house" value="@Model.house" class="form-control" type="text" placeholder="House number" />
+                                    <input asp-for="spmydetail.house" value="@Model.spmydetail.house" class="form-control" type="text" placeholder="House number"/>
+                                    <span asp-validation-for="spmydetail.house" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -1177,7 +1190,8 @@
                                     <label>Postal code</label>
                                 </div>
                                 <div class="row pt-1">
-                                    <input asp-for="postal" value="@Model.postal" class="form-control" type="text" placeholder="Postalcode" />
+                                    <input asp-for="spmydetail.postal" value="@Model.spmydetail.postal" class="form-control" type="text" placeholder="Postalcode"/>
+                                    <span asp-validation-for="spmydetail.postal" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -1185,7 +1199,8 @@
                                     <label>City</label>
                                 </div>
                                 <div class="row">
-                                    <input asp-for="city" value="@Model.city" class="form-control" type="text" placeholder="city" />
+                                    <input asp-for="spmydetail.city" value="@Model.spmydetail.city" class="form-control" type="text" placeholder="city"/>
+                                    <span asp-validation-for="spmydetail.city" class="text-danger"></span>
                                 </div>
                             </div>
                         </div>
@@ -1218,21 +1233,25 @@
                             </div>
                             <div class="row pt-1">
                                 <input asp-for="pwd" type="password" class="form-control" placeholder="Old Password" />
+                                <span asp-validation-for="pwd" class="text-danger"></span>
                                 <span id="wrongPass" class="text-danger">Old password is invalid</span>
+                                
                             </div>
 
                             <div class="row pt-3">
                                 <label>New Password</label>
                             </div>
                             <div class="row pt-1">
-                                <input asp-for="new_pwd" type="password" id="password" minlength="1" class="form-control" placeholder="Password" />
+                                <input asp-for="change.CPassword" type="password" id="password" minlength="1" class="form-control" placeholder="Password" />
+                                <span asp-validation-for="change.CPassword" class="text-danger"></span>
                             </div>
 
                             <div class="row pt-3">
                                 <label>Confirm Password</label>
                             </div>
                             <div class="row pt-1">
-                                <input type="password" id="confirm_password" class="form-control" placeholder="Confirm Password" required>
+                                <input asp-for="change.confirmPass" type="password" id="confirm_password" class="form-control" placeholder="Confirm Password">
+                                <span asp-validation-for="change.confirmPass" class="text-danger"></span>
                                 <span id='message'></span>
                             </div>
 

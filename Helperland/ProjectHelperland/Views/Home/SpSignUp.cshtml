@@ -49,9 +49,11 @@
                         <label class="check_label">Send me newsletters from Helperland</label>
                     </div>
                     <div class="col-md-12 input-group">
-                        <input type="checkbox" asp-for="PrivacyPolicy" id="terms" class="check_box">
+
+                        <input type="checkbox" asp-for="PrivacyPolicy" id="terms" class="check_box" required>
                         <label class="check_label">I accept <a href="#">terms and conditions </a>&<a href="#"> privacy policy</a></label>
                         <span asp-validation-for="PrivacyPolicy" class="text-danger"></span>
+                       
                         @*<div id='message2' style="color: red; display: none;">Please accept Privacy Policy</div>*@
                     </div>
                     <div class="col-md-12 text-center">

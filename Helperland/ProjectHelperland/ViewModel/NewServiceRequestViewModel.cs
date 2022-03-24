@@ -20,5 +20,7 @@ namespace ProjectHelperland.ViewModel
         public string cust_name { get; set; }
         public string pincode { get; set; }
         public string city { get; set; }
+
+        public int? conflictId { get; set; }
     }
 }

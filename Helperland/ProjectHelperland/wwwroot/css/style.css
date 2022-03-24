@@ -29,7 +29,9 @@ h2 {
 	width: 100% !important;
 }
 
-
+.fmt{
+	margin-top: 70px;
+}
 /* ------------------- dashboard navbar --------------- */
 
 .serviceHistory-nav {
@@ -149,7 +151,6 @@ h2 {
 
 
 /*----------- media-------------- */
-
 @media screen and (min-width: 993px) {
 	#smSerHistoryNav {
 		display: none;
@@ -769,6 +770,15 @@ table#spshTable.dataTable.no-footer {
 	border: 1px solid #AAAAAA !important;
 }
 
+/*------------------------datatable css--------------------*/
+
+/*.tborder table{
+	width: 100%;
+	margin: 0 auto;
+	clear: both;
+	border-collapse: separate;
+	border-spacing: 0;
+}*/
 /* ----------- sp my ratings table -------------- */
 #spmrTable p {
 	margin-bottom: 0;
@@ -916,6 +926,15 @@ table#spnsrTable.dataTable thead th {
 
 table#spnsrTable.dataTable.no-footer {
 	border: 1px solid #AAAAAA !important;
+}
+
+.servicedetail_modal .service_accept_btn {
+	border: none;
+	background-color: #67B644;
+	color: #fff;
+	padding: 5px 10px;
+	border-radius: 17px;
+	margin-right: 5px;
 }
 
 #spnsrTable .spnsr_accept_btn {
@@ -2849,7 +2868,7 @@ table.dataTable.row-border tbody th, table.dataTable.row-border tbody td, table.
 
 
 table.dataTable thead .sorting {
-	background-image: url("../images/sort.png");
+	background-image: url("../images/sort.png") !important;
 }
 
 table.dataTable thead .sorting_asc {
@@ -3070,6 +3089,7 @@ table.dataTable thead .sorting_desc {
 	font-size: 14px;
 	font-weight: 400;
 	border-radius: 4px;
+	margin-left: 54px;
 }
 
 .user_mng_detail {
@@ -3090,7 +3110,8 @@ table.dataTable thead .sorting_desc {
 }
 
 	.user_mng_search_form div {
-		padding-left: 15px;
+		padding-left: 26px;
+		scroll-margin-right: 10px;
 	}
 
 		.user_mng_search_form div div {
@@ -3202,6 +3223,12 @@ table.dataTable thead .sorting_desc {
 
 /*new css regarding Admin...-------------------------------------------------------------------------*/
 
+.um_detail{
+	width: 100%;
+	margin-right: 5px;
+	margin-left: 5px;
+}
+
 table#srAdminTable.dataTable.no-footer {
 	border: none;
 }
@@ -3231,9 +3258,16 @@ table#srAdminTable.dataTable thead th {
 	margin-bottom: 0;
 }
 
+/*#umAdminTable_wrapper,*/
+/*#srAdminTable_wrapper {
+	margin-top: 10px;
+}*/
+
 #umAdminTable_wrapper,
 #srAdminTable_wrapper {
 	margin-top: 10px;
+	width: 102%;
+	margin-left: -11px;
 }
 /* -------------------for user admin table ------------------- */
 table#umAdminTable.dataTable.no-footer {
@@ -3635,8 +3669,15 @@ table#umAdminTable.dataTable thead th {
 }
 .date-button2 {
 	position: absolute;
-	top: 32px;
-	right: 237px;
+	top: 34px;
+	right: 195px;
+	background: #fff;
+	pointer-events: none;
+}
+.date-button3 {
+	position: absolute;
+	top: 25px;
+	right: 277px;
 	background: #fff;
 	pointer-events: none;
 }
@@ -4311,6 +4352,7 @@ label {
 		width: 100% !important;
 		margin-bottom: 10px;
 	}
+
 }
 
 @media screen and (max-width: 600px) {
@@ -4406,6 +4448,8 @@ label {
 		margin-left: 10px;
 		margin-right: 30px;
 	}
+
+	
 }
 
 @media (max-width:676px) {
@@ -4420,7 +4464,7 @@ label {
 	}
 
 	#myDetails .phone_num .col-md-4 {
-		width: 50%;
+		/*width: 50%;*/
 		margin-bottom: 10px;
 	}
 
@@ -4508,7 +4552,7 @@ label {
 	}
 
 	.sp_detail .col-md-4 {
-		width: auto;
+		/*width: auto;*/
 		text-align: center;
 	}
 
@@ -4960,6 +5004,7 @@ label {
 	.sp_menu ul {
 		list-style-type: none;
 		text-align: center;
+		justify-content: center;
 	}
 
 		.sp_menu ul li a {
@@ -5084,6 +5129,9 @@ label {
 	#spmrTable .spmr_stars {
 		justify-content: center !important;
 		align-items: center !important;
+	}
+	.spms{
+		margin-right: 12px !important;
 	}
 }
 

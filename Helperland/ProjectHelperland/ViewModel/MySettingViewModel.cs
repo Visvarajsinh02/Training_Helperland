@@ -1,6 +1,7 @@
 ﻿using ProjectHelperland.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,14 +15,13 @@ namespace ProjectHelperland.ViewModel
         public int dob_month { get; set; }
         public int dob_year { get; set; }
 
-
+        
+        //[Required(ErrorMessage = "old password is required")]
         public string pwd { get; set; }
 
-        public string street { get; set; }
-        public int hno { get; set; }
-        public string phone { get; set; }
-        public string pincode { get; set; }
-        public string city { get; set; }
+        public ChangePasswordViewModel change { get; set; }
+
+        public MyDetailViewModel mydetail { get; set; }
 
         public int hidden_add_id { get; set; }
         public int delete_add_id { get; set; }

@@ -130,7 +130,7 @@
 
     <script>
         $(document).ready(function () {
-        var table = $("#umAdminTable").DataTable({
+                   var tables = $("#umAdminTable").DataTable({
                     "dom": 'Bt<"table-bottom d-flex justify-content-between"<"table-bottom-inner d-flex"li>p>',
                     "pagingType": "full_numbers",
                     "searching": true,
@@ -149,67 +149,48 @@
                     }
         });
 
+            $("#searchB").click(() => {
+               
+                var username = $("#searchUN").val();
+                console.log(username);
 
 
-            $("#searchBtn").click(() => {
-                //var serId = $("#searchServiceId").val();
                 var Pin = $("#searchPinCode").val();
-                //console.log(serId);
-                //table.column(0).search(serId).draw();
+                console.log(Pin);
 
-                //var email = $("#searchEmail").val();
-                var cust = $("#customerSelect").val();
-                console.log(cust);
-
-                //var sp = $("#spSelect").val();
-                //var status = $("#reqStatusSelect").val();
-                //console.log(status);
-                //var FromDT = $("#searchFromDate").val();
-                //console.log(FromDT);
-                //var ToDT = $("#searchToDate").val();
-                @*console.log(ToDT);
-                if (serId != "") {
-                    table.column(0).search(serId);
-                } else {
-                    table.column(0).search("");
-                }*@
-
-                if (cust != "") {
-                    table.column(2).search(cust);
-                } else {
-                    table.column(2).search("");
-                }
-
-                @*if (Pin != "") {
-                    table.column(8).search(Pin)
-                        ;
-                } else {
-                    table.column(8).search("");
-                }*@
-
-                    @*if (email != "") {
-                    table.column(7).search(email)
-                        ;
-                } else {
-                    table.column(7).search("");
-                }*@
-
-                    if (sp != "") {
-                    table.column(3).search(sp);
-                } else {
-                    table.column(3).search("");
-                }
-
-                if (status != null) {
-                    table.column(5).search(status);
-                } else {
-                    table.column(5).search("");
-                }
+                var Phone = $("searchPhone").val();
+                console.log(Phone);
 
                
+                if (Pin != "") {
+                    tables.column(5).search(Pin)
+                        ;
+                } else {
+                    tables.column(5).search("");
+                }
 
-                table.draw();
+                if (Phone != null) {
+                    tables.column(4).search(Phone)
+                        ;
+                } else {
+                    tables.column(4).search("");
+                }
+
+                if (username != null) {
+                    tables.column(0).search(username)
+                        ;
+                } else {
+                    tables.column(0).search("");
+                }
+
+                
+
+                tables.draw();
             });
+
+
+
+
 
 
                     $(".buttons-pdf").hide();
@@ -242,28 +223,36 @@
 
                 $("#searchBtn").click(() => {
                     var serId = $("#searchServiceId").val();
+
                     //var Pin = $("#searchPinCode").val();
                     console.log(serId);
+
                     //table.column(0).search(serId).draw();
-                        
+
                     //var email = $("#searchEmail").val();
+
                     var cust = $("#customerSelect").val();
                     console.log(cust);
 
                     var sp = $("#spSelect").val();
-                   var status = $("#reqStatusSelect").val();
+                    console.log(sp);
+
+                    var status = $("#reqStatusSelect").val();
                     console.log(status);
+
                     var FromDT = $("#searchFromDate").val();
                     console.log(FromDT);
+
                     var ToDT = $("#searchToDate").val();
                     console.log(ToDT);
+
                     if (serId != "") {
                         table.column(0).search(serId);
                     } else {
                         table.column(0).search("");
                     }
 
-                    if (cust != "") {
+                    if (cust != null) {
                         table.column(2).search(cust);
                     } else {
                         table.column(2).search("");
@@ -283,7 +272,7 @@
                         table.column(7).search("");
                     }*@
 
-                    if (sp != "") {
+                    if (sp != null) {
                         table.column(3).search(sp);
                     } else {
                         table.column(3).search("");
@@ -300,10 +289,13 @@
                             function (settings, data, dataIndex) {
                                 var min = new Date(FromDT.split("-")[1] + "-" + FromDT.split("-")[2] + "-" + FromDT.split("-")[0]);
                                 var max = new Date(ToDT.split("-")[1] + "-" + ToDT.split("-")[2] + "-" + ToDT.split("-")[0]);
-                                console.log(min);
-                                console.log(max);
-                                console.log(data[1] + "this is data1");
-                                var date = new Date(data[1].split("-")[2] + "-" + data[1].split("-")[1] + "-" + data[1].split("-")[0]);
+
+                                var str = data[1].replaceAll(" ", "").split(':')[0].slice(0, -2);
+
+                                console.log(str);
+                                //var date = new Date(data[1].split("-")[2] + "-" + data[1].split("-")[1] + "-" + data[1].split("-")[0]);
+                                var date = new Date(str.split("-")[1] + "-" + str.split("-")[0] + "-" + str.split("-")[2]);
+
                                 console.log(date+"yo");
                                 if (
                                     (min === null && max === null) ||

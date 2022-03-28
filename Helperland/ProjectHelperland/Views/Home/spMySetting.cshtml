@@ -30,6 +30,7 @@
                 <li id="v-pills-sh-nav" class="nav-item " data-bs-toggle="pill" data-bs-target="#v-pills-sh"><a href="#" class="nav-link">Service History</a></li>
                 <li id="v-pills-mr-nav" class="nav-item " data-bs-toggle="pill" data-bs-target="#v-pills-mr"><a href="#" class="nav-link">My Ratings</a></li>
                 <li id="v-pills-bc-nav" class="nav-item" data-bs-toggle="pill" data-bs-target="#v-pills-bc"><a href="#" class="nav-link">Block Customer</a></li>
+                <li id="v-pills-bc-nav" class="nav-item" data-bs-toggle="pill" data-bs-target="#v-pills-ss"><a href="#" class="nav-link">Service schedule</a></li>
 
             </ul>
         </div>
@@ -125,7 +126,7 @@
                                     }
                                     string[] extra_services = { "Inside Cabinets", "Inside fridge", "Inside Oven", "Laundry wash & dry", "Interior windows" };
 
-                                    <tr class="sp_details pt-3"  data-bs-toggle="modal" data-bs-target="@("#servicedetailModal"+ser.service_id)">
+                                    <tr class="sp_details pt-3" data-bs-toggle="modal" data-bs-target="@("#servicedetailModal"+ser.service_id)">
                                         <td class="col-md-1 text-center">
                                             <p>@ser.service_id</p>
                                         </td>
@@ -167,13 +168,13 @@
                                             </div>
                                         </td>
                                         <td class="col-md-2">
-                                            @if(ser.conflictId == null)
-                                            { 
-                                                 <div>
+                                            @if (ser.conflictId == null)
+                                            {
+                                                <div>
                                                     <button data-bs-toggle="modal" data-bs-target="@("#servicedetailModal"+ser.service_id)" class="spnsr_accept_btn">Accept</button>
-                                                 </div>
+                                                </div>
                                             }
-                                            
+
                                         </td>
                                     </tr>
 
@@ -279,7 +280,7 @@
                                                                 <button data-bs-dismiss="modal" class="service_accept_btn" type="submit"><img src="/images/ic-check.png">Accept</button>
                                                             </div>
                                                         }
-                                                        </form>
+                                                    </form>
 
                                                 </div>
 
@@ -306,7 +307,7 @@
                             <th class="text-center">
                                 <p>Service Date</p>
                             </th>
-                            <th  class="text-center">
+                            <th class="text-center">
                                 <p>Customer Details</p>
                             </th>
                             <th>
@@ -433,7 +434,7 @@
                                         </td>
 
                                     </tr>
-                                    
+
                                     <!-- --------------------------service cancelcomplete modal -------------------------- -->
                                     <div class="modal fade serviceacceptcancel_modal" id="@("serviceacceptcancelModal"+ser.service_id)" aria-labelledby="servicedetailModalLabel" aria-hidden="true">
                                         <div class="modal-dialog modal-dialog-centered justify-content-center">
@@ -860,6 +861,11 @@
             </div>
 
 
+            <div class="tab-pane fade " id="v-pills-ss" role="tabpanel" aria-labelledby="v-pills-dashboard-tab">
+                <div id="calendar"></div>
+            </div>
+
+
             <div class="tab-pane fade show active" id="v-pills-mySetting" role="tabpanel" area-labelledby="v-pills-mySetting-tab">
                 <!-- Pills navs -->
                 <ul class="row mySetting_header nav nav-pills">
@@ -928,7 +934,7 @@
                                     <label>First Name</label>
                                 </div>
                                 <div class="row pt-1">
-                                    <input asp-for="spmydetail.Firstname" value="@Model.spmydetail.Firstname" class="form-control" type="text" placeholder="Firstname"/>
+                                    <input asp-for="spmydetail.Firstname" value="@Model.spmydetail.Firstname" class="form-control" type="text" placeholder="Firstname" />
                                     <span asp-validation-for="spmydetail.Firstname" class="text-danger"></span>
                                 </div>
                             </div>
@@ -937,7 +943,7 @@
                                     <label>Last Name</label>
                                 </div>
                                 <div class="row pt-1">
-                                    <input asp-for="spmydetail.Lastname" value="@Model.spmydetail.Lastname" class="form-control" type="text" placeholder="Lastname"/>
+                                    <input asp-for="spmydetail.Lastname" value="@Model.spmydetail.Lastname" class="form-control" type="text" placeholder="Lastname" />
                                     <span asp-validation-for="spmydetail.Lastname" class="text-danger"></span>
                                 </div>
                             </div>
@@ -960,7 +966,7 @@
                                 <div class="row pt-1">
                                     <div class="input-group">
                                         <span class="c_code align-items-center justify-content-center">+49</span>
-                                        <input asp-for="spmydetail.phone" value="@Model.spmydetail.phone" type="text" class="form-control" id="Phone number" placeholder="Mobile Number" onkeypress="return (event.charCode !=8 && event.charCode ==0 || ( event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)))" pattern="[0-9]{10}"/>
+                                        <input asp-for="spmydetail.phone" value="@Model.spmydetail.phone" type="text" class="form-control" id="Phone number" placeholder="Mobile Number" onkeypress="return (event.charCode !=8 && event.charCode ==0 || ( event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)))" pattern="[0-9]{10}" />
                                     </div>
                                     <span asp-validation-for="spmydetail.phone" class="text-danger"></span>
                                 </div>
@@ -1172,7 +1178,7 @@
                                     <label>Street Name</label>
                                 </div>
                                 <div class="row pt-1">
-                                    <input asp-for="spmydetail.street" value="@Model.spmydetail.street" class="form-control" type="text" placeholder="Street name"/>
+                                    <input asp-for="spmydetail.street" value="@Model.spmydetail.street" class="form-control" type="text" placeholder="Street name" />
                                     <span asp-validation-for="spmydetail.street" class="text-danger"></span>
                                 </div>
                             </div>
@@ -1181,7 +1187,7 @@
                                     <label>House Number</label>
                                 </div>
                                 <div class="row pt-1">
-                                    <input asp-for="spmydetail.house" value="@Model.spmydetail.house" class="form-control" type="text" placeholder="House number"/>
+                                    <input asp-for="spmydetail.house" value="@Model.spmydetail.house" class="form-control" type="text" placeholder="House number" />
                                     <span asp-validation-for="spmydetail.house" class="text-danger"></span>
                                 </div>
                             </div>
@@ -1190,7 +1196,7 @@
                                     <label>Postal code</label>
                                 </div>
                                 <div class="row pt-1">
-                                    <input asp-for="spmydetail.postal" value="@Model.spmydetail.postal" class="form-control" type="text" placeholder="Postalcode"/>
+                                    <input asp-for="spmydetail.postal" value="@Model.spmydetail.postal" class="form-control" type="text" placeholder="Postalcode" />
                                     <span asp-validation-for="spmydetail.postal" class="text-danger"></span>
                                 </div>
                             </div>
@@ -1199,7 +1205,7 @@
                                     <label>City</label>
                                 </div>
                                 <div class="row">
-                                    <input asp-for="spmydetail.city" value="@Model.spmydetail.city" class="form-control" type="text" placeholder="city"/>
+                                    <input asp-for="spmydetail.city" value="@Model.spmydetail.city" class="form-control" type="text" placeholder="city" />
                                     <span asp-validation-for="spmydetail.city" class="text-danger"></span>
                                 </div>
                             </div>
@@ -1235,7 +1241,7 @@
                                 <input asp-for="pwd" type="password" class="form-control" placeholder="Old Password" />
                                 <span asp-validation-for="pwd" class="text-danger"></span>
                                 <span id="wrongPass" class="text-danger">Old password is invalid</span>
-                                
+
                             </div>
 
                             <div class="row pt-3">

@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using System.Net.Mail;
 
 namespace ProjectHelperland.Controllers
 {
@@ -261,6 +262,7 @@ namespace ProjectHelperland.Controllers
             {
                 //User user = _helperlandContext.Users.Where(x => x.Email == loginViewModel.Email.Trim()).FirstOrDefault();
 
+
                 var details = (from userlist in _helperlandContext.Users
                                where userlist.Email == loginViewModel.Email
                                select new
@@ -269,16 +271,53 @@ namespace ProjectHelperland.Controllers
                                    userlist.FirstName,
                                    userlist.Email,
                                    userlist.Password
-                               }).ToList();
-                if (details.FirstOrDefault() != null)
+                               }).FirstOrDefault();
+
+
+
+                string To = loginViewModel.Email;
+                int Uid = details.UserId;
+                string Subject = "Reset Password";
+               
+                string Body = "<h2 style='text-align: center; background-color: #1D7A8C; color: white; " +
+                    "padding: 10px 0; font-family: sans-serif;' > " +
+                    "Helperland | Home Services </h2>" + "<span style='margin: 5px 0; " +
+                    "color: #646464; font-size: 16px; font-family: sans-serif;'> Hello " + details.FirstName + "" +
+                    " <br> Click the link below to reset your account password. <br>" + "<a href='" + 
+                    Url.Action("ResetPass", "Home", new { id = Uid}, "https") + 
+                    "' style ='text-decoration: none; cursor: pointer; color: #1D7A8C; font-size: 16px; " +
+                    "font-family: sans-serif; font-weight:bold'>Reset Password <br></a></span>";
+                MailMessage msg = new MailMessage();
+                msg.Body = Body;
+                msg.To.Add(To);
+                msg.Subject = Subject;
+                msg.From = new MailAddress("rvstudy7@gmail.com", "Helperland");
+               
+                msg.IsBodyHtml = true;
+
+                SmtpClient smtp = new SmtpClient();
+                smtp.Host = "smtp.gmail.com";
+                smtp.Port = 587;
+                smtp.EnableSsl = true;
+                smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+
+                System.Net.NetworkCredential credential = new System.Net.NetworkCredential();
+
+                credential.UserName = "rvstudy7@gmail.com";
+                credential.Password = "ircg ujse ufzk fdko";
+                smtp.UseDefaultCredentials = false;
+                smtp.Credentials = credential;
+                smtp.Send(msg);
+                return View("~/Views/Home/Index.cshtml");
+                /*if (details != null)
                 {
                     HttpContext.Session.SetString("Userid",
-                                                  details.FirstOrDefault().UserId.ToString());
-                    HttpContext.Session.SetString("Firstname", details.FirstOrDefault().FirstName);
-                    HttpContext.Session.SetString("email", details.FirstOrDefault().Email);
+                                                  details.UserId.ToString());
+                    HttpContext.Session.SetString("Firstname", details.FirstName);
+                    HttpContext.Session.SetString("email", details.Email);
 
 
-                }
+                }*/
             }
             else
             {
@@ -287,14 +326,19 @@ namespace ProjectHelperland.Controllers
                 return View("~/Views/Home/Index.cshtml");
             }
 
-            return View();
+           
         }
 
+        public IActionResult ResetPass()
+        {
+            return View();
+        }
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult ChangePassword(LoginViewModel loginViewModel)
+        public IActionResult ResetPass(LoginViewModel loginViewModel,int id)
         {
-            int id = Int32.Parse(HttpContext.Session.GetString("Userid"));
+            
             User user = _helperlandContext.Users.Where(x => x.UserId == id).FirstOrDefault();
             user.Password = loginViewModel.Password;
             _helperlandContext.Update(user);
@@ -1105,6 +1149,45 @@ namespace ProjectHelperland.Controllers
             return RedirectToAction("spMySetting");
         }
 
+
+        [HttpGet]
+        public IActionResult GetServiceReqCalendar()
+        {
+            int? Uid = Int32.Parse(HttpContext.Session.GetString("UserId"));
+           
+            if (Uid != null)
+            {
+                List<SPServiceSchedule> data = new List<SPServiceSchedule>();
+                var req = _helperlandContext.ServiceRequests.Where(x => x.ServiceProviderId == Uid && (x.Status == 1 || x.Status == null)).ToList();
+
+                foreach (var item in req)
+                {
+                    SPServiceSchedule res = new SPServiceSchedule();
+                    res.Id = item.ServiceRequestId;
+                    res.Title = item.ServiceStartDate.ToString("HH:mm") + " - " + item.ServiceStartDate.AddHours((double)item.SubTotal).ToString("HH:mm");
+                    res.Start = item.ServiceStartDate.ToString("yyyy-MM-dd");
+
+                    if (item.Status == 1)
+                    {
+                        res.Color = "#67b644";
+                    }
+                    else if (item.Status == null)
+                    {
+                        res.Color = "#1D7A8C";
+                    }
+
+
+                    data.Add(res);
+                }
+
+                return new JsonResult(data);
+            }
+            else
+            {
+                return Json("notfound");
+            }
+        }
+
         //========================== admin============================
         public IActionResult Admin()
         {
@@ -1162,6 +1245,7 @@ namespace ProjectHelperland.Controllers
             _helperlandContext.SaveChanges();
             return RedirectToAction("Admin");
         }
+
 
 
 

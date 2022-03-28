@@ -24,6 +24,12 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.1.0/css/buttons.dataTables.min.css">
 
+    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.2/main.min.css' rel='stylesheet' />
+
+
+
+
+
 </head>
 <body>
 
@@ -307,19 +313,20 @@
     <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
 
 
-
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.2/main.min.js"></script>
+    <script src="~/js/service.js"></script>
+   
     <script src="~/js/general.js"></script>
 
 
     @if (ViewBag.datasave != null)
     {
-    <script>
-        var myModal = new bootstrap.Modal(document.getElementById("datasaveModal"), {});
-        document.onreadystatechange = function () {
-            myModal.show();
-        };
-    </script>
-}
+<script>
+    var myModal = new bootstrap.Modal(document.getElementById("datasaveModal"), {});
+    document.onreadystatechange = function () {
+        myModal.show();
+    };
+</script>}
 
 
 
@@ -331,7 +338,8 @@
     var myModal = new bootstrap.Modal(document.getElementById("passchangeModal"), {});
     document.onreadystatechange = function () {
         myModal.show();
-    };</script>}
+    };</script>
+}
     @if (ViewBag.doactive != null)
     {
 
@@ -339,7 +347,8 @@
     var myModal = new bootstrap.Modal(document.getElementById("cantacceptModal"), {});
     document.onreadystatechange = function () {
         myModal.show();
-    };</script>}
+    };</script>
+}
     @if (HttpContextAccessor.HttpContext.Session.GetString("oldpass") == "notok")
     {
 <script>
@@ -350,9 +359,10 @@
 
     $('#spmyChangepass').addClass('active');
     $('#spmyChangepass').addClass('show');
-    $('#wrongPass').show();</script> }
-            else
-            {
+    $('#wrongPass').show();</script>
+ }
+else
+{
 <script>
     $('#ms_head_1').click();
     $('#spmyDetails').addClass('show');
@@ -360,7 +370,8 @@
 
     $('#spmyChangepass').removeClass('active');
     $('#spmyChangepass').removeClass('show');
-    $('#wrongPass').hide();</script>}
+    $('#wrongPass').hide();</script>
+}
     @if (Model.avatar == "1")
     {
 <script>
@@ -467,7 +478,8 @@
             $('#avatar-6').removeClass('active');
             sp_avtr_6 = 0;
         }
-    })</script>}
+    })</script>
+}
     @if (Model.avatar == "2")
     {
 <script>
@@ -574,7 +586,8 @@
             $('#avatar-6').removeClass('active');
             sp_avtr_6 = 0;
         }
-    })</script>}
+    })</script>
+}
     @if (Model.avatar == "3")
     {
 <script>
@@ -681,7 +694,8 @@
             $('#avatar-6').removeClass('active');
             sp_avtr_6 = 0;
         }
-    })</script>}
+    })</script>
+}
     @if (Model.avatar == "4")
     {
 <script>
@@ -788,7 +802,8 @@
             $('#avatar-6').removeClass('active');
             sp_avtr_6 = 0;
         }
-    })</script>}
+    })</script>
+}
     @if (Model.avatar == "5")
     {
 <script>
@@ -895,7 +910,8 @@
             $('#avatar-6').removeClass('active');
             sp_avtr_6 = 0;
         }
-    })</script>}
+    })</script>
+}
     @if (Model.avatar == "6")
     {
 <script>
@@ -1002,7 +1018,8 @@
             $('#avatar-6').removeClass('active');
             sp_avtr_6 = 0;
         }
-    })</script>}
+    })</script>
+}
     @if (Model.avatar == null)
     {
 <script>
@@ -1109,19 +1126,23 @@
             $('#avatar-6').removeClass('active');
             sp_avtr_6 = 0;
         }
-    })</script>}
+    })</script>
+}
     @if (ViewBag.sp_gender != null)
     {
         if (ViewBag.sp_gender == 1)
         {
-<script>$('input:radio[name=gender]')[0].checked = true;</script> }
-                if (ViewBag.sp_gender == 2)
-                {
-<script>$('input:radio[name=gender]')[1].checked = true;</script> }
-                if (ViewBag.sp_gender == 3)
-                {
-<script>$('input:radio[name=gender]')[2].checked = true;</script>}
-            }
+<script>$('input:radio[name=gender]')[0].checked = true;</script>
+ }
+if (ViewBag.sp_gender == 2)
+{
+<script>$('input:radio[name=gender]')[1].checked = true;</script>
+ }
+if (ViewBag.sp_gender == 3)
+{
+<script>$('input:radio[name=gender]')[2].checked = true;</script>
+}
+}
     @if (ViewBag.sp_cust_block != null)
     {
 <script>
@@ -1129,7 +1150,8 @@
     $('#v-pills-mySetting').removeClass('active');
     $('#v-pills-mySetting').removeClass('show');
     $('#v-pills-bc').addClass('show');
-    $('#v-pills-bc').addClass('active');</script>}
+    $('#v-pills-bc').addClass('active');</script>
+}
     @if (HttpContextAccessor.HttpContext.Session.GetString("cant_complete_ser") == "true")
     {
 <script>
@@ -1141,7 +1163,8 @@
     $('#v-pills-mySetting').removeClass('active');
     $('#v-pills-mySetting').removeClass('show');
     $('#v-pills-us').addClass('show');
-    $('#v-pills-us').addClass('active');</script>}
+    $('#v-pills-us').addClass('active');</script>
+}
     @if (ViewBag.sp_cancel_service != null)
     {
 <script>
@@ -1149,7 +1172,8 @@
     $('#v-pills-mySetting').removeClass('active');
     $('#v-pills-mySetting').removeClass('show');
     $('#v-pills-us').addClass('show');
-    $('#v-pills-us').addClass('active');</script>}
+    $('#v-pills-us').addClass('active');</script>
+}
     @if (ViewBag.sp_complete_service != null)
     {
 <script>
@@ -1157,7 +1181,8 @@
     $('#v-pills-mySetting').removeClass('active');
     $('#v-pills-mySetting').removeClass('show');
     $('#v-pills-us').addClass('show');
-    $('#v-pills-us').addClass('active');</script>}
+    $('#v-pills-us').addClass('active');</script>
+}
     @if (ViewBag.service_accepted != null)
     {
 <script>
@@ -1165,7 +1190,8 @@
     $('#v-pills-mySetting').removeClass('active');
     $('#v-pills-mySetting').removeClass('show');
     $('#v-pills-nsr').addClass('show');
-    $('#v-pills-nsr').addClass('active');</script>}
+    $('#v-pills-nsr').addClass('active');</script>
+}
 
     @if (ViewBag.spmysetting != null)
     {
@@ -1298,7 +1324,8 @@
         $(".buttons-csv").hide();
         $(".buttons-print").hide();
     });
-</script>}
+</script>
+}
 
 </body>
 </html>

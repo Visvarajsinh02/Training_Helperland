@@ -409,16 +409,30 @@
                     <div>
                         <form>
                             <div class="user_mng_search_form ">
-                                <div>
-                                    <input type="text" name="User name" class="form-control" id="username" placeholder="User name">
+
+                                 <div>
+                                    <select class="form-control form-select" id="searchUN">
+                                        <option disabled selected value=" ">User name</option>
+                                        @foreach (var data in Model.users)
+                                        {
+                                            
+                                                var u_name = data.FirstName + " " + data.LastName;
+                                                
+                                                <option value="@u_name">@u_name</option>
+                                            
+                                        }
+
+                                    </select>
                                 </div>
+
+                           
                                 <div>
                                     <input type="text" name="User role" class="form-control" id="userrole" placeholder="User Role">
                                 </div>
                                 <div>
                                     <div class="input-group">
                                         <span class="c_code align-items-center justify-content-center">+49</span>
-                                        <input type="text" name="Phonenumber" class="form-control" id="Phone number" placeholder="Phone Number">
+                                        <input type="tel" name="Phonenumber" class="form-control" id="searchPhone" placeholder="Phone Number">
                                     </div>
                                 </div>
                                 <div>
@@ -426,7 +440,7 @@
                                 </div>
 
                                 <div>
-                                    <button class="form-control search_btn" id="searchBtn" type="button" name="search">search</button>
+                                    <button class="form-control search_btn" id="searchB" type="button" name="search">search</button>
                                 </div>
                                 <div>
                                     <button class="form-control" type="submit" name="Clear">Clear</button>

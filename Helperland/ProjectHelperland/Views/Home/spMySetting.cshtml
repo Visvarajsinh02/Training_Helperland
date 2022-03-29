@@ -30,7 +30,7 @@
                 <li id="v-pills-sh-nav" class="nav-item " data-bs-toggle="pill" data-bs-target="#v-pills-sh"><a href="#" class="nav-link">Service History</a></li>
                 <li id="v-pills-mr-nav" class="nav-item " data-bs-toggle="pill" data-bs-target="#v-pills-mr"><a href="#" class="nav-link">My Ratings</a></li>
                 <li id="v-pills-bc-nav" class="nav-item" data-bs-toggle="pill" data-bs-target="#v-pills-bc"><a href="#" class="nav-link">Block Customer</a></li>
-                <li id="v-pills-bc-nav" class="nav-item" data-bs-toggle="pill" data-bs-target="#v-pills-ss"><a href="#" class="nav-link">Service schedule</a></li>
+                <li id="v-pills-ss-nav" class="nav-item" data-bs-toggle="pill" data-bs-target="#v-pills-ss"><a href="#" class="nav-link">Service schedule</a></li>
 
             </ul>
         </div>
@@ -861,8 +861,28 @@
             </div>
 
 
-            <div class="tab-pane fade " id="v-pills-ss" role="tabpanel" aria-labelledby="v-pills-dashboard-tab">
-                <div id="calendar"></div>
+            <div id="v-pills-ss" class="tab-pane fade">
+                <div id="calendar">
+
+                </div>
+
+
+
+                <div class="modal fade" id="myModal" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered justify-content-center">
+                        <div class="modal-content">
+                            <div class="modal-header justify-content-center">
+                                <p class="modal-title"><span id="eventTitle"></span></p>
+                            </div>
+                            <div class="modal-body">
+
+                            </div>
+                            <div class="modal-footer justify-content-center login-btn">
+                                <button type="submit" data-bs-dismiss="modal">OK</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
 

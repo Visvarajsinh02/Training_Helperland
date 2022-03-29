@@ -24,8 +24,8 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.1.0/css/buttons.dataTables.min.css">
 
-    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.2/main.min.css' rel='stylesheet' />
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.print.min.css" media="print" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.css" />
 
 
 
@@ -313,9 +313,9 @@
     <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
 
 
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.2/main.min.js"></script>
-    <script src="~/js/service.js"></script>
-   
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.js"></script>
+
     <script src="~/js/general.js"></script>
 
 
@@ -1326,6 +1326,55 @@ if (ViewBag.sp_gender == 3)
     });
 </script>
 }
+    <script>
 
+
+        var events = [];
+        $.ajax({
+            type: "GET",
+            url: "/Home/GetServiceReqCalendar",
+            success: function (data) {
+                $.each(data, function (i) {
+                    events.push({
+                        id: data[i].id,
+                        title: data[i].title,
+                        start: data[i].start,
+                        Date: data[i].start,
+                        text: data[i].addressline1
+                    });
+                    console.log(data);
+                })
+                GenerateCalendar(events);
+            },
+            error: function (error) {
+                alert('failed');
+            }
+        })
+
+        function GenerateCalendar(events) {
+            $('#calendar').fullCalendar('destroy');
+            $('#calendar').fullCalendar({
+                contentHeight: 400,
+                defaultDate: new Date(),
+                timeFormat: 'h(:mm)a',
+                header: {
+                    left: 'prev,next title',
+                    right: ''
+                },
+                eventLimit: true,
+                eventColor: '#378006',
+                events: events,
+                eventClick: function (calEvent) {
+                    $('#myModal #eventTitle').text("Time : " + calEvent.title);
+                    var $description = $('<div/>');
+                    $description.append($('<p/>').html('<b>Date:</b>' + calEvent.Date));
+                    $description.append($('<p/>').html('<b>Address:</b>' + calEvent.text));
+                    $('#myModal .modal-body').empty().html($description);
+                    $('#myModal').modal("show");
+                }
+            });
+        }
+
+    </script>
 </body>
 </html>

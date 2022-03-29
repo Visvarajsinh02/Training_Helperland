@@ -507,7 +507,34 @@ h2 {
 	border-top: none;
 }
 
+#myModal .modal-content {
+	max-width: 320px;
+}
 
+#myModal .login-btn {
+	text-align: center;
+}
+
+#myModal button {
+	color: white;
+	background-color: #6DA9B5;
+	padding: 5px 15px;
+	border: 1px solid transparent;
+	border-radius: 17px;
+}
+
+#myModal .modal-header {
+	border-bottom: none;
+}
+
+#myModal .modal-body {
+	text-align: center;
+	padding: 0 1rem;
+}
+
+#myModal .modal-footer {
+	border-top: none;
+}
 /*-------------------------------------Admin modalcss ---------------------------*/
 .editsrmodal {
 	color: #646464;
